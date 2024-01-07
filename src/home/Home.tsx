@@ -7,14 +7,17 @@ const Page = styled.div`
 `;
 
 const Home = ({
-  onHoveredOptionChange,
+  setActiveIndex,
+  setHovering,
 }: {
-  onHoveredOptionChange: (option: string | null) => void;
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <Page>
       hi my name is Justin Ma
-      <HomeMenu onHoveredOptionChange={onHoveredOptionChange} />
+      <HomeMenu setActiveIndex={setActiveIndex} setHovering={setHovering} />
     </Page>
   );
 };

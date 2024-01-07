@@ -9,14 +9,20 @@ import MainCanvas from "./components/MainCanvas";
 import useHomeMenu from "./home/useHomeMenu";
 
 function App() {
-  const { hoveredOption, onHoveredOptionChange } = useHomeMenu();
+  const { activeIndex, setActiveIndex, hovering, setHovering } = useHomeMenu();
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={<Home onHoveredOptionChange={onHoveredOptionChange} />}
+          element={
+            <Home
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+              setHovering={setHovering}
+            />
+          }
         />
         <Route path="/websites" element={<WebsitesPage />} />
         <Route path="/films" element={<FilmsPage />} />
@@ -24,7 +30,11 @@ function App() {
         <Route path="/artwork" element={<ArtworkPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
-      <MainCanvas hoveredOption={hoveredOption} />
+      <MainCanvas
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
+        hovering={hovering}
+      />
     </BrowserRouter>
   );
 }

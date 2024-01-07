@@ -1,13 +1,8 @@
 import { PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler, Vector3 } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import {
-  HOME_ITEM_ANGLE,
-  HOME_ROTATION_DURATION,
-  MENU_OPTIONS,
-  NUM_MENU_OPTIONS,
-} from "../constants";
+import { HOME_ITEM_ANGLE, MENU_OPTIONS, NUM_MENU_OPTIONS } from "../constants";
 import { OptionDefinition } from "../types";
 import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
@@ -35,70 +30,98 @@ const PlaneObject = ({
   const location = useLocation();
   const currentPath = location.pathname;
   const selected = currentPath === option.path;
+  const isHome = currentPath === "/";
 
   const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
   const baseYPosition = 0.25;
   const getPosition = (y?: number): Vector3 => {
-    return [
-      selected ? 0 : -Math.cos(itemAngle),
-      y ?? (currentPath === "/" ? baseYPosition : selected ? -2.5 : -5),
-      selected ? 0 : Math.sin(itemAngle),
-    ];
+    if (isHome) {
+      return [-Math.cos(itemAngle), y ?? baseYPosition, Math.sin(itemAngle)];
+    }
+
+    return selected
+      ? [0, -2.5, 0]
+      : [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
   };
 
-  const [springs, api] = useSpring(() => ({
-    position: getPosition(),
-    opacity: currentPath === "/" || selected ? 1 : 0,
-    config: (key) => {
-      switch (key) {
-        case "position":
-          return {
-            bounce: 1,
-            friction: 10,
-            mass: 1,
-            tension: 200,
-          };
-        case "opacity":
-          return {};
-        default:
-          return {};
-      }
-    },
-  }));
+  const [springs, api] = useSpring(
+    () => ({
+      from: {
+        position: getPosition(),
+        opacity: isHome || selected ? 1 : 0,
+        scale: isHome || selected ? 1 : 0.5,
+        selfRotation: [0, 0, 0],
+      },
+    }),
+    []
+  );
+
+  useEffect(() => {
+    if (active) {
+      api.start({
+        to: async (next) => {
+          await new Promise((resolve) =>
+            setTimeout(resolve, hovering ? 0 : 100)
+          );
+          await next({
+            position: getPosition(0.8),
+            config: {
+              easing: easings.easeOutCirc,
+              duration: 100,
+            },
+          });
+          await next({
+            position: getPosition(),
+            config: {
+              bounce: 1.5,
+              friction: 10,
+              tension: 200,
+            },
+          });
+        },
+      });
+    }
+  }, [active]);
 
   useEffect(() => {
     api.start({
       position: getPosition(),
-      opacity: currentPath === "/" || selected ? 1 : 0,
+      opacity: isHome || selected ? 1 : 0,
+      scale: isHome || selected ? 1 : 0.5,
+      config: {
+        bounce: isHome ? 1 : selected ? 2 : 0,
+        friction: 20,
+        tension: 220,
+      },
     });
   }, [currentPath]);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    if (active || hovering) {
-      api.start({ position: getPosition(2) });
-
-      timeoutId = setTimeout(() => {
-        api.start({
-          position: getPosition(),
-        });
-      }, 30);
-    }
-
-    return () => {
-      clearTimeout(timeoutId);
+    if (selected) {
       api.start({
-        position: getPosition(),
+        selfRotation: [0, 2 * Math.PI, 0],
+        loop: true,
+        config: {
+          duration: 30000,
+        },
       });
-    };
-  }, [active, hovering]);
-
-  console.log({ rotation });
+    } else {
+      api.start({
+        selfRotation: [0, 0, 0],
+        config: {
+          friction: 100,
+        },
+      });
+    }
+  }, [selected]);
 
   return (
     <animated.group rotation={rotation as any}>
-      <animated.mesh position={springs.position as any}>
+      <animated.mesh
+        position={springs.position as any}
+        scale={springs.scale}
+        rotation={springs.selfRotation as any}
+      >
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <animated.meshBasicMaterial
           color="blue"
@@ -110,101 +133,84 @@ const PlaneObject = ({
   );
 };
 
-const MainCanvas = ({ hoveredOption }: { hoveredOption: string | null }) => {
-  const activeItemIndex = useRef(0);
-  const hoveredOptionRef = useRef(hoveredOption);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
+const MainCanvas = ({
+  activeIndex,
+  setActiveIndex,
+  hovering,
+}: {
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  hovering: boolean;
+}) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const isHome = currentPath === "/";
 
-  const [springs, api] = useSpring(() => ({
-    rotation: [0, 0, 0] as Euler,
-    position: [0, 0, 0],
-    opacity: isHome ? 1 : 0,
-    config: (key) => {
-      switch (key) {
-        case "rotation":
-          return {
-            easing: easings.easeInOutExpo,
-            tension: 150,
-            mass: 15,
-            friction: 50,
-          };
-        case "position":
-          return {
-            bounce: 1,
-            friction: 10,
-            mass: 1,
-            tension: 200,
-          };
-        case "opacity":
-          return {};
-        default:
-          return {};
-      }
-    },
-  }));
+  const [springs, api] = useSpring(
+    () => ({
+      from: {
+        rotation: [0, 0, 0] as Euler,
+        scale: isHome ? 1 : 3,
+        opacity: isHome ? 1 : 0,
+      },
+      config: (key) => {
+        switch (key) {
+          case "rotation": {
+            return {
+              tension: 280,
+              friction: 120,
+            };
+          }
+          default:
+            return {};
+        }
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     api.start({
-      position: [0, isHome ? 0 : -5, 0],
-      rotation: [
-        0,
-        isHome ? Math.PI : -activeItemIndex.current * HOME_ITEM_ANGLE,
-        0,
-      ],
+      scale: isHome ? 1 : 2,
       opacity: isHome ? 1 : 0,
+      config: {
+        bounce: isHome ? 0.5 : 0,
+        friction: 20,
+        tension: 220,
+      },
     });
   }, [isHome]);
 
   useEffect(() => {
-    hoveredOptionRef.current = hoveredOption;
-    if (hoveredOptionRef.current !== null) {
-      const index = MENU_OPTIONS.findIndex(
-        (option) => option.path === hoveredOption
-      );
-      activeItemIndex.current = index;
-      setActiveIndex(activeItemIndex.current);
-
+    if (isHome) {
       api.start({
-        rotation: [0, -activeItemIndex.current * HOME_ITEM_ANGLE, 0],
+        to: async (next) => {
+          await next({
+            rotation: [0, activeIndex * -HOME_ITEM_ANGLE, 0],
+          });
+
+          if (activeIndex === NUM_MENU_OPTIONS - 1) {
+            await next({
+              rotation: [0, HOME_ITEM_ANGLE, 0],
+              immediate: true,
+            });
+          }
+
+          if (!hovering) {
+            setActiveIndex((prev) => (prev + 1) % NUM_MENU_OPTIONS);
+          }
+        },
+      });
+    } else {
+      api.start({
+        rotation: [
+          0,
+          (activeIndex - NUM_MENU_OPTIONS / 2) * -HOME_ITEM_ANGLE,
+          0,
+        ],
       });
     }
-  }, [hoveredOption]);
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    if (isHome) {
-      intervalId = setInterval(() => {
-        if (hoveredOptionRef.current !== null) {
-          return;
-        }
-
-        activeItemIndex.current =
-          (activeItemIndex.current + 1) % NUM_MENU_OPTIONS;
-        setActiveIndex(activeItemIndex.current);
-
-        if (activeItemIndex.current === 0) {
-          api.start({
-            rotation: [0, HOME_ITEM_ANGLE, 0],
-            immediate: true,
-          });
-        }
-
-        api.start({
-          rotation: [0, -activeItemIndex.current * HOME_ITEM_ANGLE, 0],
-        });
-      }, HOME_ROTATION_DURATION);
-    }
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isHome]);
+  }, [activeIndex, hovering, isHome]);
 
   return (
     <StyledCanvas>
@@ -220,13 +226,10 @@ const MainCanvas = ({ hoveredOption }: { hoveredOption: string | null }) => {
           rotation={springs.rotation}
           option={option}
           active={index === activeIndex}
-          hovering={hoveredOption === option.path}
+          hovering={hovering}
         />
       ))}
-      <animated.group
-        rotation={springs.rotation as any}
-        position={springs.position as any}
-      >
+      <animated.group rotation={springs.rotation as any} scale={springs.scale}>
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[4, 4, 8, 8]} />
           <animated.meshNormalMaterial

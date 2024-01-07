@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MENU_OPTIONS } from "../constants";
 import { OptionDefinition } from "../types";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Container = styled.div`
   position: absolute;
@@ -19,30 +20,49 @@ const ItemContainer = styled(Link)`
 
 const MenuItem = ({
   option: { label, path },
-  onHoveredOptionChange,
+  setActiveIndex,
+  setHovering,
+  index,
 }: {
   option: OptionDefinition;
-  onHoveredOptionChange: (option: string | null) => void;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
+  index: number;
 }) => {
+  const handleMouseEnter = () => {
+    setActiveIndex(index);
+    setHovering(true);
+  };
+
   return (
-    <ItemContainer to={path} onMouseEnter={() => onHoveredOptionChange(path)}>
+    <ItemContainer to={path} onMouseEnter={handleMouseEnter}>
       {label}
     </ItemContainer>
   );
 };
 
 const HomeMenu = ({
-  onHoveredOptionChange,
+  setActiveIndex,
+  setHovering,
 }: {
-  onHoveredOptionChange: (option: string | null) => void;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  useEffect(() => {
+    return () => {
+      setHovering(false);
+    };
+  }, []);
+
   return (
-    <Container onMouseLeave={() => onHoveredOptionChange(null)}>
-      {MENU_OPTIONS.map((option) => (
+    <Container onMouseLeave={() => setHovering(false)}>
+      {MENU_OPTIONS.map((option, index) => (
         <MenuItem
           option={option}
           key={option.path}
-          onHoveredOptionChange={onHoveredOptionChange}
+          setActiveIndex={setActiveIndex}
+          setHovering={setHovering}
+          index={index}
         />
       ))}
     </Container>

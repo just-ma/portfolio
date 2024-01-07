@@ -1,11 +1,17 @@
 import { useMemo, useState } from "react";
 
 const useHomeMenu = () => {
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hovering, setHovering] = useState(false);
 
   return useMemo(
-    () => ({ hoveredOption, onHoveredOptionChange: setHoveredOption }),
-    [hoveredOption]
+    () => ({
+      activeIndex,
+      setActiveIndex: setActiveIndex,
+      hovering,
+      setHovering: setHovering,
+    }),
+    [activeIndex, hovering]
   );
 };
 
