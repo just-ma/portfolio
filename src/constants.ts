@@ -24,6 +24,5 @@ export const MENU_OPTIONS: readonly OptionDefinition[] = [
 ];
 
 export const NUM_MENU_OPTIONS = MENU_OPTIONS.length;
-export const FRAME_DURATION = 30;
 export const HOME_ROTATION_DURATION = 4000;
 export const HOME_ITEM_ANGLE = (2 * Math.PI) / NUM_MENU_OPTIONS;
