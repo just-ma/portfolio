@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   margin: 40% 0;
@@ -12,15 +12,9 @@ const Underline = styled.span`
 
 const BackFooter = ({ defaultPath }: { defaultPath?: string }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleClick = () => {
-    if (location.key === "default") {
-      navigate(defaultPath || "/");
-      return;
-    }
-
-    navigate(-1);
+    navigate(defaultPath || "/");
   };
 
   return (

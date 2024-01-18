@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { AppContext } from "../App";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Hitbox = styled.div<{ height: number }>`
-  width: 61px;
-  height: ${({ height }) => height}px;
+const Hitbox = styled.div`
+  height: 7vh;
+  width: 8vh;
   position: absolute;
-  top: 22px;
+  top: 3vh;
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: 10px;
@@ -20,7 +20,7 @@ const HeaderObjectHitbox = () => {
 
   const { scrollContainerRef } = useContext(AppContext);
 
-  const [height, setHeight] = useState(56);
+  const [show, setShow] = useState(true);
 
   const handleScroll = () => {
     const scroll = scrollContainerRef?.current?.scrollTop;
@@ -28,7 +28,7 @@ const HeaderObjectHitbox = () => {
       return;
     }
 
-    setHeight(Math.max(0, Math.min(128 - scroll, 56)));
+    setShow(scroll < 90);
   };
 
   useEffect(() => {
@@ -38,21 +38,23 @@ const HeaderObjectHitbox = () => {
     return () => {
       element?.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [location.pathname]);
 
   const handleClick = () => {
     const arr = location.pathname.split("/");
 
-    if (location.key !== "default") {
-      navigate(-1);
-    } else if (arr.length > 2) {
+    if (arr.length > 2) {
       navigate(arr.slice(0, 2).join("/"));
     } else {
       navigate("/");
     }
   };
 
-  return <Hitbox height={height} onClick={handleClick}></Hitbox>;
+  if (!show || location.pathname === "/") {
+    return null;
+  }
+
+  return <Hitbox onClick={handleClick}></Hitbox>;
 };
 
 export default HeaderObjectHitbox;
