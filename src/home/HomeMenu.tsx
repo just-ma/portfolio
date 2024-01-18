@@ -6,9 +6,8 @@ import { useEffect } from "react";
 
 const Container = styled.div`
   position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 40px;
+  left: 25px;
   display: flex;
   flex-direction: column;
   gap: 10px;

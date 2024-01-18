@@ -14,12 +14,12 @@ export const MENU_OPTIONS: readonly OptionDefinition[] = [
     path: "/dj",
   },
   {
-    label: "ARTWORK",
-    path: "/artwork",
+    label: "PHOTOS",
+    path: "/photos",
   },
   {
-    label: "CONTACT",
-    path: "/contact",
+    label: "ABOUT",
+    path: "/about",
   },
 ];
 
