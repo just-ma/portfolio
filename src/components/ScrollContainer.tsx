@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { AppContext } from "../App";
 
 const Page = styled.div`
   position: relative;
@@ -26,7 +28,16 @@ const ScrollColumn = styled.div<{ gap?: number }>`
   gap: ${({ gap }) => gap}px;
   margin: 0 auto;
   box-sizing: border-box;
-  background-color: white;
+  animation: fillIn 0s 0.3s forwards;
+
+  @keyframes fillIn {
+    from {
+      background-color: transparent;
+    }
+    to {
+      background-color: white;
+    }
+  }
 `;
 
 const ScrollContainer = ({
@@ -36,9 +47,11 @@ const ScrollContainer = ({
   children: React.ReactNode;
   gap?: number;
 }) => {
+  const { scrollContainerRef } = useContext(AppContext);
+
   return (
     <Page>
-      <Scroll>
+      <Scroll ref={scrollContainerRef}>
         <ScrollColumn gap={gap}>{children}</ScrollColumn>
       </Scroll>
     </Page>
