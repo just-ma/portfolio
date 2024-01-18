@@ -78,6 +78,19 @@ const PlaneObject = ({
   };
 
   useEffect(() => {
+    const intervalId =
+      hovering && active
+        ? setInterval(() => {
+            jump();
+          }, 3000)
+        : undefined;
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [hovering, active]);
+
+  useEffect(() => {
     if (active) {
       jump(hovering ? 0 : 100);
     }

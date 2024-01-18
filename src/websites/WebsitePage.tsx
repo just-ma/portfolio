@@ -1,45 +1,14 @@
 import styled from "styled-components";
 import { WebsiteDefiniion, getDocuments, urlFor } from "../sanity";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { queryClient } from "../App";
 import { PortableText } from "@portabletext/react";
 import ImageBlockComponent from "../components/ImageBlockComponent";
-import VideoBlockComponent from "../components/VideoBlockComponent copy";
+import VideoBlockComponent from "../components/VideoBlockComponent";
 import LinkBlockComponent from "../components/LinkBlockComponent";
-
-const Page = styled.div`
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-`;
-
-const ScrollContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding-top: 150px;
-  box-sizing: border-box;
-`;
-
-const ScrollColumn = styled.div`
-  max-width: 600px;
-  height: fit-content;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 0 auto;
-  padding: 0 10px;
-  box-sizing: border-box;
-`;
+import BackFooter from "../components/BackFooter";
+import ScrollContainer from "../components/ScrollContainer";
 
 const Image = styled.img`
   background-color: gray;
@@ -91,19 +60,7 @@ const Content = styled.div`
   align-self: stretch;
 `;
 
-const Back = styled.div`
-  margin: 40% 0;
-  cursor: pointer;
-`;
-
-const Underline = styled.span`
-  text-decoration: underline;
-`;
-
 const WebsitePage = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const { websiteId } = useParams<{
     websiteId: string;
   }>();
@@ -121,15 +78,6 @@ const WebsitePage = () => {
     },
   });
 
-  const navigateBack = () => {
-    if (location.key === "default") {
-      navigate("/websites");
-      return;
-    }
-
-    navigate(-1);
-  };
-
   if (!websiteId || !data?.length) {
     return null;
   }
@@ -137,39 +85,32 @@ const WebsitePage = () => {
   const [{ title, image, shortDescription, description, url }] = data;
 
   return (
-    <Page>
-      <ScrollContainer>
-        <ScrollColumn>
-          <Image src={urlFor(image).url()}></Image>
-          <Info>
-            <Title href={url} target="_blank" rel="noopener noreferrer">
-              {title}
-            </Title>
-            <Subtitle>
-              <PortableText value={shortDescription} />
-            </Subtitle>
-          </Info>
-          <Content>
-            <PortableText
-              value={description}
-              components={{
-                types: {
-                  image: ImageBlockComponent,
-                  video: VideoBlockComponent,
-                },
-                marks: {
-                  link: LinkBlockComponent,
-                },
-              }}
-            />
-          </Content>
-          <Back onClick={navigateBack}>
-            {"<-- "}
-            <Underline>back</Underline>
-          </Back>
-        </ScrollColumn>
-      </ScrollContainer>
-    </Page>
+    <ScrollContainer>
+      <Image src={urlFor(image).url()}></Image>
+      <Info>
+        <Title href={url} target="_blank" rel="noopener noreferrer">
+          {title}
+        </Title>
+        <Subtitle>
+          <PortableText value={shortDescription} />
+        </Subtitle>
+      </Info>
+      <Content>
+        <PortableText
+          value={description}
+          components={{
+            types: {
+              image: ImageBlockComponent,
+              video: VideoBlockComponent,
+            },
+            marks: {
+              link: LinkBlockComponent,
+            },
+          }}
+        />
+      </Content>
+      <BackFooter defaultPath="/websites" />
+    </ScrollContainer>
   );
 };
 
