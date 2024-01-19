@@ -40,11 +40,11 @@ const Subtitle = styled.div`
   font-size: 20px;
   margin: 5px 0 0 10px;
 
-  :before {
+  &::before {
     content: "( ";
   }
 
-  :after {
+  &::after {
     content: " )";
   }
 `;

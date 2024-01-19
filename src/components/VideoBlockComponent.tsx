@@ -12,7 +12,7 @@ const Video = styled.iframe<{
 const VideoBlockComponent = ({
   value: { url, width, height, autoplay },
 }: {
-  value: { url: string; width: number; height: number; autoplay: boolean };
+  value: { url: string; width: number; height: number; autoplay?: boolean };
 }) => {
   const src = autoplay
     ? `${url}${

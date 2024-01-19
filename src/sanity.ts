@@ -3,29 +3,46 @@ import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-export type DocumentType = "website" | "film" | "dj" | "photo" | "art";
+export type DocumentType = "website" | "film" | "dj" | "photo";
 
 type BaseDocumentDefiniion<T extends DocumentType> = {
   _type: T;
-};
-
-export type WebsiteDefiniion = BaseDocumentDefiniion<"website"> & {
   title: string;
   slug: {
     current: string;
   };
   shortDescription: PortableTextBlock;
   description: PortableTextBlock;
-  url: string;
   timestamp: string;
-  image: SanityImageSource;
+  thumbnail: SanityImageSource;
+  order: number;
 };
 
-type DocumentDefinition = WebsiteDefiniion;
+export type WebsiteDefinition = BaseDocumentDefiniion<"website"> & {
+  url: string;
+};
 
-interface DOCUMENT_TYPE_TO_DEFINITION
+export type FilmDefinition = BaseDocumentDefiniion<"film"> & {
+  video: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  quote: string;
+  url: string;
+};
+
+export type AboutDefinition = {
+  _type: "about";
+  description: PortableTextBlock;
+};
+
+export type DocumentDefinition = WebsiteDefinition | FilmDefinition;
+
+export interface DocumentTypeToDefinition
   extends Record<DocumentType, DocumentDefinition> {
-  website: WebsiteDefiniion;
+  website: WebsiteDefinition;
+  film: FilmDefinition;
 }
 
 const PROJECT_ID = "ullgaoyt";
@@ -40,14 +57,19 @@ export const client = createClient({
 const getDocumentsQuery = (type: DocumentType, slug?: string) =>
   `*[_type == "${type}"${
     slug ? ` && slug.current == "${slug}"` : ""
-  }] | order(priority asc, timestamp desc)`;
+  }] | order(order asc, timestamp desc)`;
 
 export const getDocuments = async <T extends DocumentType>(
   type: T,
   slug?: string
-): Promise<readonly DOCUMENT_TYPE_TO_DEFINITION[T][]> => {
+): Promise<readonly DocumentTypeToDefinition[T][]> => {
   const response = await client.fetch(getDocumentsQuery(type, slug));
   return response;
+};
+
+export const getAbout = async (): Promise<AboutDefinition | undefined> => {
+  const response = await client.fetch('*[_type == "about"]');
+  return response?.[0];
 };
 
 const builder = imageUrlBuilder(client);
