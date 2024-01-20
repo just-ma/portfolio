@@ -3,9 +3,10 @@ import { Canvas, Euler } from "@react-three/fiber";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { HOME_ITEM_ANGLE, MENU_OPTIONS, NUM_MENU_OPTIONS } from "../constants";
-import { useSpring, animated } from "@react-spring/three";
+import { useSpring } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import PlaneObject from "./PlaneObject";
+import HomePlaneGeometry from "../home/HomePlaneGeometry";
 
 const StyledCanvas = styled(Canvas)`
   position: absolute !important;
@@ -110,16 +111,7 @@ const MainCanvas = ({
           hovering={hovering}
         />
       ))}
-      <animated.group rotation={springs.rotation as any} scale={springs.scale}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[4, 4, 8, 8]} />
-          <animated.meshNormalMaterial
-            wireframe
-            opacity={springs.opacity}
-            transparent
-          />
-        </mesh>
-      </animated.group>
+      <HomePlaneGeometry springs={springs} />
     </StyledCanvas>
   );
 };

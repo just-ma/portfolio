@@ -6,6 +6,7 @@ const Quote = styled.div`
   width: 70%;
   text-align: center;
   margin-top: 20px;
+  color: grey;
 
   &::before {
     content: '"';
