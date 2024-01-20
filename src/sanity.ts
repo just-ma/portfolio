@@ -32,6 +32,16 @@ export type FilmDefinition = BaseDocumentDefiniion<"film"> & {
   url: string;
 };
 
+export type DJDefinition = BaseDocumentDefiniion<"dj"> & {
+  video?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  videoUrl?: string;
+  soundcloudUrl: string;
+};
+
 export type AboutDefinition = {
   _type: "about";
   description: PortableTextBlock;

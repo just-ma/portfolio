@@ -1,7 +1,6 @@
 import { Euler } from "@react-three/fiber";
 import { animated, SpringValue } from "@react-spring/three";
 import OutlineTexture from "./outline.svg";
-// import OutlineTexture from "./yar.png";
 
 import { useTexture } from "@react-three/drei";
 

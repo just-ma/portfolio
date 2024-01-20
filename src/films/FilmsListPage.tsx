@@ -3,6 +3,12 @@ import ScrollContainer from "../components/ScrollContainer";
 import ListPageCard from "../components/ListPageCard";
 import Quote from "./Quote";
 import useDocuments from "../hooks/useDocuments";
+import FloatingText from "../components/FloatingText";
+import styled from "styled-components";
+
+const ComingSoonText = styled(FloatingText)`
+  margin-top: 20%;
+`;
 
 const FilmsPage = () => {
   const { data } = useDocuments("film");
@@ -19,6 +25,7 @@ const FilmsPage = () => {
           <Quote>{film.quote}</Quote>
         </ListPageCard>
       ))}
+      <ComingSoonText>more coming soon...</ComingSoonText>
       <BackFooter />
     </ScrollContainer>
   );
