@@ -1,21 +1,22 @@
+import { DOCUMENT_TYPE_TO_ROOT_PATH } from "./sanity";
 import { OptionDefinition } from "./types";
 
 export const MENU_OPTIONS: readonly OptionDefinition[] = [
   {
     label: "WEBSITES",
-    path: "/websites",
+    path: DOCUMENT_TYPE_TO_ROOT_PATH["website"],
   },
   {
     label: "FILMS",
-    path: "/films",
+    path: DOCUMENT_TYPE_TO_ROOT_PATH["film"],
   },
   {
     label: "DJ",
-    path: "/dj",
+    path: DOCUMENT_TYPE_TO_ROOT_PATH["dj"],
   },
   {
-    label: "PHOTOS",
-    path: "/photos",
+    label: "BLOG",
+    path: DOCUMENT_TYPE_TO_ROOT_PATH["blog"],
   },
   {
     label: "ABOUT",

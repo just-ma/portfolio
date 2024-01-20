@@ -38,9 +38,11 @@ const Subtitle = styled.div`
 `;
 
 const DetailsPageInfo = ({
-  document: { url, title, shortDescription },
+  document: { title, shortDescription },
+  url,
 }: {
   document: DocumentDefinition;
+  url: string;
 }) => {
   return (
     <Container>

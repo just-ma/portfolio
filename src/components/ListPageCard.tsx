@@ -1,37 +1,8 @@
 import { PortableText } from "@portabletext/react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { DocumentDefinition, urlFor } from "../sanity";
-import { useNavigate } from "react-router-dom";
-
-const CardPosition = styled.div<{ align: string; shift: number }>`
-  ${({ align, shift }) =>
-    align === "left"
-      ? css`
-          margin-left: auto;
-          padding-right: min(${shift}px, calc(100% - 300px));
-        `
-      : css`
-          margin-right: auto;
-          padding-left: min(${shift}px, calc(100% - 300px));
-        `};
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 10px;
-  width: 300px;
-  cursor: pointer;
-`;
-
-const Image = styled.img`
-  background-color: gray;
-  width: 300px;
-  aspect-ratio: 1.78;
-  border: 1px solid black;
-  box-sizing: border-box;
-`;
+import HorizonatalThumbnail from "./HorizonatalThumbnail";
+import ListPageCardContainer from "./ListPageCardContainer";
 
 const Info = styled.div`
   display: flex;
@@ -63,39 +34,28 @@ const Subtitle = styled.div`
   }
 `;
 
-const ListPageCard = ({
-  document: { title, shortDescription, slug, thumbnail },
-  children,
-  rootPath,
-  index,
-}: {
+const ListPageCard = (props: {
   document: DocumentDefinition;
   children?: React.ReactNode;
   rootPath: string;
   index: number;
 }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/${rootPath}/${slug.current}`);
-  };
+  const {
+    document: { title, shortDescription, thumbnail },
+    children,
+  } = props;
 
   return (
-    <CardPosition
-      align={index % 4 < 2 ? "right" : "left"}
-      shift={30 * ((index + 2) % 3)}
-    >
-      <Card onClick={handleClick}>
-        <Image src={urlFor(thumbnail).width(300).url()}></Image>
-        <Info>
-          <Title>{title}</Title>
-          <Subtitle>
-            <PortableText value={shortDescription} />
-          </Subtitle>
-        </Info>
-        {children}
-      </Card>
-    </CardPosition>
+    <ListPageCardContainer {...props}>
+      <HorizonatalThumbnail src={urlFor(thumbnail).width(300).url()} />
+      <Info>
+        <Title>{title}</Title>
+        <Subtitle>
+          <PortableText value={shortDescription} />
+        </Subtitle>
+      </Info>
+      {children}
+    </ListPageCardContainer>
   );
 };
 

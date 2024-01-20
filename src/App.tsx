@@ -12,6 +12,8 @@ import MainHeader from "./components/MainHeader";
 import { createContext, useRef } from "react";
 import FilmDetailsPage from "./films/FilmDetailsPage";
 import AboutPage from "./about/AboutPage";
+import DJDetailsPage from "./dj/DJDetailsPage";
+import { DOCUMENT_TYPE_TO_ROOT_PATH } from "./sanity";
 
 export const queryClient = new QueryClient();
 
@@ -31,7 +33,9 @@ function App() {
       <AppContext.Provider value={{ scrollContainerRef }}>
         <BrowserRouter>
           <MainHeader />
+
           <Routes>
+            {/* home */}
             <Route
               path="/"
               element={
@@ -42,15 +46,44 @@ function App() {
                 />
               }
             />
-            <Route path="/websites" element={<WebsitesListPage />} />
+
+            {/* websites */}
             <Route
-              path="/websites/:websiteId"
+              path={DOCUMENT_TYPE_TO_ROOT_PATH["website"]}
+              element={<WebsitesListPage />}
+            />
+            <Route
+              path={`${DOCUMENT_TYPE_TO_ROOT_PATH["website"]}/:websiteId`}
               element={<WebsiteDetailsPage />}
             />
-            <Route path="/films" element={<FilmsPage />} />
-            <Route path="/films/:filmId" element={<FilmDetailsPage />} />
-            <Route path="/dj" element={<DJListPage />} />
-            <Route path="/photos" element={<PhotosPage />} />
+
+            {/* films */}
+            <Route
+              path={DOCUMENT_TYPE_TO_ROOT_PATH["film"]}
+              element={<FilmsPage />}
+            />
+            <Route
+              path={`${DOCUMENT_TYPE_TO_ROOT_PATH["film"]}/:filmId`}
+              element={<FilmDetailsPage />}
+            />
+
+            {/* dj */}
+            <Route
+              path={DOCUMENT_TYPE_TO_ROOT_PATH["dj"]}
+              element={<DJListPage />}
+            />
+            <Route
+              path={`${DOCUMENT_TYPE_TO_ROOT_PATH["dj"]}/:djId`}
+              element={<DJDetailsPage />}
+            />
+
+            {/* blog */}
+            <Route
+              path={DOCUMENT_TYPE_TO_ROOT_PATH["blog"]}
+              element={<PhotosPage />}
+            />
+
+            {/* about */}
             <Route path="/about" element={<AboutPage />} />
           </Routes>
           <MainCanvas

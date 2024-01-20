@@ -3,7 +3,7 @@ import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-export type DocumentType = "website" | "film" | "dj" | "photo";
+export type DocumentType = "website" | "film" | "dj" | "blog";
 
 type BaseDocumentDefiniion<T extends DocumentType> = {
   _type: T;
@@ -25,21 +25,18 @@ export type WebsiteDefinition = BaseDocumentDefiniion<"website"> & {
 export type FilmDefinition = BaseDocumentDefiniion<"film"> & {
   video: {
     url: string;
+    externalUrl: string;
     width: number;
     height: number;
   };
   quote: string;
-  url: string;
 };
 
 export type DJDefinition = BaseDocumentDefiniion<"dj"> & {
-  video?: {
+  soundCloud: {
+    id: string;
     url: string;
-    width: number;
-    height: number;
   };
-  videoUrl?: string;
-  soundcloudUrl: string;
 };
 
 export type AboutDefinition = {
@@ -47,13 +44,24 @@ export type AboutDefinition = {
   description: PortableTextBlock;
 };
 
-export type DocumentDefinition = WebsiteDefinition | FilmDefinition;
+export type DocumentDefinition =
+  | WebsiteDefinition
+  | FilmDefinition
+  | DJDefinition;
 
 export interface DocumentTypeToDefinition
   extends Record<DocumentType, DocumentDefinition> {
   website: WebsiteDefinition;
   film: FilmDefinition;
+  dj: DJDefinition;
 }
+
+export const DOCUMENT_TYPE_TO_ROOT_PATH: Record<DocumentType, string> = {
+  website: "/websites",
+  film: "/films",
+  dj: "/dj",
+  blog: "/blog",
+};
 
 const PROJECT_ID = "ullgaoyt";
 const DATASET = "production";
