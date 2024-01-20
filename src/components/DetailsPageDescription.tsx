@@ -5,6 +5,7 @@ import VideoBlockComponent from "./VideoBlockComponent";
 import LinkBlockComponent from "./LinkBlockComponent";
 import styled from "styled-components";
 import InternalLinkBlockComponent from "./InternalLinkBlockComponent";
+import CustomBlockComponent from "./customBlock/CustomBlockComponent";
 
 const Container = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const DetailsPageDescription = ({ value }: { value: PortableTextBlock }) => {
           types: {
             image: ImageBlockComponent,
             video: VideoBlockComponent,
+            custom: CustomBlockComponent,
           },
           marks: {
             link: LinkBlockComponent,

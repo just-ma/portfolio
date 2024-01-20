@@ -1,0 +1,19 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 24.12.2020 00:21:14
+
+newmtl Almond2
+	Ns 100.0000
+	Ni 1.8000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka textures/Almond2_Diffuse.png
+	map_Kd textures/Almond2_Diffuse.png
+	map_Ks textures/Almond2_Specular.png
+	map_bump textures/Almond2_Normal.png
+	bump textures/Almond2_Normal.png
