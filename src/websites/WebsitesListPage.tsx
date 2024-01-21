@@ -1,6 +1,6 @@
 import BackFooter from "../components/BackFooter";
 import ScrollContainer from "../components/ScrollContainer";
-import ListPageCard from "../components/ListPageCard";
+import ListPageCard from "../components/listPage/ListPageCard";
 import useDocuments from "../hooks/useDocuments";
 
 const WebsitesListPage = () => {
@@ -12,7 +12,6 @@ const WebsitesListPage = () => {
         <ListPageCard
           key={website.slug.current}
           document={website}
-          rootPath="websites"
           index={index}
         />
       ))}

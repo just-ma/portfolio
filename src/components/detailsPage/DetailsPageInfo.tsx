@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { DocumentDefinition } from "../sanity";
-import { PortableText } from "@portabletext/react";
+import { DocumentDefinition } from "../../sanity";
+import Description from "../Description";
 
 const Container = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const DetailsPageInfo = ({
         {title}
       </Title>
       <Subtitle>
-        <PortableText value={shortDescription} />
+        <Description value={shortDescription} />
       </Subtitle>
     </Container>
   );

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import VideoBlockComponent from "../components/VideoBlockComponent";
+import VideoBlockComponent from "../components/blocks/VideoBlockComponent";
 import BackFooter from "../components/BackFooter";
 import ScrollContainer from "../components/ScrollContainer";
 import Quote from "./Quote";
-import DetailsPageInfo from "../components/DetailsPageInfo";
-import DetailsPageDescription from "../components/DetailsPageDescription";
+import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
+import Description from "../components/Description";
 import useDocument from "../hooks/useDocument";
 import { DOCUMENT_TYPE_TO_ROOT_PATH } from "../sanity";
 
@@ -31,7 +31,7 @@ const FilmDetailsPage = () => {
       <VideoBlockComponent value={video} />
       <DetailsPageInfo document={film} url={video.externalUrl} />
       <StyledQuote>{quote}</StyledQuote>
-      <DetailsPageDescription value={description} />
+      <Description value={description} />
       <BackFooter defaultPath={DOCUMENT_TYPE_TO_ROOT_PATH["film"]} />
     </ScrollContainer>
   );

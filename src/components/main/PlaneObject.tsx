@@ -1,7 +1,7 @@
 import { Euler, Vector3 } from "@react-three/fiber";
 import { useEffect } from "react";
-import { HOME_ITEM_ANGLE } from "../constants";
-import { OptionDefinition } from "../types";
+import { HOME_ITEM_ANGLE } from "../../constants";
+import { OptionDefinition } from "../../types";
 import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { AppContext } from "../App";
+import { AppContext } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Hitbox = styled.div`

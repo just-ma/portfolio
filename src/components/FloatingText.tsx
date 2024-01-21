@@ -48,7 +48,7 @@ const FloatingText = ({
   className?: string;
 }) => {
   const [arr, offset] = useMemo(() => {
-    return [children.split(""), Math.random() * 5];
+    return [children.split(""), Math.random()];
   }, [children]);
 
   return (

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { MENU_OPTIONS } from "../constants";
+import { MENU_OPTIONS } from "../../constants";
 import HeaderObjectHitbox from "./HeaderObjectHitbox";
 
 const Header = styled.div<{ animate: boolean }>`

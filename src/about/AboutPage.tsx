@@ -1,7 +1,7 @@
 import ScrollContainer from "../components/ScrollContainer";
 import { useQuery } from "@tanstack/react-query";
 import { getAbout } from "../sanity";
-import DetailsPageDescription from "../components/DetailsPageDescription";
+import Description from "../components/Description";
 import BackFooter from "../components/BackFooter";
 
 const AboutPage = () => {
@@ -19,7 +19,7 @@ const AboutPage = () => {
 
   return (
     <ScrollContainer>
-      <DetailsPageDescription value={data.description} />
+      <Description value={data.description} />
       <BackFooter />
     </ScrollContainer>
   );

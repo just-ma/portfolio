@@ -1,10 +1,10 @@
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
-import ImageBlockComponent from "./ImageBlockComponent";
-import VideoBlockComponent from "./VideoBlockComponent";
-import LinkBlockComponent from "./LinkBlockComponent";
+import ImageBlockComponent from "./blocks/ImageBlockComponent";
+import VideoBlockComponent from "./blocks/VideoBlockComponent";
+import LinkBlockComponent from "./blocks/LinkBlockComponent";
 import styled from "styled-components";
-import InternalLinkBlockComponent from "./InternalLinkBlockComponent";
+import InternalLinkBlockComponent from "./blocks/InternalLinkBlockComponent";
 import CustomBlockComponent from "./customBlock/CustomBlockComponent";
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ const Container = styled.div`
   align-self: stretch;
 `;
 
-const DetailsPageDescription = ({ value }: { value: PortableTextBlock }) => {
+const Description = ({ value }: { value: PortableTextBlock }) => {
   return (
     <Container>
       <PortableText
@@ -34,4 +34,4 @@ const DetailsPageDescription = ({ value }: { value: PortableTextBlock }) => {
   );
 };
 
-export default DetailsPageDescription;
+export default Description;

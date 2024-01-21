@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { PortableTextMarkComponentProps } from "@portabletext/react";
-import { DOCUMENT_TYPE_TO_ROOT_PATH, DocumentType, client } from "../sanity";
+import { DOCUMENT_TYPE_TO_ROOT_PATH, DocumentType, client } from "../../sanity";
 import { useQuery } from "@tanstack/react-query";
-import { queryClient } from "../App";
+import { queryClient } from "../../App";
 
 type ReferenceDefinition = {
   _id: string;

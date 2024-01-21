@@ -1,5 +1,9 @@
 import styled, { css } from "styled-components";
-import { DocumentDefinition, DocumentType } from "../sanity";
+import {
+  DOCUMENT_TYPE_TO_ROOT_PATH,
+  DocumentDefinition,
+  DocumentType,
+} from "../../sanity";
 import { useNavigate } from "react-router-dom";
 
 const getShift = (documentType: DocumentType, index: number) => {
@@ -8,10 +12,10 @@ const getShift = (documentType: DocumentType, index: number) => {
       return 40 * ((index + 2) % 3);
     }
     case "film": {
-      return 60 * ((index + 1) % 3);
+      return 80 * (Math.abs(2 - index) % 3);
     }
     case "dj": {
-      return 70 * ((index + 2) % 3) + 50;
+      return 70 * ((index + 3) % 4) + 30;
     }
     default: {
       return 0;
@@ -25,10 +29,10 @@ const getAlign = (documentType: DocumentType, index: number) => {
       return index % 4 < 2 ? "right" : "left";
     }
     case "film": {
-      return (index + 1) % 4 < 2 ? "right" : "left";
+      return index % 4 >= 2 ? "right" : "left";
     }
     case "dj": {
-      return (index + 2) % 4 < 3 ? "right" : "left";
+      return (index + 1) % 3 < 2 ? "right" : "left";
     }
     default: {
       return "left";
@@ -49,37 +53,37 @@ const CardPosition = styled.div<{ align: string; shift: number }>`
         `};
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ square?: boolean }>`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 10px;
-  width: 300px;
+  width: ${({ square }) => (square ? 180 : 300)}px;
   cursor: pointer;
 `;
 
 const ListPageCardContainer = ({
   document: { _type, slug },
   children,
-  rootPath,
   index,
   className,
+  square,
 }: {
   document: DocumentDefinition;
   children: React.ReactNode;
-  rootPath: string;
   index: number;
   className?: string;
+  square?: boolean;
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/${rootPath}/${slug.current}`);
+    navigate(`${DOCUMENT_TYPE_TO_ROOT_PATH[_type]}/${slug.current}`);
   };
 
   return (
     <CardPosition align={getAlign(_type, index)} shift={getShift(_type, index)}>
-      <Card onClick={handleClick} className={className}>
+      <Card onClick={handleClick} className={className} square={square}>
         {children}
       </Card>
     </CardPosition>

@@ -2,11 +2,15 @@ import { PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { HOME_ITEM_ANGLE, MENU_OPTIONS, NUM_MENU_OPTIONS } from "../constants";
+import {
+  HOME_ITEM_ANGLE,
+  MENU_OPTIONS,
+  NUM_MENU_OPTIONS,
+} from "../../constants";
 import { useSpring } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import PlaneObject from "./PlaneObject";
-import HomePlaneGeometry from "../home/HomePlaneGeometry";
+import HomePlaneGeometry from "../../home/HomePlaneGeometry";
 
 const StyledCanvas = styled(Canvas)`
   position: absolute !important;

@@ -2,10 +2,10 @@ import { DOCUMENT_TYPE_TO_ROOT_PATH, urlFor } from "../sanity";
 import { useParams } from "react-router-dom";
 import BackFooter from "../components/BackFooter";
 import ScrollContainer from "../components/ScrollContainer";
-import DetailsPageDescription from "../components/DetailsPageDescription";
-import DetailsPageInfo from "../components/DetailsPageInfo";
+import Description from "../components/Description";
+import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
 import useDocument from "../hooks/useDocument";
-import HorizonatalThumbnail from "../components/HorizonatalThumbnail";
+import Thumbnail from "../components/Thumbnail";
 
 const WebsiteDetailsPage = () => {
   const { websiteId } = useParams<{
@@ -22,9 +22,9 @@ const WebsiteDetailsPage = () => {
 
   return (
     <ScrollContainer>
-      <HorizonatalThumbnail src={urlFor(thumbnail).url()} />
+      <Thumbnail src={urlFor(thumbnail).url()} />
       <DetailsPageInfo document={website} url={url} />
-      <DetailsPageDescription value={description} />
+      <Description value={description} />
       <BackFooter defaultPath={DOCUMENT_TYPE_TO_ROOT_PATH["website"]} />
     </ScrollContainer>
   );

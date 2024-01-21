@@ -1,5 +1,5 @@
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { urlFor } from "../sanity";
+import { urlFor } from "../../sanity";
 import styled from "styled-components";
 
 const Image = styled.img`
