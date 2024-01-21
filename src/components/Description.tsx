@@ -5,7 +5,7 @@ import VideoBlockComponent from "./blocks/VideoBlockComponent";
 import LinkBlockComponent from "./blocks/LinkBlockComponent";
 import styled from "styled-components";
 import InternalLinkBlockComponent from "./blocks/InternalLinkBlockComponent";
-import CustomBlockComponent from "./customBlock/CustomBlockComponent";
+import CustomBlockComponent from "./blocks/CustomBlockComponent";
 
 const Container = styled.div`
   display: flex;

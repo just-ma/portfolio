@@ -1,4 +1,4 @@
-import AlmondCanvas from "./AlmondCanvas";
+import AlmondCanvas from "./custom/AlmondCanvas";
 
 const CustomBlockComponent = ({ value: { id } }: { value: { id: string } }) => {
   switch (id) {

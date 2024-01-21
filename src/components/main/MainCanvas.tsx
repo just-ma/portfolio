@@ -9,7 +9,7 @@ import {
 } from "../../constants";
 import { useSpring } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
-import PlaneObject from "./PlaneObject";
+import PlaneObject from "./objects/PlaneObject";
 import HomePlaneGeometry from "../../home/HomePlaneGeometry";
 
 const StyledCanvas = styled(Canvas)`
@@ -116,6 +116,7 @@ const MainCanvas = ({
         />
       ))}
       <HomePlaneGeometry springs={springs} />
+      <ambientLight intensity={4} />
     </StyledCanvas>
   );
 };

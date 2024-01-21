@@ -1,9 +1,21 @@
 import { Euler, Vector3 } from "@react-three/fiber";
 import { useEffect } from "react";
-import { HOME_ITEM_ANGLE } from "../../constants";
-import { OptionDefinition } from "../../types";
+import { HOME_ITEM_ANGLE } from "../../../constants";
+import { OptionDefinition } from "../../../types";
 import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
+import LaptopModel from "./LaptopModel";
+
+const OPTION_TYPE_TO_COMPONENT: Record<
+  OptionDefinition["type"],
+  () => JSX.Element
+> = {
+  website: LaptopModel,
+  blog: LaptopModel,
+  film: LaptopModel,
+  dj: LaptopModel,
+  about: LaptopModel,
+};
 
 const PlaneObject = ({
   rotation,
@@ -48,7 +60,7 @@ const PlaneObject = ({
         position: getPosition(),
         opacity: isHome || selected ? 1 : 0,
         scale: 0.5,
-        selfRotation: [0, 0, 0],
+        selfRotation: [0, -itemAngle, 0],
       },
     }),
     []
@@ -113,7 +125,7 @@ const PlaneObject = ({
   useEffect(() => {
     if (selected) {
       api.start({
-        selfRotation: [0, 2 * Math.PI, 0],
+        selfRotation: [0, 2 * Math.PI - itemAngle, 0],
         loop: true,
         config: {
           duration: 30000,
@@ -121,7 +133,7 @@ const PlaneObject = ({
       });
     } else {
       api.start({
-        selfRotation: [0, 0, 0],
+        selfRotation: [0, -itemAngle, 0],
         config: {
           friction: 100,
         },
@@ -129,21 +141,18 @@ const PlaneObject = ({
     }
   }, [selected]);
 
+  const ObjectComponent = OPTION_TYPE_TO_COMPONENT[option.type];
+
   return (
     <animated.group rotation={rotation as any}>
-      <animated.mesh
+      <animated.group
         position={springs.position as any}
         scale={springs.scale}
         rotation={springs.selfRotation as any}
         onClick={handleClick}
       >
-        <boxGeometry args={[0.5, 0.5, 0.5]} />
-        <animated.meshBasicMaterial
-          color="blue"
-          opacity={springs.opacity}
-          transparent
-        />
-      </animated.mesh>
+        <ObjectComponent />
+      </animated.group>
     </animated.group>
   );
 };
