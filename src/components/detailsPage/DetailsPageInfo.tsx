@@ -11,16 +11,12 @@ const Container = styled.div`
 `;
 
 const Title = styled.a`
-  font-size: 16px;
   flex-shrink: 0;
-  line-height: 20px;
 `;
 
 const Subtitle = styled.div`
-  font-size: 16px;
   display: flex;
   text-align: right;
-  line-height: 20px;
 
   p {
     margin: 0;

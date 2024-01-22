@@ -12,7 +12,7 @@ const Hitbox = styled.div`
   transform: translate(-50%, 0);
   border-radius: 10px;
   cursor: pointer;
-  /* border: 1px solid black; */
+  z-index: 2;
 `;
 
 const HeaderObjectHitbox = () => {

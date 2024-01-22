@@ -1,11 +1,10 @@
-import { ObjectMap, useLoader } from "@react-three/fiber";
 import DiaryGLTF from "../../../assets/models/diary/Diary.glb";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { ModelProps } from "./PlaneObject";
 import { SpringValue, animated, useSpring } from "@react-spring/three";
+import useModelLoader from "./useModelLoader";
 
-const DiaryModel = ({ selected }: ModelProps) => {
-  const gltf = useLoader(GLTFLoader, DiaryGLTF) as GLTF & ObjectMap;
+const DiaryModel = ({ selected, opacity }: ModelProps) => {
+  const object = useModelLoader(DiaryGLTF, opacity);
 
   const [springs] = useSpring(
     {
@@ -22,7 +21,7 @@ const DiaryModel = ({ selected }: ModelProps) => {
       position={springs.position as SpringValue}
     >
       <animated.group rotation={springs.rotation as any}>
-        <primitive object={gltf.scene} />
+        <primitive object={object} />
       </animated.group>
     </animated.group>
   );

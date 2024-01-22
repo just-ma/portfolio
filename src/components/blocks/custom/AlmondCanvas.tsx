@@ -43,7 +43,11 @@ export default function AlmondCanvas({
     <Container>
       <Canvas>
         <AlmondModel />
-        <OrbitControls autoRotate autoRotateSpeed={rotateSpeed} />
+        <OrbitControls
+          autoRotate
+          autoRotateSpeed={rotateSpeed}
+          enableZoom={false}
+        />
         <directionalLight position={[10, 10, 1]} intensity={dim ? 2.5 : 5} />
         <directionalLight position={[-10, -3, -2]} intensity={dim ? 0.5 : 1} />
       </Canvas>

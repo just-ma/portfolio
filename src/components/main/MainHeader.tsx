@@ -2,70 +2,109 @@ import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderObjectHitbox from "./HeaderObjectHitbox";
+import useAppContext from "../../hooks/useAppContext";
 
-const Header = styled.div<{ animate: boolean }>`
+const Title = styled(Link)<{ titleFont: TitleFont }>`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
+  top: 10px;
+  left: 10px;
   z-index: 1;
-  font-size: 30px;
-  line-height: 24px;
-  animation: ${({ animate }) => (animate ? "fontFlicker 0.2s" : "none")};
-  text-transform: uppercase;
-  font-family: "SyneMono-Regular";
-
-  @keyframes fontFlicker {
-    0% {
-      font-family: "SyneMono-Regular";
-    }
-    30% {
-      font-family: "kaerukaeru-Regular";
-    }
-    60% {
-      font-family: "FT88-Gothique";
-    }
-    100% {
-      font-family: "SyneMono-Regular";
-    }
-  }
+  font-family: "${({ titleFont }) => titleFont.family}";
+  font-size: ${({ titleFont }) => titleFont.size}px;
+  display: flex;
+  gap: 10px;
+  text-decoration: none;
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
+const TitleBlock = styled.div`
+  display: inline-block;
+  border: 1px solid black;
+  background-color: white;
+  line-height: 24px;
+  text-transform: uppercase;
   color: black;
 `;
+
+type TitleFont = {
+  family: string;
+  size: number;
+};
+
+const DEFAULT_FONT: TitleFont = {
+  family: "SyneMono-Regular",
+  size: 30,
+};
+
+const FONTS: readonly TitleFont[] = [
+  { family: "Banquise-Regular", size: 35 },
+  { family: "Credible-Regular", size: 28 },
+  { family: "FT88-Gothique", size: 25 },
+  { family: "Garamondt-Regular", size: 33 },
+  { family: "kaerukaeru-Regular", size: 38 },
+  { family: "Louise-Regular", size: 22 },
+  { family: "Sligoil-Micro", size: 27 },
+  { family: "terminal-grotesque_open", size: 36 },
+  { family: "Arial", size: 33 },
+  { family: "Arial Black", size: 29 },
+  { family: "Helvetica", size: 34 },
+  { family: "Times New Roman", size: 36 },
+  { family: "Times New Roman", size: 36 },
+];
 
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const [animate, setAnimate] = useState(true);
+  const { animating, onAnimatingChange } = useAppContext();
+
+  const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setAnimate(false);
+    const timeoutId = setInterval(() => {
+      onAnimatingChange(false);
+      setTitleFont(DEFAULT_FONT);
     }, 200);
 
     return () => {
-      clearTimeout(timeoutId);
+      clearInterval(timeoutId);
     };
-  }, [animate]);
+  }, [animating]);
 
-  useEffect(() => {
-    setAnimate(true);
-  }, [pathname]);
-
-  const startFlicker = () => {
-    setAnimate(true);
+  const randomizeFont = () => {
+    setTitleFont(FONTS[Math.floor(Math.random() * (FONTS.length - 1))]);
   };
 
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    if (animating) {
+      randomizeFont();
+      intervalId = setInterval(() => {
+        randomizeFont();
+      }, 67);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [animating]);
+
+  useEffect(() => {
+    onAnimatingChange(true);
+  }, [pathname]);
+
   return (
-    <Header animate={animate}>
-      <StyledLink onClick={startFlicker} to={"/"}>
-        NIT SU J.
-      </StyledLink>
+    <>
+      <Title
+        titleFont={titleFont}
+        onClick={() => onAnimatingChange(true)}
+        to={"/"}
+      >
+        <TitleBlock>NIT</TitleBlock>
+        <TitleBlock>SU</TitleBlock>
+        <TitleBlock>J.</TitleBlock>
+      </Title>
       <HeaderObjectHitbox />
-    </Header>
+    </>
   );
 };
 

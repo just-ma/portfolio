@@ -10,7 +10,7 @@ import useAppContext from "../hooks/useAppContext";
 
 const Container = styled.div`
   position: absolute;
-  top: 40px;
+  top: 45px;
   left: 25px;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,11 @@ const Container = styled.div`
 `;
 
 const ItemContainer = styled(Link)`
-  font-size: 20px;
+  font-size: 18px;
+
+  &:hover {
+    letter-spacing: 7px;
+  }
 `;
 
 const MenuItem = ({
@@ -32,12 +36,14 @@ const MenuItem = ({
     onHoveredOptionChange(type);
   };
 
+  const label = OPTION_TYPE_TO_LABEL[type];
+
   return (
     <ItemContainer
       to={OPTION_TYPE_TO_ROOT_PATH[type]}
       onMouseEnter={handleMouseEnter}
     >
-      {OPTION_TYPE_TO_LABEL[type]}
+      {label}
     </ItemContainer>
   );
 };

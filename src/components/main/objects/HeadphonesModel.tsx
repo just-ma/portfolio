@@ -1,11 +1,10 @@
-import { ObjectMap, useLoader } from "@react-three/fiber";
-import LaptopGLTF from "../../../assets/models/headphones/Headphones.glb";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import HeadphonesGLTF from "../../../assets/models/headphones/Headphones.glb";
 import { ModelProps } from "./PlaneObject";
 import { SpringValue, animated, useSpring } from "@react-spring/three";
+import useModelLoader from "./useModelLoader";
 
-const HeadphonesModel = ({ selected }: ModelProps) => {
-  const gltf = useLoader(GLTFLoader, LaptopGLTF) as GLTF & ObjectMap;
+const HeadphonesModel = ({ selected, opacity }: ModelProps) => {
+  const object = useModelLoader(HeadphonesGLTF, opacity);
 
   const [springs] = useSpring(
     {
@@ -22,7 +21,7 @@ const HeadphonesModel = ({ selected }: ModelProps) => {
       position={springs.position as SpringValue}
     >
       <animated.group rotation={springs.rotation as any}>
-        <primitive object={gltf.scene} />
+        <primitive object={object} />
       </animated.group>
     </animated.group>
   );

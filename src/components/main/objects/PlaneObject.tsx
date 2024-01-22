@@ -1,7 +1,7 @@
-import { Vector3 } from "@react-three/fiber";
-import { useEffect } from "react";
+import { Vector3, useFrame } from "@react-three/fiber";
+import { useEffect, useRef, useState } from "react";
 import { OPTION_TYPES, OPTION_TYPE_TO_ROOT_PATH } from "../../../constants";
-import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
+import { useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 import LaptopModel from "./LaptopModel";
 import HeadphonesModel from "./HeadphonesModel";
@@ -9,11 +9,12 @@ import PlaceholderModel from "./PlaceholderModel";
 import CamcorderModel from "./CamcorderModel";
 import DiaryModel from "./DiaryModel";
 import { OptionType } from "../../../sanity";
+import useAppContext from "../../../hooks/useAppContext";
 
 const HOME_ITEM_ANGLE = (2 * Math.PI) / OPTION_TYPES.length;
 
 export type ModelProps = {
-  opacity: SpringValue<number>;
+  opacity: number;
   selected?: boolean;
 };
 
@@ -48,6 +49,15 @@ const PlaneObject = ({
 
   const ObjectComponent = OPTION_TYPE_TO_COMPONENT[type];
 
+  const { animating } = useAppContext();
+
+  const getOpacity = () => {
+    return isHome || selected ? 1 : 0;
+  };
+
+  const optimisticOpacity = useRef(getOpacity());
+  const [opacity, setOpacity] = useState(getOpacity());
+
   const handleClick = () => {
     navigate(exactSelected ? "/" : rootPath);
   };
@@ -75,7 +85,6 @@ const PlaneObject = ({
     () => ({
       from: {
         position: getPosition(),
-        opacity: isHome || selected ? 1 : 0,
         scale: 0.5,
         rotation: [0, baseRotation, 0],
       },
@@ -83,7 +92,9 @@ const PlaneObject = ({
     []
   );
 
-  const jump = (delay?: number) => {
+  const jump = (withDelay?: boolean) => {
+    const delay = withDelay ? (index + 2) * 100 : 0;
+
     api.start({
       to: async (next) => {
         await new Promise((resolve) => setTimeout(resolve, delay));
@@ -115,7 +126,6 @@ const PlaneObject = ({
   useEffect(() => {
     api.start({
       position: getPosition(),
-      opacity: isHome || selected ? 1 : 0,
       scale: isHome ? 1 : selected ? 0.7 : 0.5,
       config: {
         bounce: selected ? 2 : 0,
@@ -123,8 +133,34 @@ const PlaneObject = ({
         tension: 220,
       },
     });
-    isHome && jump((index + 2) * 100);
+
+    optimisticOpacity.current = getOpacity();
   }, [currentPath]);
+
+  useFrame(() => {
+    if (optimisticOpacity.current === opacity) {
+      return;
+    }
+
+    if (Math.abs(optimisticOpacity.current - opacity) < 0.01) {
+      setOpacity(optimisticOpacity.current);
+      return;
+    }
+
+    setOpacity((prev) => prev + (optimisticOpacity.current - opacity) * 0.1);
+  });
+
+  useEffect(() => {
+    if (isHome && animating) {
+      jump(true);
+    }
+  }, [animating, isHome]);
+
+  useEffect(() => {
+    if (isHome && animating) {
+      jump(true);
+    }
+  }, [animating, isHome]);
 
   useEffect(() => {
     if (selected) {
@@ -152,7 +188,7 @@ const PlaneObject = ({
       rotation={springs.rotation as any}
       onClick={handleClick}
     >
-      <ObjectComponent opacity={springs.opacity} selected={selected} />
+      <ObjectComponent opacity={opacity} selected={selected} />
     </animated.group>
   );
 };

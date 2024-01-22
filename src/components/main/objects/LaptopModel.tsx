@@ -1,12 +1,10 @@
-import { ObjectMap, useLoader } from "@react-three/fiber";
 import LaptopGLTF from "../../../assets/models/laptop/Laptop.glb";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { ModelProps } from "./PlaneObject";
 import { useSpring, animated, SpringValue } from "@react-spring/three";
-import { useEffect } from "react";
+import useModelLoader from "./useModelLoader";
 
-const LaptopModel = ({ selected }: ModelProps) => {
-  const gltf = useLoader(GLTFLoader, LaptopGLTF) as GLTF & ObjectMap;
+const LaptopModel = ({ selected, opacity }: ModelProps) => {
+  const object = useModelLoader(LaptopGLTF, opacity);
 
   const [springs] = useSpring(
     {
@@ -16,18 +14,13 @@ const LaptopModel = ({ selected }: ModelProps) => {
     [selected]
   );
 
-  useEffect(() => {}, []);
-
-  // gltf.materials[""].opacity = 0.5;
-  // gltf.materials[""].transparent = true;
-
   return (
     <animated.group
       scale={springs.scale}
       position={springs.position as SpringValue}
       rotation={[0, 0.05, 0]}
     >
-      <primitive object={gltf.scene} />
+      <primitive object={object} />
     </animated.group>
   );
 };

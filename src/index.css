@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
 }
 
 code {
@@ -17,13 +18,38 @@ a {
 }
 
 @font-face {
+  font-family: 'Banquise-Regular';
+  src: local('Banquise-Regular'), url(./assets/fonts/Banquise-Regular.otf) format('otf');
+}
+
+@font-face {
+  font-family: 'BluuNext-Bold';
+  src: local('BluuNext-Bold'), url(./assets/fonts/BluuNext-Bold.otf) format('otf');
+}
+
+@font-face {
+  font-family: 'Credible-Regular';
+  src: local('Credible-Regular'), url(./assets/fonts/Credible-Regular.otf) format('otf');
+}
+
+@font-face {
   font-family: 'FT88-Gothique';
   src: local('FT88-Gothique'), url(./assets/fonts/FT88-Gothique.otf) format('otf');
 }
 
 @font-face {
-  font-family: 'SyneMono-Regular';
-  src: local('SyneMono-Regular'), url(./assets/fonts/SyneMono-Regular.otf) format('otf');
+  font-family: 'Garamondt-Regular';
+  src: local('Garamondt-Regular'), url(./assets/fonts/Garamondt-Regular.otf) format('otf');
+}
+
+@font-face {
+  font-family: 'kaerukaeru-Regular';
+  src: local('kaerukaeru-Regular'), url(./assets/fonts/kaerukaeru-Regular.otf) format('otf');
+}
+
+@font-face {
+  font-family: 'Louise-Regular';
+  src: local('Louise-Regular'), url(./assets/fonts/Louise-Regular.otf) format('otf');
 }
 
 @font-face {
@@ -32,6 +58,11 @@ a {
 }
 
 @font-face {
-  font-family: 'kaerukaeru-Regular';
-  src: local('kaerukaeru-Regular'), url(./assets/fonts/kaerukaeru-Regular.otf) format('otf');
+  font-family: 'SyneMono-Regular';
+  src: local('SyneMono-Regular'), url(./assets/fonts/SyneMono-Regular.otf) format('otf');
+}
+
+@font-face {
+  font-family: 'terminal-grotesque_open';
+  src: local('terminal-grotesque_open'), url(./assets/fonts/terminal-grotesque_open.otf) format('otf');
 }
