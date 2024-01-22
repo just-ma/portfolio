@@ -1,4 +1,3 @@
-import { Euler } from "@react-three/fiber";
 import { animated, SpringValue } from "@react-spring/three";
 import OutlineTexture from "./outline.svg";
 
@@ -8,7 +7,6 @@ const HomePlaneGeometry = ({
   springs,
 }: {
   springs: {
-    rotation: SpringValue<Euler>;
     scale: SpringValue<number>;
     opacity: SpringValue<number>;
   };
@@ -16,7 +14,7 @@ const HomePlaneGeometry = ({
   const texture = useTexture<string>(OutlineTexture);
 
   return (
-    <animated.group rotation={springs.rotation as any} scale={springs.scale}>
+    <animated.group scale={springs.scale}>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[4, 4, 8, 8]} />
         <animated.meshBasicMaterial

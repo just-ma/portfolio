@@ -1,4 +1,4 @@
-import { Euler, Vector3 } from "@react-three/fiber";
+import { Vector3 } from "@react-three/fiber";
 import { useEffect } from "react";
 import { HOME_ITEM_ANGLE } from "../../../constants";
 import { OptionDefinition } from "../../../types";
@@ -27,13 +27,11 @@ const OPTION_TYPE_TO_COMPONENT: Record<
 };
 
 const PlaneObject = ({
-  rotation,
   index,
   option,
   active,
   hovering,
 }: {
-  rotation: SpringValue<Euler>;
   index: number;
   option: OptionDefinition;
   active: boolean;
@@ -52,7 +50,7 @@ const PlaneObject = ({
   };
 
   const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
-  const baseSelfRotation = itemAngle - 0.8;
+  const baseRotation = itemAngle - 0.8;
   const baseYPosition = 0.25;
   const getPosition = (y?: number): Vector3 => {
     if (isHome) {
@@ -66,7 +64,7 @@ const PlaneObject = ({
     }
 
     return selected
-      ? [0, 2.9, 0]
+      ? [0, 2.52, 0]
       : [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
   };
 
@@ -76,7 +74,7 @@ const PlaneObject = ({
         position: getPosition(),
         opacity: isHome || selected ? 1 : 0,
         scale: 0.5,
-        selfRotation: [0, baseSelfRotation, 0],
+        rotation: [0, baseRotation, 0],
       },
     }),
     []
@@ -141,15 +139,15 @@ const PlaneObject = ({
   useEffect(() => {
     if (selected) {
       api.start({
-        selfRotation: [0, 2 * Math.PI + baseSelfRotation, 0],
+        rotation: [0, -2 * Math.PI + baseRotation, 0],
         loop: true,
         config: {
-          duration: 30000,
+          duration: 60000,
         },
       });
     } else {
       api.start({
-        selfRotation: [0, baseSelfRotation, 0],
+        rotation: [0, baseRotation, 0],
         config: {
           friction: 100,
         },
@@ -160,15 +158,13 @@ const PlaneObject = ({
   const ObjectComponent = OPTION_TYPE_TO_COMPONENT[option.type];
 
   return (
-    <animated.group rotation={rotation as any}>
-      <animated.group
-        position={springs.position as any}
-        scale={springs.scale}
-        rotation={springs.selfRotation as any}
-        onClick={handleClick}
-      >
-        <ObjectComponent opacity={springs.opacity} selected={selected} />
-      </animated.group>
+    <animated.group
+      position={springs.position as any}
+      scale={springs.scale}
+      rotation={springs.rotation as any}
+      onClick={handleClick}
+    >
+      <ObjectComponent opacity={springs.opacity} selected={selected} />
     </animated.group>
   );
 };
