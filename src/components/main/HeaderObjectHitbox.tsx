@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AppContext } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAppContext from "../../hooks/useAppContext";
 
 const Hitbox = styled.div`
   height: 7vh;
@@ -19,7 +19,7 @@ const HeaderObjectHitbox = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { scrollContainerRef } = useContext(AppContext);
+  const { scrollContainerRef } = useAppContext();
 
   const [show, setShow] = useState(true);
 

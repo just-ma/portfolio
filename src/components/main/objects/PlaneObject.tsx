@@ -1,7 +1,6 @@
 import { Vector3 } from "@react-three/fiber";
 import { useEffect } from "react";
-import { HOME_ITEM_ANGLE } from "../../../constants";
-import { OptionDefinition } from "../../../types";
+import { OPTION_TYPES, OPTION_TYPE_TO_ROOT_PATH } from "../../../constants";
 import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 import LaptopModel from "./LaptopModel";
@@ -9,6 +8,9 @@ import HeadphonesModel from "./HeadphonesModel";
 import PlaceholderModel from "./PlaceholderModel";
 import CamcorderModel from "./CamcorderModel";
 import DiaryModel from "./DiaryModel";
+import { OptionType } from "../../../sanity";
+
+const HOME_ITEM_ANGLE = (2 * Math.PI) / OPTION_TYPES.length;
 
 export type ModelProps = {
   opacity: SpringValue<number>;
@@ -16,7 +18,7 @@ export type ModelProps = {
 };
 
 const OPTION_TYPE_TO_COMPONENT: Record<
-  OptionDefinition["type"],
+  OptionType,
   (props: ModelProps) => JSX.Element
 > = {
   website: LaptopModel,
@@ -28,25 +30,26 @@ const OPTION_TYPE_TO_COMPONENT: Record<
 
 const PlaneObject = ({
   index,
-  option,
-  active,
+  type,
   hovering,
 }: {
   index: number;
-  option: OptionDefinition;
-  active: boolean;
+  type: OptionType;
   hovering: boolean;
 }) => {
+  const navigate = useNavigate();
   const location = useLocation();
+
   const currentPath = location.pathname;
-  const selected = currentPath.startsWith(option.path);
-  const exactSelected = currentPath === option.path;
+  const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
+  const selected = currentPath.startsWith(rootPath);
+  const exactSelected = currentPath === rootPath;
   const isHome = currentPath === "/";
 
-  const navigate = useNavigate();
+  const ObjectComponent = OPTION_TYPE_TO_COMPONENT[type];
 
   const handleClick = () => {
-    navigate(exactSelected ? "/" : option.path);
+    navigate(exactSelected ? "/" : rootPath);
   };
 
   const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
@@ -104,23 +107,10 @@ const PlaneObject = ({
   };
 
   useEffect(() => {
-    const intervalId =
-      hovering && active
-        ? setInterval(() => {
-            jump();
-          }, 3000)
-        : undefined;
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [hovering, active]);
-
-  useEffect(() => {
-    if (active) {
-      jump(hovering ? 0 : 100);
+    if (hovering) {
+      jump();
     }
-  }, [active]);
+  }, [hovering]);
 
   useEffect(() => {
     api.start({
@@ -154,8 +144,6 @@ const PlaneObject = ({
       });
     }
   }, [selected]);
-
-  const ObjectComponent = OPTION_TYPE_TO_COMPONENT[option.type];
 
   return (
     <animated.group

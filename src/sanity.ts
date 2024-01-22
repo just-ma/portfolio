@@ -39,15 +39,18 @@ export type DJDefinition = BaseDocumentDefiniion<"dj"> & {
   };
 };
 
-export type AboutDefinition = {
-  _type: "about";
-  description: PortableTextBlock;
-};
-
 export type DocumentDefinition =
   | WebsiteDefinition
   | FilmDefinition
   | DJDefinition;
+
+export type AboutType = "about";
+export type AboutDefinition = {
+  _type: AboutType;
+  description: PortableTextBlock;
+};
+
+export type OptionType = DocumentType | AboutType;
 
 export interface DocumentTypeToDefinition
   extends Record<DocumentType, DocumentDefinition> {
@@ -55,13 +58,6 @@ export interface DocumentTypeToDefinition
   film: FilmDefinition;
   dj: DJDefinition;
 }
-
-export const DOCUMENT_TYPE_TO_ROOT_PATH: Record<DocumentType, string> = {
-  website: "/websites",
-  film: "/films",
-  dj: "/dj",
-  blog: "/blog",
-};
 
 const PROJECT_ID = "ullgaoyt";
 const DATASET = "production";

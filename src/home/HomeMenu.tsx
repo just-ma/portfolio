@@ -1,8 +1,12 @@
 import styled from "styled-components";
-import { MENU_OPTIONS } from "../constants";
-import { OptionDefinition } from "../types";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { OptionType } from "../sanity";
+import {
+  OPTION_TYPES,
+  OPTION_TYPE_TO_LABEL,
+  OPTION_TYPE_TO_ROOT_PATH,
+} from "../constants";
+import useAppContext from "../hooks/useAppContext";
 
 const Container = styled.div`
   position: absolute;
@@ -18,50 +22,40 @@ const ItemContainer = styled(Link)`
 `;
 
 const MenuItem = ({
-  option: { label, path },
-  setActiveIndex,
-  setHovering,
-  index,
+  type,
+  onHoveredOptionChange,
 }: {
-  option: OptionDefinition;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
-  index: number;
+  type: OptionType;
+  onHoveredOptionChange: (value: OptionType) => void;
 }) => {
   const handleMouseEnter = () => {
-    setActiveIndex(index);
-    setHovering(true);
+    onHoveredOptionChange(type);
   };
 
   return (
-    <ItemContainer to={path} onMouseEnter={handleMouseEnter}>
-      {label}
+    <ItemContainer
+      to={OPTION_TYPE_TO_ROOT_PATH[type]}
+      onMouseEnter={handleMouseEnter}
+    >
+      {OPTION_TYPE_TO_LABEL[type]}
     </ItemContainer>
   );
 };
 
-const HomeMenu = ({
-  setActiveIndex,
-  setHovering,
-}: {
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  useEffect(() => {
-    return () => {
-      setHovering(false);
-    };
-  }, []);
+const HomeMenu = () => {
+  const { onHoveredOptionChange } = useAppContext();
+
+  const handleMouseLeave = () => {
+    onHoveredOptionChange(null);
+  };
 
   return (
-    <Container onMouseLeave={() => setHovering(false)}>
-      {MENU_OPTIONS.map((option, index) => (
+    <Container onMouseLeave={handleMouseLeave}>
+      {OPTION_TYPES.map((type) => (
         <MenuItem
-          option={option}
-          key={option.path}
-          setActiveIndex={setActiveIndex}
-          setHovering={setHovering}
-          index={index}
+          type={type}
+          key={type}
+          onHoveredOptionChange={onHoveredOptionChange}
         />
       ))}
     </Container>

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { PortableTextMarkComponentProps } from "@portabletext/react";
-import { DOCUMENT_TYPE_TO_ROOT_PATH, DocumentType, client } from "../../sanity";
+import { DocumentType, client } from "../../sanity";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../App";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 
 type ReferenceDefinition = {
   _id: string;
@@ -44,7 +45,7 @@ const InternalLinkBlockComponent = ({
   }
 
   return (
-    <Link to={`${DOCUMENT_TYPE_TO_ROOT_PATH[data._type]}/${data.slug.current}`}>
+    <Link to={`${OPTION_TYPE_TO_ROOT_PATH[data._type]}/${data.slug.current}`}>
       {text}
     </Link>
   );

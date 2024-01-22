@@ -14,7 +14,6 @@ const Title = styled.a`
   font-size: 16px;
   flex-shrink: 0;
   line-height: 20px;
-  color: black;
 `;
 
 const Subtitle = styled.div`

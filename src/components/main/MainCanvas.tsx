@@ -2,11 +2,12 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { MENU_OPTIONS } from "../../constants";
+import { OPTION_TYPES } from "../../constants";
 import { useSpring, animated } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import PlaneObject from "./objects/PlaneObject";
 import HomePlaneGeometry from "../../home/HomePlaneGeometry";
+import useAppContext from "../../hooks/useAppContext";
 
 const StyledCanvas = styled(Canvas)`
   position: absolute !important;
@@ -15,18 +16,11 @@ const StyledCanvas = styled(Canvas)`
   left: 0;
 `;
 
-const MainCanvas = ({
-  activeIndex,
-  setActiveIndex,
-  hovering,
-}: {
-  activeIndex: number;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  hovering: boolean;
-}) => {
+const MainCanvas = () => {
   const location = useLocation();
-  const currentPath = location.pathname;
-  const isHome = currentPath === "/";
+  const isHome = location.pathname === "/";
+
+  const { hoveredOption } = useAppContext();
 
   const rotationY = useRef(0);
 
@@ -42,15 +36,6 @@ const MainCanvas = ({
   );
 
   useEffect(() => {
-    rotationY.current -= Math.PI;
-    api.start({
-      rotation: [0, rotationY.current, 0],
-      config: {
-        tension: 280,
-        friction: 120,
-      },
-    });
-
     api.start({
       scale: isHome ? 1 : 2,
       opacity: isHome ? 1 : 0,
@@ -61,6 +46,17 @@ const MainCanvas = ({
       },
     });
   }, [isHome]);
+
+  useEffect(() => {
+    rotationY.current -= Math.PI;
+    api.start({
+      rotation: [0, rotationY.current, 0],
+      config: {
+        tension: 280,
+        friction: 120,
+      },
+    });
+  }, [location.pathname]);
 
   return (
     <StyledCanvas>
@@ -74,13 +70,12 @@ const MainCanvas = ({
         autoRotateSpeed={-0.5}
       />
       <animated.group rotation={springs.rotation as any}>
-        {MENU_OPTIONS.map((option, index) => (
+        {OPTION_TYPES.map((type, index) => (
           <PlaneObject
-            key={option.path}
+            key={type}
             index={index}
-            option={option}
-            active={index === activeIndex}
-            hovering={hovering}
+            type={type}
+            hovering={hoveredOption === type}
           />
         ))}
         <HomePlaneGeometry springs={springs} />

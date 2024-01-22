@@ -1,10 +1,7 @@
 import styled, { css } from "styled-components";
-import {
-  DOCUMENT_TYPE_TO_ROOT_PATH,
-  DocumentDefinition,
-  DocumentType,
-} from "../../sanity";
+import { DocumentDefinition, DocumentType } from "../../sanity";
 import { useNavigate } from "react-router-dom";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 
 const getShift = (documentType: DocumentType, index: number) => {
   switch (documentType) {
@@ -78,7 +75,7 @@ const ListPageCardContainer = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`${DOCUMENT_TYPE_TO_ROOT_PATH[_type]}/${slug.current}`);
+    navigate(`${OPTION_TYPE_TO_ROOT_PATH[_type]}/${slug.current}`);
   };
 
   return (

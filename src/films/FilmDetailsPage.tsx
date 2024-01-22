@@ -7,7 +7,7 @@ import Quote from "./Quote";
 import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
 import Description from "../components/Description";
 import useDocument from "../hooks/useDocument";
-import { DOCUMENT_TYPE_TO_ROOT_PATH } from "../sanity";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
 
 const StyledQuote = styled(Quote)`
   margin-bottom: 50px;
@@ -32,7 +32,7 @@ const FilmDetailsPage = () => {
       <DetailsPageInfo document={film} url={video.externalUrl} />
       <StyledQuote>{quote}</StyledQuote>
       <Description value={description} />
-      <BackFooter defaultPath={DOCUMENT_TYPE_TO_ROOT_PATH["film"]} />
+      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["film"]} />
     </ScrollContainer>
   );
 };

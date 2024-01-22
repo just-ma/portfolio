@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
-import { MENU_OPTIONS } from "../../constants";
+import { useEffect, useState } from "react";
 import HeaderObjectHitbox from "./HeaderObjectHitbox";
 
 const Header = styled.div<{ animate: boolean }>`
@@ -12,21 +11,22 @@ const Header = styled.div<{ animate: boolean }>`
   z-index: 1;
   font-size: 30px;
   line-height: 24px;
-  animation: ${({ animate }) => (animate ? "flicker 0.1s infinite" : "none")};
+  animation: ${({ animate }) => (animate ? "fontFlicker 0.2s" : "none")};
   text-transform: uppercase;
+  font-family: "SyneMono-Regular";
 
-  @keyframes flicker {
+  @keyframes fontFlicker {
     0% {
-      opacity: 0.5;
+      font-family: "SyneMono-Regular";
     }
     30% {
-      opacity: 0.3;
+      font-family: "kaerukaeru-Regular";
     }
     60% {
-      opacity: 0.6;
+      font-family: "FT88-Gothique";
     }
     100% {
-      opacity: 0.5;
+      font-family: "SyneMono-Regular";
     }
   }
 `;
@@ -34,19 +34,6 @@ const Header = styled.div<{ animate: boolean }>`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
-`;
-
-const Subtitle = styled.div`
-  font-size: 20px;
-  margin: 5px 0 0 10px;
-
-  &::before {
-    content: "( ";
-  }
-
-  &::after {
-    content: " )";
-  }
 `;
 
 const MainHeader = () => {
@@ -68,13 +55,6 @@ const MainHeader = () => {
     setAnimate(true);
   }, [pathname]);
 
-  const currentOption = useMemo(() => {
-    const match = MENU_OPTIONS.find((option) =>
-      pathname.startsWith(option.path)
-    );
-    return match;
-  }, [pathname]);
-
   const startFlicker = () => {
     setAnimate(true);
   };
@@ -84,13 +64,6 @@ const MainHeader = () => {
       <StyledLink onClick={startFlicker} to={"/"}>
         NIT SU J.
       </StyledLink>
-      {currentOption && (
-        <Subtitle>
-          <StyledLink onClick={startFlicker} to={currentOption.path}>
-            {currentOption.label}
-          </StyledLink>
-        </Subtitle>
-      )}
       <HeaderObjectHitbox />
     </Header>
   );

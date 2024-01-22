@@ -24,6 +24,7 @@ const Info = styled.div<{ square?: boolean }>`
 const Title = styled.div`
   flex-shrink: 0;
   text-decoration: underline;
+  color: blue;
 `;
 
 const Subtitle = styled.div<{ square?: boolean }>`

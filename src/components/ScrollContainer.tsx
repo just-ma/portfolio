@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import { AppContext } from "../App";
+import useAppContext from "../hooks/useAppContext";
 
 const Page = styled.div`
   position: relative;
@@ -47,7 +46,7 @@ const ScrollContainer = ({
   children: React.ReactNode;
   gap?: number;
 }) => {
-  const { scrollContainerRef } = useContext(AppContext);
+  const { scrollContainerRef } = useAppContext();
 
   return (
     <Page>
