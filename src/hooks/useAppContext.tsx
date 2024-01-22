@@ -1,18 +1,30 @@
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { OptionType } from "../sanity";
 
+export type PageTitle = {
+  optionType?: OptionType;
+  title?: string;
+  link?: string;
+};
+
+const noop = () => {};
+
 const AppContext = createContext<{
   scrollContainerRef: React.RefObject<HTMLDivElement> | null;
   hoveredOption: OptionType | null;
   onHoveredOptionChange: (value: OptionType | null) => void;
   animating: boolean;
   onAnimatingChange: (value: boolean) => void;
+  pageTitle: PageTitle;
+  onPageTitleChange: (value: PageTitle) => void;
 }>({
   scrollContainerRef: null,
   hoveredOption: null,
-  onHoveredOptionChange: () => {},
+  onHoveredOptionChange: noop,
   animating: true,
-  onAnimatingChange: () => {},
+  onAnimatingChange: noop,
+  pageTitle: {},
+  onPageTitleChange: noop,
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -20,6 +32,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [hoveredOption, setHoveredOption] = useState<OptionType | null>(null);
   const [animating, setAnimating] = useState(true);
+  const [pageTitle, setPageTitle] = useState<PageTitle>({});
 
   const value = useMemo(
     () => ({
@@ -28,8 +41,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       onHoveredOptionChange: setHoveredOption,
       animating,
       onAnimatingChange: setAnimating,
+      pageTitle,
+      onPageTitleChange: setPageTitle,
     }),
-    [hoveredOption, animating]
+    [hoveredOption, animating, pageTitle]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

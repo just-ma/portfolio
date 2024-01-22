@@ -56,7 +56,7 @@ const PlaneObject = ({
   };
 
   const optimisticOpacity = useRef(getOpacity());
-  const [opacity, setOpacity] = useState(getOpacity());
+  const [opacity, setOpacity] = useState(0);
 
   const handleClick = () => {
     navigate(exactSelected ? "/" : rootPath);

@@ -28,8 +28,8 @@ const MainCanvas = () => {
     {
       from: {
         rotation: [0, 0, 0] as Euler,
-        scale: isHome ? 1 : 3,
-        opacity: isHome ? 1 : 0,
+        scale: 3,
+        opacity: 0,
       },
     },
     []

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { OptionType } from "../../sanity";
 import {
@@ -7,7 +7,7 @@ import {
   OPTION_TYPE_TO_ROOT_PATH,
 } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 
 const Container = styled.div`
@@ -19,7 +19,7 @@ const Container = styled.div`
   gap: 10px;
 `;
 
-const ItemContainer = styled(Link)`
+const StyledLink = styled(Link)`
   font-size: 18px;
   width: fit-content;
   min-width: 60px;
@@ -28,17 +28,25 @@ const ItemContainer = styled(Link)`
 const MenuItem = ({
   type,
   onHoveredOptionChange,
+  scrollToTop,
 }: {
   type: OptionType;
   onHoveredOptionChange: (value: OptionType) => void;
+  scrollToTop: () => void;
 }) => {
-  const location = useLocation();
-  const isHome = location.pathname === "/";
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+  const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
 
   const [hovering, setHovering] = useState(false);
 
+  useEffect(() => {
+    setHovering(false);
+  }, [pathname]);
+
+  const preLabel = useTextTyper("( ", hovering && isHome);
   const label = useTextTyper(OPTION_TYPE_TO_LABEL[type], isHome);
-  const postLabel = useTextTyper(" (hi there)", hovering);
+  const postLabel = useTextTyper(" )", hovering && isHome);
 
   const handleMouseEnter = () => {
     onHoveredOptionChange(type);
@@ -49,27 +57,42 @@ const MenuItem = ({
     setHovering(false);
   };
 
-  if (!label && !postLabel) {
+  const handleClick = () => {
+    if (pathname === rootPath) {
+      scrollToTop();
+    }
+  };
+
+  if (!preLabel && !label && !postLabel) {
     return null;
   }
 
   return (
-    <ItemContainer
-      to={OPTION_TYPE_TO_ROOT_PATH[type]}
+    <StyledLink
+      to={rootPath}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
+      {preLabel}
       {label}
       {postLabel}
-    </ItemContainer>
+    </StyledLink>
   );
 };
 
 const MainMenu = () => {
-  const { onHoveredOptionChange } = useAppContext();
+  const { onHoveredOptionChange, scrollContainerRef } = useAppContext();
 
   const handleMouseLeave = () => {
     onHoveredOptionChange(null);
+  };
+
+  const scrollToTop = () => {
+    scrollContainerRef?.current?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -79,6 +102,7 @@ const MainMenu = () => {
           type={type}
           key={type}
           onHoveredOptionChange={onHoveredOptionChange}
+          scrollToTop={scrollToTop}
         />
       ))}
     </Container>

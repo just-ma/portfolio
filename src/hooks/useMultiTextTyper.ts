@@ -6,12 +6,11 @@ const useTextTyper = (text: string, show: boolean) => {
 
   useEffect(() => {
     if (index === (show ? text.length : 0)) {
-      setLastText(text);
       return;
     }
 
     const timeoutId = setTimeout(() => {
-      setIndex((prev) => prev + (show && prev < text.length ? 1 : -1));
+      setIndex((prev) => prev + (show ? 1 : -1));
     }, Math.random() * 100);
 
     return () => {
@@ -19,7 +18,7 @@ const useTextTyper = (text: string, show: boolean) => {
     };
   }, [text, show, index]);
 
-  return (lastText.length > text.length ? lastText : text).slice(0, index);
+  return text.slice(0, index);
 };
 
 export default useTextTyper;

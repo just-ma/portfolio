@@ -35,7 +35,7 @@ export type FilmDefinition = BaseDocumentDefiniion<"film"> & {
 export type DJDefinition = BaseDocumentDefiniion<"dj"> & {
   soundCloud: {
     id: string;
-    url: string;
+    externalUrl: string;
   };
 };
 

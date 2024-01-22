@@ -4,6 +4,8 @@ const Embed = styled.iframe`
   border: none;
   width: 100%;
   height: 300px;
+  background-color: white;
+  border: 1px black solid;
 `;
 
 const SoundCloudEmbed = ({ soundCloudId }: { soundCloudId: string }) => {

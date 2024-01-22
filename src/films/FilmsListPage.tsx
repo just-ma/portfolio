@@ -3,9 +3,12 @@ import ScrollContainer from "../components/ScrollContainer";
 import ListPageCard from "../components/listPage/ListPageCard";
 import Quote from "./Quote";
 import useDocuments from "../hooks/useDocuments";
+import usePageTitleSetter from "../hooks/usePageTitleSetter";
 
 const FilmsPage = () => {
   const { data } = useDocuments("film");
+
+  usePageTitleSetter("film");
 
   return (
     <ScrollContainer gap={60}>

@@ -2,9 +2,12 @@ import BackFooter from "../components/BackFooter";
 import ScrollContainer from "../components/ScrollContainer";
 import useDocuments from "../hooks/useDocuments";
 import ListPageCard from "../components/listPage/ListPageCard";
+import usePageTitleSetter from "../hooks/usePageTitleSetter";
 
 const DJsPage = () => {
   const { data } = useDocuments("dj");
+
+  usePageTitleSetter("dj");
 
   return (
     <ScrollContainer gap={60}>
