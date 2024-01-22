@@ -13,6 +13,7 @@ import FilmDetailsPage from "./films/FilmDetailsPage";
 import AboutPage from "./about/AboutPage";
 import DJDetailsPage from "./dj/DJDetailsPage";
 import { OPTION_TYPE_TO_ROOT_PATH } from "./constants";
+import MainMenu from "./components/main/MainMenu";
 
 export const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <MainHeader />
+          <MainMenu />
 
           <Routes>
             {/* home */}

@@ -10,10 +10,6 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const Title = styled.a`
-  flex-shrink: 0;
-`;
-
 const Subtitle = styled.div`
   display: flex;
   text-align: right;
@@ -23,11 +19,13 @@ const Subtitle = styled.div`
     height: fit-content;
 
     &::before {
-      content: "( ";
+      content: "(";
+      margin-right: 7px;
     }
 
     &::after {
-      content: " )";
+      content: ")";
+      margin-left: 7px;
     }
   }
 `;
@@ -41,9 +39,9 @@ const DetailsPageInfo = ({
 }) => {
   return (
     <Container>
-      <Title href={url} target="_blank" rel="noopener noreferrer">
+      <a href={url} target="_blank" rel="noopener noreferrer">
         {title}
-      </Title>
+      </a>
       <Subtitle>
         <Description value={shortDescription} />
       </Subtitle>

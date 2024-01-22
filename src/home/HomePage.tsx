@@ -1,7 +1,5 @@
-import HomeMenu from "./HomeMenu";
-
 const HomePage = () => {
-  return <HomeMenu />;
+  return null;
 };
 
 export default HomePage;

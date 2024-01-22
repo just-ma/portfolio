@@ -77,7 +77,7 @@ const PlaneObject = ({
     }
 
     return selected
-      ? [0, 2.52, 0]
+      ? [0, 2.2, 0]
       : [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
   };
 
@@ -147,7 +147,7 @@ const PlaneObject = ({
       return;
     }
 
-    setOpacity((prev) => prev + (optimisticOpacity.current - opacity) * 0.1);
+    setOpacity((prev) => prev + (optimisticOpacity.current - prev) * 0.1);
   });
 
   useEffect(() => {

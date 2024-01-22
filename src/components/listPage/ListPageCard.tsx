@@ -41,11 +41,13 @@ const Subtitle = styled.div<{ square?: boolean }>`
     height: fit-content;
 
     &::before {
-      content: "( ";
+      content: "(";
+      margin-right: 7px;
     }
 
     &::after {
-      content: " )";
+      content: ")";
+      margin-left: 7px;
     }
   }
 `;

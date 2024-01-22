@@ -7,12 +7,12 @@ const Hitbox = styled.div`
   height: 7vh;
   width: 8vh;
   position: absolute;
-  top: 3vh;
+  top: 10vh;
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: 10px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 1;
 `;
 
 const HeaderObjectHitbox = () => {
@@ -29,7 +29,7 @@ const HeaderObjectHitbox = () => {
       return;
     }
 
-    setShow(scroll < 90);
+    setShow(scroll < 100);
   };
 
   useEffect(() => {
