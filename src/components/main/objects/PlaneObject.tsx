@@ -5,16 +5,25 @@ import { OptionDefinition } from "../../../types";
 import { SpringValue, useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 import LaptopModel from "./LaptopModel";
+import HeadphonesModel from "./HeadphonesModel";
+import PlaceholderModel from "./PlaceholderModel";
+import CamcorderModel from "./CamcorderModel";
+import DiaryModel from "./DiaryModel";
+
+export type ModelProps = {
+  opacity: SpringValue<number>;
+  selected?: boolean;
+};
 
 const OPTION_TYPE_TO_COMPONENT: Record<
   OptionDefinition["type"],
-  () => JSX.Element
+  (props: ModelProps) => JSX.Element
 > = {
   website: LaptopModel,
-  blog: LaptopModel,
-  film: LaptopModel,
-  dj: LaptopModel,
-  about: LaptopModel,
+  blog: DiaryModel,
+  film: CamcorderModel,
+  dj: HeadphonesModel,
+  about: PlaceholderModel,
 };
 
 const PlaneObject = ({
@@ -43,10 +52,17 @@ const PlaneObject = ({
   };
 
   const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
+  const baseSelfRotation = itemAngle - 0.8;
   const baseYPosition = 0.25;
   const getPosition = (y?: number): Vector3 => {
     if (isHome) {
-      return [-Math.cos(itemAngle), y ?? baseYPosition, Math.sin(itemAngle)];
+      const multiplier = 1.2;
+
+      return [
+        -Math.cos(itemAngle) * multiplier,
+        (y ?? baseYPosition) * multiplier,
+        Math.sin(itemAngle) * multiplier,
+      ];
     }
 
     return selected
@@ -60,7 +76,7 @@ const PlaneObject = ({
         position: getPosition(),
         opacity: isHome || selected ? 1 : 0,
         scale: 0.5,
-        selfRotation: [0, -itemAngle, 0],
+        selfRotation: [0, baseSelfRotation, 0],
       },
     }),
     []
@@ -125,7 +141,7 @@ const PlaneObject = ({
   useEffect(() => {
     if (selected) {
       api.start({
-        selfRotation: [0, 2 * Math.PI - itemAngle, 0],
+        selfRotation: [0, 2 * Math.PI + baseSelfRotation, 0],
         loop: true,
         config: {
           duration: 30000,
@@ -133,7 +149,7 @@ const PlaneObject = ({
       });
     } else {
       api.start({
-        selfRotation: [0, -itemAngle, 0],
+        selfRotation: [0, baseSelfRotation, 0],
         config: {
           friction: 100,
         },
@@ -151,7 +167,7 @@ const PlaneObject = ({
         rotation={springs.selfRotation as any}
         onClick={handleClick}
       >
-        <ObjectComponent />
+        <ObjectComponent opacity={springs.opacity} selected={selected} />
       </animated.group>
     </animated.group>
   );

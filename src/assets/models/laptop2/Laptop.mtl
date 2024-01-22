@@ -1,6 +1,0 @@
-# Exported from Nomad Sculpt
-
-newmtl mesh
- map_Kd mesh_color_5.png
- map_roughness mesh_roughness_5.png
- map_metallic mesh_metalness_5.png

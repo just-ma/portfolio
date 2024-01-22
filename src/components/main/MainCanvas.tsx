@@ -116,7 +116,7 @@ const MainCanvas = ({
         />
       ))}
       <HomePlaneGeometry springs={springs} />
-      <ambientLight intensity={4} />
+      <ambientLight intensity={3} />
     </StyledCanvas>
   );
 };

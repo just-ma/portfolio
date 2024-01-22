@@ -1,11 +1,23 @@
 import { ObjectMap, useLoader } from "@react-three/fiber";
-import LaptopGLTF from "../../../assets/models/laptop/Laptop.glb 2";
+import LaptopGLTF from "../../../assets/models/laptop/Laptop.glb";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { ModelProps } from "./PlaneObject";
 
-const LaptopModel = () => {
+const LaptopModel = ({ selected }: ModelProps) => {
   const gltf = useLoader(GLTFLoader, LaptopGLTF) as GLTF & ObjectMap;
 
-  return <primitive object={gltf.scene} scale={3} position={[0, -0.3, -0.4]} />;
+  gltf.materials[""].opacity = 0.5;
+  gltf.materials[""].transparent = true;
+  // gltf.materials[""];
+
+  return (
+    <primitive
+      object={gltf.scene}
+      scale={3}
+      position={[0.04, -0.36, -0.55]}
+      rotation={[0, 0.05, 0]}
+    />
+  );
 };
 
 export default LaptopModel;

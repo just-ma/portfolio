@@ -13,7 +13,7 @@ const HomePlaneGeometry = ({
     opacity: SpringValue<number>;
   };
 }) => {
-  const texutre = useTexture<string>(OutlineTexture);
+  const texture = useTexture<string>(OutlineTexture);
 
   return (
     <animated.group rotation={springs.rotation as any} scale={springs.scale}>
@@ -22,7 +22,7 @@ const HomePlaneGeometry = ({
         <animated.meshBasicMaterial
           opacity={springs.opacity}
           transparent
-          map={texutre}
+          map={texture}
         />
       </mesh>
     </animated.group>
