@@ -8,11 +8,12 @@ import { useLocation } from "react-router-dom";
 import PlaneObject from "./objects/PlaneObject";
 import HomePlaneGeometry from "../../home/HomePlaneGeometry";
 import useAppContext from "../../hooks/useAppContext";
+import useScrollTop from "../../hooks/useScrollTop";
 
-const StyledCanvas = styled(Canvas)`
+const StyledCanvas = styled(Canvas)<{ scrollTop: number }>`
   position: absolute !important;
   z-index: -1;
-  top: 0;
+  top: ${({ scrollTop }) => -scrollTop}px;
   left: 0;
 `;
 
@@ -20,7 +21,10 @@ const MainCanvas = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const { hoveredOption } = useAppContext();
+  const { hoveredOption, scrollContainerRef } = useAppContext();
+  const scrollTop = useScrollTop(scrollContainerRef);
+
+  console.log({ scrollTop });
 
   const rotationY = useRef(0);
 
@@ -59,7 +63,7 @@ const MainCanvas = () => {
   }, [location.pathname]);
 
   return (
-    <StyledCanvas>
+    <StyledCanvas scrollTop={scrollTop}>
       <PerspectiveCamera position={[0, 3, 6]} makeDefault />
       <OrbitControls
         maxPolarAngle={1.1}

@@ -20,8 +20,8 @@ export const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AppProvider>
           <MainHeader />
           <MainMenu />
 
@@ -72,8 +72,8 @@ function App() {
             />
           </Routes>
           <MainCanvas />
-        </BrowserRouter>
-      </AppProvider>
+        </AppProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

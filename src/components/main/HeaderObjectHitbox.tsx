@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAppContext from "../../hooks/useAppContext";
+import useScrollTop from "../../hooks/useScrollTop";
 
-const Hitbox = styled.div`
+const Hitbox = styled.div<{ scrollTop: number }>`
   height: 7vh;
   width: 8vh;
   position: absolute;
-  top: 10vh;
+  top: calc(10vh - ${({ scrollTop }) => scrollTop});
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: 10px;
@@ -20,26 +20,7 @@ const HeaderObjectHitbox = () => {
   const navigate = useNavigate();
 
   const { scrollContainerRef } = useAppContext();
-
-  const [show, setShow] = useState(true);
-
-  const handleScroll = () => {
-    const scroll = scrollContainerRef?.current?.scrollTop;
-    if (scroll === undefined) {
-      return;
-    }
-
-    setShow(scroll < 100);
-  };
-
-  useEffect(() => {
-    const element = scrollContainerRef?.current;
-    element?.addEventListener("scroll", handleScroll);
-
-    return () => {
-      element?.removeEventListener("scroll", handleScroll);
-    };
-  }, [location.pathname]);
+  const scrollTop = useScrollTop(scrollContainerRef);
 
   const handleClick = () => {
     const arr = location.pathname.split("/");
@@ -51,11 +32,11 @@ const HeaderObjectHitbox = () => {
     }
   };
 
-  if (!show || location.pathname === "/") {
+  if (location.pathname === "/") {
     return null;
   }
 
-  return <Hitbox onClick={handleClick}></Hitbox>;
+  return <Hitbox onClick={handleClick} scrollTop={scrollTop}></Hitbox>;
 };
 
 export default HeaderObjectHitbox;

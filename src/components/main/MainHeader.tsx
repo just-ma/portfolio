@@ -5,6 +5,7 @@ import HeaderObjectHitbox from "./HeaderObjectHitbox";
 import useAppContext from "../../hooks/useAppContext";
 import useTextTyper from "../../hooks/useTextTyper";
 import { OPTION_TYPE_TO_LABEL } from "../../constants";
+import useScrollTop from "../../hooks/useScrollTop";
 
 const Title = styled(Link)<{ titleFont: TitleFont }>`
   position: absolute;
@@ -21,14 +22,16 @@ const Title = styled(Link)<{ titleFont: TitleFont }>`
   color: black;
 `;
 
-const Subtitle = styled.div`
+const Subtitle = styled.div<{ scrollTop: number }>`
   position: absolute;
-  top: 18vh;
+  top: calc(18vh - ${({ scrollTop }) => scrollTop}px);
   left: 50%;
   transform: translate(-50%, 0);
-  width: calc(100% - 20px);
+  width: fit-content;
+  max-width: calc(100% - 20px);
   text-align: center;
   font-size: 18px;
+  z-index: 1;
 `;
 
 const TitleBlock = styled.div`
@@ -66,7 +69,9 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const { animating, onAnimatingChange, pageTitle } = useAppContext();
+  const { animating, onAnimatingChange, pageTitle, scrollContainerRef } =
+    useAppContext();
+  const scrollTop = useScrollTop(scrollContainerRef);
 
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
 
@@ -125,7 +130,7 @@ const MainHeader = () => {
         <TitleBlock>SU</TitleBlock>
         <TitleBlock>J.</TitleBlock>
       </Title>
-      <Subtitle>
+      <Subtitle scrollTop={scrollTop}>
         {preSubtitle}
         {pageTitle.link ? (
           <>

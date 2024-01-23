@@ -27,16 +27,6 @@ const ScrollColumn = styled.div<{ gap?: number }>`
   gap: ${({ gap }) => gap}px;
   margin: 0 auto;
   box-sizing: border-box;
-  animation: fillIn 0s 0.3s forwards;
-
-  @keyframes fillIn {
-    from {
-      background-color: transparent;
-    }
-    to {
-      background-color: white;
-    }
-  }
 `;
 
 const ScrollContainer = ({

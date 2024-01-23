@@ -1,6 +1,10 @@
 import { Vector3, useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
-import { OPTION_TYPES, OPTION_TYPE_TO_ROOT_PATH } from "../../../constants";
+import {
+  OPTION_TYPES,
+  OPTION_TYPE_TO_ROOT_PATH,
+  throttle,
+} from "../../../constants";
 import { useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 import LaptopModel from "./LaptopModel";
@@ -187,6 +191,7 @@ const PlaneObject = ({
       scale={springs.scale}
       rotation={springs.rotation as any}
       onClick={handleClick}
+      onPointerEnter={throttle(jump)}
     >
       <ObjectComponent opacity={opacity} selected={selected} />
     </animated.group>
