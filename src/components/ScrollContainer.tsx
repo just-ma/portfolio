@@ -10,7 +10,6 @@ const ScrollColumn = styled.div<{ gap?: number; top?: number }>`
   gap: ${({ gap }) => gap}px;
   margin: ${({ top }) => top || 15}vh auto 0;
   padding: 0 10px 0;
-  /* padding: 35vh 10px 0; */
   box-sizing: border-box;
   overflow: hidden;
 `;

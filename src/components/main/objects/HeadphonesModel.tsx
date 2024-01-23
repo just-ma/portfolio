@@ -9,7 +9,7 @@ const HeadphonesModel = ({ selected, opacity }: ModelProps) => {
   const [springs] = useSpring(
     {
       scale: selected ? 3 : 3.6,
-      position: selected ? [-0.27, -0.47, -0.32] : [-0.3, -0.42, 0.65],
+      position: selected ? [-0.27, -0.5, -0.32] : [-0.3, -0.42, 0.65],
       rotation: selected ? [0, 1, 0] : [-1.7, 1, 0],
     },
     [selected]
