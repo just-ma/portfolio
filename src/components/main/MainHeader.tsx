@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import useTextTyper from "../../hooks/useTextTyper";
 import {
@@ -134,7 +134,7 @@ const MainHeader = () => {
   }, [pathname]);
 
   return (
-    <>
+    <Suspense>
       <Title
         titleFont={titleFont}
         onClick={() => onAnimatingChange(true)}
@@ -145,7 +145,7 @@ const MainHeader = () => {
         <TitleBlock>J.</TitleBlock>
       </Title>
       <Subtitle>{subtitle}</Subtitle>
-    </>
+    </Suspense>
   );
 };
 

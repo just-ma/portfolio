@@ -1,6 +1,6 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { OPTION_TYPES } from "../../constants";
 import { useSpring, animated } from "@react-spring/three";
@@ -15,13 +15,9 @@ const StyledCanvas = styled(Canvas)`
   z-index: -1;
   top: 0;
   left: 0;
-
-  /* @media screen and (max-width: 600px) {
-    top: 20vw;
-  } */
 `;
 
-const MainCanvas = () => {
+const CanvasContent = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
@@ -66,7 +62,7 @@ const MainCanvas = () => {
   const isMobile = useIsMobile();
 
   return (
-    <StyledCanvas>
+    <>
       <PerspectiveCamera position={[0, 3, 6]} makeDefault />
       <OrbitControls
         maxPolarAngle={1.1}
@@ -91,6 +87,16 @@ const MainCanvas = () => {
         <HomePlaneGeometry springs={springs} />
       </animated.group>
       <ambientLight intensity={3} />
+    </>
+  );
+};
+
+const MainCanvas = () => {
+  return (
+    <StyledCanvas>
+      <Suspense>
+        <CanvasContent />
+      </Suspense>
     </StyledCanvas>
   );
 };

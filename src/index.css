@@ -20,37 +20,53 @@ a {
 
 @font-face {
   font-family: "Banquise-Regular";
-  src: url(./assets/fonts/Banquise-Regular.otf) format("otf");
+  src: url(./assets/fonts/Banquise-Regular.otf) format("otf"),
+    url(./assets/fonts/Banquise-Regular.woff) format("woff"),
+    url(./assets/fonts/Banquise-Regular.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "BluuNext-Bold";
-  src: url(./assets/fonts/BluuNext-Bold.otf) format("otf");
+  src: url(./assets/fonts/BluuNext-Bold.otf) format("otf"),
+    url(./assets/fonts/BluuNext-Bold.woff) format("woff"),
+    url(./assets/fonts/BluuNext-Bold.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "Credible-Regular";
-  src: url(./assets/fonts/Credible-Regular.otf) format("otf");
+  src: url(./assets/fonts/Credible-Regular.otf) format("otf"),
+    url(./assets/fonts/Credible-Regular.woff) format("woff"),
+    url(./assets/fonts/Credible-Regular.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "FT88-Gothique";
-  src: url(./assets/fonts/FT88-Gothique.otf) format("otf");
+  src: url(./assets/fonts/FT88-Gothique.otf) format("otf"),
+    url(./assets/fonts/FT88-Gothique.ttf) format("ttf"),
+    url(./assets/fonts/FT88-Gothique.woff) format("woff"),
+    url(./assets/fonts/FT88-Gothique.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "Garamondt-Regular";
-  src: url(./assets/fonts/Garamondt-Regular.otf) format("otf");
+  src: url(./assets/fonts/Garamondt-Regular.otf) format("otf"),
+    url(./assets/fonts/Garamondt-Regular.woff) format("woff"),
+    url(./assets/fonts/Garamondt-Regular.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "kaerukaeru-Regular";
-  src: url(./assets/fonts/kaerukaeru-Regular.otf) format("otf");
+  src: url(./assets/fonts/kaerukaeru-Regular.otf) format("otf"),
+    url(./assets/fonts/kaerukaeru-Regular.ttf) format("ttf"),
+    url(./assets/fonts/kaerukaeru-Regular.woff) format("woff"),
+    url(./assets/fonts/kaerukaeru-Regular.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "Louise-Regular";
-  src: url(./assets/fonts/Louise-Regular.otf) format("otf");
+  src: url(./assets/fonts/Louise-Regular.otf) format("otf"),
+    url(./assets/fonts/Louise-Regular.woff) format("woff"),
+    url(./assets/fonts/Louise-Regular.woff2) format("woff2");
 }
 
 @font-face {
@@ -64,10 +80,15 @@ a {
 
 @font-face {
   font-family: "SyneMono-Regular";
-  src: url(./assets/fonts/SyneMono-Regular.otf) format("otf");
+  src: url(./assets/fonts/SyneMono-Regular.otf) format("otf"),
+    url(./assets/fonts/SyneMono-Regular.ttf) format("ttf"),
+    url(./assets/fonts/SyneMono-Regular.woff) format("woff"),
+    url(./assets/fonts/SyneMono-Regular.woff2) format("woff2");
 }
 
 @font-face {
   font-family: "terminal-grotesque_open";
-  src: url(./assets/fonts/terminal-grotesque_open.otf) format("otf");
+  src: url(./assets/fonts/terminal-grotesque_open.otf) format("otf"),
+    url(./assets/fonts/terminal-grotesque_open.woff) format("woff"),
+    url(./assets/fonts/terminal-grotesque_open.woff2) format("woff2");
 }

@@ -1,5 +1,5 @@
 import { Vector3, useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import {
   OPTION_TYPES,
   OPTION_TYPE_TO_ROOT_PATH,
@@ -69,10 +69,15 @@ const PlaneObject = ({
     navigate(exactSelected ? "/" : rootPath);
   };
 
-  const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
+  const itemAngle = (index - 1.3) * HOME_ITEM_ANGLE;
   const baseRotation = itemAngle - 0.8;
 
   const baseYPosition = 0.25;
+  const hiddenPosition: Vector3 = [
+    -Math.cos(itemAngle) * 2,
+    baseYPosition,
+    Math.sin(itemAngle) * 2,
+  ];
   const getPosition = (y?: number): Vector3 => {
     if (isHome) {
       const multiplier = 1.2;
@@ -88,13 +93,13 @@ const PlaneObject = ({
       return [0, (exactSelected ? 1.8 : 2.5) + (isMobile ? 1 : 0), 0];
     }
 
-    return [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
+    return hiddenPosition;
   };
 
   const [springs, api] = useSpring(
     () => ({
       from: {
-        position: getPosition(),
+        position: isHome ? hiddenPosition : getPosition(),
         scale: 0.5,
         rotation: [0, baseRotation, 0],
       },
@@ -190,15 +195,17 @@ const PlaneObject = ({
   });
 
   return (
-    <animated.group
-      position={springs.position as any}
-      scale={springs.scale}
-      rotation={springs.rotation as any}
-      onClick={handleClick}
-      onPointerEnter={handlePointerEnter}
-    >
-      <ObjectComponent opacity={opacity} selected={selected} />
-    </animated.group>
+    <Suspense fallback={null}>
+      <animated.group
+        position={springs.position as any}
+        scale={springs.scale}
+        rotation={springs.rotation as any}
+        onClick={handleClick}
+        onPointerEnter={handlePointerEnter}
+      >
+        <ObjectComponent opacity={opacity} selected={selected} />
+      </animated.group>
+    </Suspense>
   );
 };
 

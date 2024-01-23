@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { OptionType } from "../../sanity";
 import {
@@ -7,7 +7,7 @@ import {
   OPTION_TYPE_TO_ROOT_PATH,
 } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 import useIsMobile from "../../hooks/useMobile";
 
@@ -88,16 +88,18 @@ const MainMenu = () => {
   };
 
   return (
-    <Container onMouseLeave={handleMouseLeave}>
-      {OPTION_TYPES.map((type) => (
-        <MenuItem
-          type={type}
-          key={type}
-          hovering={hoveredOption === type}
-          onHoveredOptionChange={onHoveredOptionChange}
-        />
-      ))}
-    </Container>
+    <Suspense>
+      <Container onMouseLeave={handleMouseLeave}>
+        {OPTION_TYPES.map((type) => (
+          <MenuItem
+            type={type}
+            key={type}
+            hovering={hoveredOption === type}
+            onHoveredOptionChange={onHoveredOptionChange}
+          />
+        ))}
+      </Container>
+    </Suspense>
   );
 };
 
