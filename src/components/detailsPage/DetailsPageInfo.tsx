@@ -4,7 +4,7 @@ import Description from "../Description";
 
 const Container = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   gap: 10px;
   margin-bottom: 50px;
@@ -30,9 +30,18 @@ const Subtitle = styled.div`
   }
 `;
 
-const DetailsPageInfo = ({ document }: { document: DocumentDefinition }) => {
+const DetailsPageInfo = ({
+  document,
+  url,
+}: {
+  document: DocumentDefinition;
+  url: string;
+}) => {
   return (
     <Container>
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {document.title}
+      </a>
       <Subtitle>
         <Description value={document.shortDescription} />
       </Subtitle>

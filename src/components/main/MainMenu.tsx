@@ -7,59 +7,59 @@ import {
   OPTION_TYPE_TO_ROOT_PATH,
 } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
+import useIsMobile from "../../hooks/useMobile";
 
 const Container = styled.div`
   position: absolute;
-  top: 45px;
-  left: 25px;
+  top: calc(3vw + 0.5vh + 35px);
+  left: max(calc(30vw - 150px), 25px);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  user-select: none;
+  pointer-events: none;
 `;
 
 const StyledLink = styled(Link)`
-  font-size: 18px;
+  font-size: calc(3vw + 3vh);
   width: fit-content;
-  min-width: 60px;
+  pointer-events: all;
 `;
 
 const MenuItem = ({
   type,
+  hovering,
   onHoveredOptionChange,
-  scrollToTop,
 }: {
   type: OptionType;
-  onHoveredOptionChange: (value: OptionType) => void;
-  scrollToTop: () => void;
+  hovering: boolean;
+  onHoveredOptionChange: (value: OptionType | null) => void;
 }) => {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
   const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
 
-  const [hovering, setHovering] = useState(false);
-
   useEffect(() => {
-    setHovering(false);
+    onHoveredOptionChange(null);
   }, [pathname]);
 
   const preLabel = useTextTyper("( ", hovering && isHome);
   const label = useTextTyper(OPTION_TYPE_TO_LABEL[type], isHome);
   const postLabel = useTextTyper(" )", hovering && isHome);
 
+  const isMobile = useIsMobile();
+
   const handleMouseEnter = () => {
-    onHoveredOptionChange(type);
-    setHovering(true);
+    if (!isMobile) {
+      onHoveredOptionChange(type);
+    }
   };
 
   const handleMouseLeave = () => {
-    setHovering(false);
-  };
-
-  const handleClick = () => {
-    if (pathname === rootPath) {
-      scrollToTop();
+    if (!isMobile) {
+      onHoveredOptionChange(null);
     }
   };
 
@@ -72,7 +72,6 @@ const MenuItem = ({
       to={rootPath}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
     >
       {preLabel}
       {label}
@@ -82,17 +81,10 @@ const MenuItem = ({
 };
 
 const MainMenu = () => {
-  const { onHoveredOptionChange, scrollContainerRef } = useAppContext();
+  const { hoveredOption, onHoveredOptionChange } = useAppContext();
 
   const handleMouseLeave = () => {
     onHoveredOptionChange(null);
-  };
-
-  const scrollToTop = () => {
-    scrollContainerRef?.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   return (
@@ -101,8 +93,8 @@ const MainMenu = () => {
         <MenuItem
           type={type}
           key={type}
+          hovering={hoveredOption === type}
           onHoveredOptionChange={onHoveredOptionChange}
-          scrollToTop={scrollToTop}
         />
       ))}
     </Container>

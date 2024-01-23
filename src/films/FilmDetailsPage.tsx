@@ -8,7 +8,6 @@ import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
 import Description from "../components/Description";
 import useDocument from "../hooks/useDocument";
 import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
-import usePageTitleSetter from "../hooks/usePageTitleSetter";
 
 const StyledQuote = styled(Quote)`
   margin-bottom: 50px;
@@ -21,8 +20,6 @@ const FilmDetailsPage = () => {
 
   const { data: film } = useDocument("film", filmId);
 
-  usePageTitleSetter("film", film?.title, film?.video.externalUrl);
-
   if (!filmId || !film) {
     return null;
   }
@@ -32,7 +29,7 @@ const FilmDetailsPage = () => {
   return (
     <ScrollContainer>
       <VideoBlockComponent value={video} />
-      <DetailsPageInfo document={film} />
+      <DetailsPageInfo document={film} url={video.externalUrl} />
       <StyledQuote>{quote}</StyledQuote>
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["film"]} />

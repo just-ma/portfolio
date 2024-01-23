@@ -5,8 +5,6 @@ import styled from "styled-components";
 const Image = styled.img`
   max-height: 600px;
   max-width: 100%;
-  height: fit-content;
-  width: fit-content;
   align-self: center;
 `;
 

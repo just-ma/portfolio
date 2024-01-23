@@ -7,7 +7,6 @@ import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
 import useDocument from "../hooks/useDocument";
 import Thumbnail from "../components/Thumbnail";
 import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
-import usePageTitleSetter from "../hooks/usePageTitleSetter";
 
 const WebsiteDetailsPage = () => {
   const { websiteId } = useParams<{
@@ -16,18 +15,16 @@ const WebsiteDetailsPage = () => {
 
   const { data: website } = useDocument("website", websiteId);
 
-  usePageTitleSetter("website", website?.title, website?.url);
-
   if (!websiteId || !website) {
     return null;
   }
 
-  const { thumbnail, description } = website;
+  const { thumbnail, description, url } = website;
 
   return (
     <ScrollContainer>
       <Thumbnail src={urlFor(thumbnail).url()} />
-      <DetailsPageInfo document={website} />
+      <DetailsPageInfo document={website} url={url} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["website"]} />
     </ScrollContainer>

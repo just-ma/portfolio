@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import HeaderObjectHitbox from "./HeaderObjectHitbox";
 import useAppContext from "../../hooks/useAppContext";
 import useTextTyper from "../../hooks/useTextTyper";
-import { OPTION_TYPE_TO_LABEL } from "../../constants";
-import useScrollTop from "../../hooks/useScrollTop";
+import {
+  OPTION_TYPES,
+  OPTION_TYPE_TO_LABEL,
+  OPTION_TYPE_TO_ROOT_PATH,
+} from "../../constants";
+import { OptionType } from "../../sanity";
 
 const Title = styled(Link)<{ titleFont: TitleFont }>`
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 1;
+  z-index: 2;
   line-height: 24px;
   font-family: "${({ titleFont }) => titleFont.family}";
   font-size: ${({ titleFont }) => titleFont.size}px;
@@ -20,18 +23,19 @@ const Title = styled(Link)<{ titleFont: TitleFont }>`
   text-decoration: none;
   text-transform: uppercase;
   color: black;
+  user-select: none;
 `;
 
-const Subtitle = styled.div<{ scrollTop: number }>`
+const Subtitle = styled.div`
   position: absolute;
-  top: calc(18vh - ${({ scrollTop }) => scrollTop}px);
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: fit-content;
-  max-width: calc(100% - 20px);
+  top: 35vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 18px;
-  z-index: 1;
+  font-size: 16px;
+  z-index: -1;
+  pointer-events: none;
+  color: blue;
 `;
 
 const TitleBlock = styled.div`
@@ -69,21 +73,31 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const { animating, onAnimatingChange, pageTitle, scrollContainerRef } =
-    useAppContext();
-  const scrollTop = useScrollTop(scrollContainerRef);
+  const { animating, onAnimatingChange } = useAppContext();
 
+  const [optionType, setOptionType] = useState<OptionType | undefined>();
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
 
-  const preSubtitle = useTextTyper(
-    pageTitle.optionType ? OPTION_TYPE_TO_LABEL[pageTitle.optionType] : "",
-    !!pageTitle.optionType
+  useEffect(() => {
+    if (pathname === "/") {
+      return;
+    }
+
+    const match = OPTION_TYPES.find((type) =>
+      pathname.startsWith(OPTION_TYPE_TO_ROOT_PATH[type])
+    );
+
+    setOptionType(match);
+  }, [pathname]);
+
+  const subtitle = useTextTyper(
+    optionType ? `( ${OPTION_TYPE_TO_LABEL[optionType]} )` : "",
+    !!optionType && pathname === OPTION_TYPE_TO_ROOT_PATH[optionType]
   );
 
-  const postSubtitle = useTextTyper(
-    ` - ${pageTitle.title || ""}`,
-    !!pageTitle.title
-  );
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
@@ -130,20 +144,7 @@ const MainHeader = () => {
         <TitleBlock>SU</TitleBlock>
         <TitleBlock>J.</TitleBlock>
       </Title>
-      <Subtitle scrollTop={scrollTop}>
-        {preSubtitle}
-        {pageTitle.link ? (
-          <>
-            {postSubtitle.slice(0, 3)}
-            <a href={pageTitle.link} target="_blank" rel="noopener noreferrer">
-              {postSubtitle.slice(3)}
-            </a>
-          </>
-        ) : (
-          postSubtitle
-        )}
-      </Subtitle>
-      <HeaderObjectHitbox />
+      <Subtitle>{subtitle}</Subtitle>
     </>
   );
 };

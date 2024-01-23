@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   margin: 40% 0;
   cursor: pointer;
+  user-select: none;
 `;
 
 const Underline = styled.span`

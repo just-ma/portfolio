@@ -6,13 +6,13 @@ import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 const getShift = (documentType: DocumentType, index: number) => {
   switch (documentType) {
     case "website": {
-      return 40 * ((index + 2) % 3);
+      return 0.2 * ((index + 2) % 3);
     }
     case "film": {
-      return 80 * (Math.abs(2 - index) % 3);
+      return 0.3 * (Math.abs(2 - index) % 3);
     }
     case "dj": {
-      return 70 * ((index + 3) % 4) + 30;
+      return 0.18 * ((index + 3) % 4) + 0.1;
     }
     default: {
       return 0;
@@ -42,11 +42,11 @@ const CardPosition = styled.div<{ align: string; shift: number }>`
     align === "left"
       ? css`
           margin-left: auto;
-          padding-right: min(${shift}px, calc(100% - 300px));
+          padding-right: calc(${shift} * calc(100% - 300px));
         `
       : css`
           margin-right: auto;
-          padding-left: min(${shift}px, calc(100% - 300px));
+          padding-left: calc(${shift} * calc(100% - 300px));
         `};
 `;
 

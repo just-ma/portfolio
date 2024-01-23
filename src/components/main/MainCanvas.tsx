@@ -8,23 +8,24 @@ import { useLocation } from "react-router-dom";
 import PlaneObject from "./objects/PlaneObject";
 import HomePlaneGeometry from "../../home/HomePlaneGeometry";
 import useAppContext from "../../hooks/useAppContext";
-import useScrollTop from "../../hooks/useScrollTop";
+import useIsMobile from "../../hooks/useMobile";
 
-const StyledCanvas = styled(Canvas)<{ scrollTop: number }>`
+const StyledCanvas = styled(Canvas)`
   position: absolute !important;
   z-index: -1;
-  top: ${({ scrollTop }) => -scrollTop}px;
+  top: 0;
   left: 0;
+
+  /* @media screen and (max-width: 600px) {
+    top: 20vw;
+  } */
 `;
 
 const MainCanvas = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const { hoveredOption, scrollContainerRef } = useAppContext();
-  const scrollTop = useScrollTop(scrollContainerRef);
-
-  console.log({ scrollTop });
+  const { hoveredOption } = useAppContext();
 
   const rotationY = useRef(0);
 
@@ -62,8 +63,10 @@ const MainCanvas = () => {
     });
   }, [location.pathname]);
 
+  const isMobile = useIsMobile();
+
   return (
-    <StyledCanvas scrollTop={scrollTop}>
+    <StyledCanvas>
       <PerspectiveCamera position={[0, 3, 6]} makeDefault />
       <OrbitControls
         maxPolarAngle={1.1}
@@ -73,7 +76,10 @@ const MainCanvas = () => {
         autoRotate
         autoRotateSpeed={-0.5}
       />
-      <animated.group rotation={springs.rotation as any}>
+      <animated.group
+        rotation={springs.rotation as any}
+        position={[0, isMobile ? -1 : 0, 0]}
+      >
         {OPTION_TYPES.map((type, index) => (
           <PlaneObject
             key={type}

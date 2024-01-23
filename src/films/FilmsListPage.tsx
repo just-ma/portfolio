@@ -3,15 +3,12 @@ import ScrollContainer from "../components/ScrollContainer";
 import ListPageCard from "../components/listPage/ListPageCard";
 import Quote from "./Quote";
 import useDocuments from "../hooks/useDocuments";
-import usePageTitleSetter from "../hooks/usePageTitleSetter";
 
 const FilmsPage = () => {
   const { data } = useDocuments("film");
 
-  usePageTitleSetter("film");
-
   return (
-    <ScrollContainer gap={60}>
+    <ScrollContainer gap={60} top={50}>
       {data?.map((film, index) => (
         <ListPageCard key={film.slug.current} index={index} document={film}>
           <Quote>{film.quote}</Quote>

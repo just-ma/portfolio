@@ -14,6 +14,7 @@ import CamcorderModel from "./CamcorderModel";
 import DiaryModel from "./DiaryModel";
 import { OptionType } from "../../../sanity";
 import useAppContext from "../../../hooks/useAppContext";
+import useIsMobile from "../../../hooks/useMobile";
 
 const HOME_ITEM_ANGLE = (2 * Math.PI) / OPTION_TYPES.length;
 
@@ -62,12 +63,15 @@ const PlaneObject = ({
   const optimisticOpacity = useRef(getOpacity());
   const [opacity, setOpacity] = useState(0);
 
+  const isMobile = useIsMobile();
+
   const handleClick = () => {
     navigate(exactSelected ? "/" : rootPath);
   };
 
   const itemAngle = (index + 1.1) * HOME_ITEM_ANGLE;
   const baseRotation = itemAngle - 0.8;
+
   const baseYPosition = 0.25;
   const getPosition = (y?: number): Vector3 => {
     if (isHome) {
@@ -80,9 +84,11 @@ const PlaneObject = ({
       ];
     }
 
-    return selected
-      ? [0, 2.2, 0]
-      : [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
+    if (selected) {
+      return [0, (exactSelected ? 1.8 : 2.5) + (isMobile ? 1 : 0), 0];
+    }
+
+    return [-Math.cos(itemAngle) * 2, baseYPosition, Math.sin(itemAngle) * 2];
   };
 
   const [springs, api] = useSpring(
@@ -130,7 +136,7 @@ const PlaneObject = ({
   useEffect(() => {
     api.start({
       position: getPosition(),
-      scale: isHome ? 1 : selected ? 0.7 : 0.5,
+      scale: isHome ? 1 : selected ? (exactSelected ? 2 : 0.7) : 0.5,
       config: {
         bounce: selected ? 2 : 0,
         friction: 20,
@@ -161,12 +167,6 @@ const PlaneObject = ({
   }, [animating, isHome]);
 
   useEffect(() => {
-    if (isHome && animating) {
-      jump(true);
-    }
-  }, [animating, isHome]);
-
-  useEffect(() => {
     if (selected) {
       api.start({
         rotation: [0, -2 * Math.PI + baseRotation, 0],
@@ -185,13 +185,17 @@ const PlaneObject = ({
     }
   }, [selected]);
 
+  const handlePointerEnter = throttle(() => {
+    jump();
+  });
+
   return (
     <animated.group
       position={springs.position as any}
       scale={springs.scale}
       rotation={springs.rotation as any}
       onClick={handleClick}
-      onPointerEnter={throttle(jump)}
+      onPointerEnter={handlePointerEnter}
     >
       <ObjectComponent opacity={opacity} selected={selected} />
     </animated.group>

@@ -19,7 +19,9 @@ const useTextTyper = (text: string, show: boolean) => {
     };
   }, [text, show, index]);
 
-  return (lastText.length > text.length ? lastText : text).slice(0, index);
+  const displayedText = lastText.length > text.length ? lastText : text;
+
+  return displayedText.slice(0, index);
 };
 
 export default useTextTyper;

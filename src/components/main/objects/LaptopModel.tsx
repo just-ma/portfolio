@@ -9,7 +9,7 @@ const LaptopModel = ({ selected, opacity }: ModelProps) => {
   const [springs] = useSpring(
     {
       scale: selected ? 2.5 : 3.4,
-      position: selected ? [0.0, -0.33, -0.5] : [0.04, -0.38, -0.55],
+      position: selected ? [0.0, -0.28, -0.5] : [0.04, -0.38, -0.55],
     },
     [selected]
   );

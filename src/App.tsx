@@ -7,7 +7,7 @@ import MainCanvas from "./components/main/MainCanvas";
 import { AppProvider } from "./hooks/useAppContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WebsiteDetailsPage from "./websites/WebsiteDetailsPage";
-import PhotosPage from "./photos/PhotosPage";
+import BlogListPage from "./blog/BlogListPage";
 import MainHeader from "./components/main/MainHeader";
 import FilmDetailsPage from "./films/FilmDetailsPage";
 import AboutPage from "./about/AboutPage";
@@ -62,7 +62,7 @@ function App() {
             {/* blog */}
             <Route
               path={OPTION_TYPE_TO_ROOT_PATH["blog"]}
-              element={<PhotosPage />}
+              element={<BlogListPage />}
             />
 
             {/* about */}

@@ -1,15 +1,16 @@
 body {
   margin: 0;
-  font-family: 'Sligoil-Micro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Sligoil-Micro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 a {
@@ -18,51 +19,55 @@ a {
 }
 
 @font-face {
-  font-family: 'Banquise-Regular';
-  src: local('Banquise-Regular'), url(./assets/fonts/Banquise-Regular.otf) format('otf');
+  font-family: "Banquise-Regular";
+  src: url(./assets/fonts/Banquise-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'BluuNext-Bold';
-  src: local('BluuNext-Bold'), url(./assets/fonts/BluuNext-Bold.otf) format('otf');
+  font-family: "BluuNext-Bold";
+  src: url(./assets/fonts/BluuNext-Bold.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'Credible-Regular';
-  src: local('Credible-Regular'), url(./assets/fonts/Credible-Regular.otf) format('otf');
+  font-family: "Credible-Regular";
+  src: url(./assets/fonts/Credible-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'FT88-Gothique';
-  src: local('FT88-Gothique'), url(./assets/fonts/FT88-Gothique.otf) format('otf');
+  font-family: "FT88-Gothique";
+  src: url(./assets/fonts/FT88-Gothique.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'Garamondt-Regular';
-  src: local('Garamondt-Regular'), url(./assets/fonts/Garamondt-Regular.otf) format('otf');
+  font-family: "Garamondt-Regular";
+  src: url(./assets/fonts/Garamondt-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'kaerukaeru-Regular';
-  src: local('kaerukaeru-Regular'), url(./assets/fonts/kaerukaeru-Regular.otf) format('otf');
+  font-family: "kaerukaeru-Regular";
+  src: url(./assets/fonts/kaerukaeru-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'Louise-Regular';
-  src: local('Louise-Regular'), url(./assets/fonts/Louise-Regular.otf) format('otf');
+  font-family: "Louise-Regular";
+  src: url(./assets/fonts/Louise-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'Sligoil-Micro';
-  src: local('Sligoil-Micro'), url(./assets/fonts/Sligoil-Micro.otf) format('otf');
+  font-family: "Sligoil-Micro";
+  src: url(./assets/fonts/Sligoil-Micro.otf) format("otf"),
+    url(./assets/fonts/Sligoil-Micro.svg) format("svg"),
+    url(./assets/fonts/Sligoil-Micro.ttf) format("ttf"),
+    url(./assets/fonts/Sligoil-Micro.woff) format("woff"),
+    url(./assets/fonts/Sligoil-Micro.woff2) format("woff2");
 }
 
 @font-face {
-  font-family: 'SyneMono-Regular';
-  src: local('SyneMono-Regular'), url(./assets/fonts/SyneMono-Regular.otf) format('otf');
+  font-family: "SyneMono-Regular";
+  src: url(./assets/fonts/SyneMono-Regular.otf) format("otf");
 }
 
 @font-face {
-  font-family: 'terminal-grotesque_open';
-  src: local('terminal-grotesque_open'), url(./assets/fonts/terminal-grotesque_open.otf) format('otf');
+  font-family: "terminal-grotesque_open";
+  src: url(./assets/fonts/terminal-grotesque_open.otf) format("otf");
 }
