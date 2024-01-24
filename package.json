@@ -30,8 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && echo 'nit-su-j.online' > ./build/CNAME && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
