@@ -24,6 +24,11 @@ export const OPTION_TYPE_TO_LABEL: Record<OptionType, string> = {
   about: "about",
 };
 
+export const MEDIA_SIZE = {
+  mobile: "screen and (max-width: 600px)",
+  desktop: "screen and (min-width: 601px)",
+};
+
 export const debounce = (func: Function, timeout: number = 400) => {
   let timeoutId: NodeJS.Timeout;
 

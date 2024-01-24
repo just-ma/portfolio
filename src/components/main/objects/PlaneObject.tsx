@@ -150,7 +150,7 @@ const PlaneObject = ({
     });
 
     optimisticOpacity.current = getOpacity();
-  }, [currentPath]);
+  }, [currentPath, isMobile]);
 
   useFrame(() => {
     if (optimisticOpacity.current === opacity) {

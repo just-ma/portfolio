@@ -8,7 +8,7 @@ const FilmsPage = () => {
   const { data } = useDocuments("film");
 
   return (
-    <ScrollContainer gap={60} top={50}>
+    <ScrollContainer listPage>
       {data?.map((film, index) => (
         <ListPageCard key={film.slug.current} index={index} document={film}>
           <Quote>{film.quote}</Quote>

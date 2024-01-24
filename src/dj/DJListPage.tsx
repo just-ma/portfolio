@@ -7,7 +7,7 @@ const DJListPage = () => {
   const { data } = useDocuments("dj");
 
   return (
-    <ScrollContainer gap={60} top={50}>
+    <ScrollContainer listPage>
       {data?.map((dj, index) => (
         <ListPageCard
           key={dj.slug.current}

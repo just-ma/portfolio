@@ -18,7 +18,7 @@ const AboutPage = () => {
   }
 
   return (
-    <ScrollContainer top={50}>
+    <ScrollContainer listPage>
       <Description value={data.description} />
       <BackFooter />
     </ScrollContainer>

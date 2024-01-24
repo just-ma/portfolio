@@ -7,7 +7,7 @@ const BlogsListPage = () => {
   const { data } = useDocuments("blog");
 
   return (
-    <ScrollContainer gap={60} top={50}>
+    <ScrollContainer listPage>
       {data?.map((blog, index) => (
         <ListPageCard
           key={blog.slug.current}
