@@ -172,10 +172,10 @@ const PlaneObject = ({
   });
 
   useEffect(() => {
-    if (isHome && animating) {
+    if (!init || (isHome && animating)) {
       jump(true);
     }
-  }, [animating, isHome]);
+  }, [animating, isHome, init]);
 
   useEffect(() => {
     if (selected) {
