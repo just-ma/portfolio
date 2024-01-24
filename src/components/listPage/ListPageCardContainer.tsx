@@ -14,6 +14,9 @@ const getShift = (documentType: DocumentType, index: number) => {
     case "dj": {
       return 0.18 * ((index + 3) % 4) + 0.1;
     }
+    case "blog": {
+      return 0.4 * ((index + 1) % 3);
+    }
     default: {
       return 0;
     }
@@ -31,22 +34,29 @@ const getAlign = (documentType: DocumentType, index: number) => {
     case "dj": {
       return (index + 1) % 3 < 2 ? "right" : "left";
     }
+    case "blog": {
+      return index % 4 < 2 ? "right" : "left";
+    }
     default: {
       return "left";
     }
   }
 };
 
-const CardPosition = styled.div<{ align: string; shift: number }>`
-  ${({ align, shift }) =>
+const CardPosition = styled.div<{
+  align: string;
+  shift: number;
+  square?: boolean;
+}>`
+  ${({ align, shift, square }) =>
     align === "left"
       ? css`
           margin-left: auto;
-          padding-right: calc(${shift} * calc(100% - 300px));
+          padding-right: calc(${shift} * calc(100% - ${square ? 180 : 300}px));
         `
       : css`
           margin-right: auto;
-          padding-left: calc(${shift} * calc(100% - 300px));
+          padding-left: calc(${shift} * calc(100% - ${square ? 180 : 300}px));
         `};
 `;
 
@@ -79,7 +89,11 @@ const ListPageCardContainer = ({
   };
 
   return (
-    <CardPosition align={getAlign(_type, index)} shift={getShift(_type, index)}>
+    <CardPosition
+      align={getAlign(_type, index)}
+      shift={getShift(_type, index)}
+      square={square}
+    >
       <Card onClick={handleClick} className={className} square={square}>
         {children}
       </Card>

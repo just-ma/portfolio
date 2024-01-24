@@ -14,6 +14,7 @@ import AboutPage from "./about/AboutPage";
 import DJDetailsPage from "./dj/DJDetailsPage";
 import { OPTION_TYPE_TO_ROOT_PATH } from "./constants";
 import MainMenu from "./components/main/MainMenu";
+import BlogDetailsPage from "./blog/BlogDetailsPage";
 
 export const queryClient = new QueryClient();
 
@@ -63,6 +64,10 @@ function App() {
             <Route
               path={OPTION_TYPE_TO_ROOT_PATH["blog"]}
               element={<BlogListPage />}
+            />
+            <Route
+              path={`${OPTION_TYPE_TO_ROOT_PATH["blog"]}/:blogId`}
+              element={<BlogDetailsPage />}
             />
 
             {/* about */}

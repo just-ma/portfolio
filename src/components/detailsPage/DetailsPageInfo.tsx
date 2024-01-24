@@ -35,13 +35,17 @@ const DetailsPageInfo = ({
   url,
 }: {
   document: DocumentDefinition;
-  url: string;
+  url?: string;
 }) => {
   return (
     <Container>
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        {document.title}
-      </a>
+      {url ? (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {document.title}
+        </a>
+      ) : (
+        <div>{document.title}</div>
+      )}
       <Subtitle>
         <Description value={document.shortDescription} />
       </Subtitle>

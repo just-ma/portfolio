@@ -3,7 +3,7 @@ import ScrollContainer from "../components/ScrollContainer";
 import useDocuments from "../hooks/useDocuments";
 import ListPageCard from "../components/listPage/ListPageCard";
 
-const DJsPage = () => {
+const DJListPage = () => {
   const { data } = useDocuments("dj");
 
   return (
@@ -21,4 +21,4 @@ const DJsPage = () => {
   );
 };
 
-export default DJsPage;
+export default DJListPage;

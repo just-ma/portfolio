@@ -1,13 +1,24 @@
 import BackFooter from "../components/BackFooter";
 import ScrollContainer from "../components/ScrollContainer";
+import useDocuments from "../hooks/useDocuments";
+import ListPageCard from "../components/listPage/ListPageCard";
 
-const BlogListPage = () => {
+const BlogsListPage = () => {
+  const { data } = useDocuments("blog");
+
   return (
     <ScrollContainer gap={60} top={50}>
-      blogs coming
+      {data?.map((blog, index) => (
+        <ListPageCard
+          key={blog.slug.current}
+          document={blog}
+          index={index}
+          square
+        />
+      ))}
       <BackFooter />
     </ScrollContainer>
   );
 };
 
-export default BlogListPage;
+export default BlogsListPage;
