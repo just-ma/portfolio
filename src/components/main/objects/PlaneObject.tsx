@@ -62,6 +62,7 @@ const PlaneObject = ({
 
   const optimisticOpacity = useRef(getOpacity());
   const [opacity, setOpacity] = useState(0);
+  const [init, setInit] = useState(!isHome);
 
   const isMobile = useIsMobile();
 
@@ -113,6 +114,8 @@ const PlaneObject = ({
     api.start({
       to: async (next) => {
         await new Promise((resolve) => setTimeout(resolve, delay));
+        optimisticOpacity.current = getOpacity();
+        setInit(true);
         await next({
           position: getPosition(0.8),
           config: {
@@ -120,6 +123,7 @@ const PlaneObject = ({
             duration: 100,
           },
         });
+
         await next({
           position: getPosition(),
           config: {
@@ -149,11 +153,13 @@ const PlaneObject = ({
       },
     });
 
-    optimisticOpacity.current = getOpacity();
+    if (!isHome || selected) {
+      optimisticOpacity.current = getOpacity();
+    }
   }, [currentPath, isMobile]);
 
   useFrame(() => {
-    if (optimisticOpacity.current === opacity) {
+    if (optimisticOpacity.current === opacity || init === false) {
       return;
     }
 

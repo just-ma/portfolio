@@ -96,10 +96,6 @@ const MainHeader = () => {
   );
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname]);
-
-  useEffect(() => {
     const timeoutId = setInterval(() => {
       onAnimatingChange(false);
       setTitleFont(DEFAULT_FONT);

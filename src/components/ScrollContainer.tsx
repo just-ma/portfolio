@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import useIsMobile from "../hooks/useMobile";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const ScrollColumn = styled.div<{ listPage?: boolean }>`
   width: 100%;
@@ -34,7 +36,14 @@ const ScrollContainer = ({
   children: React.ReactNode;
   listPage?: boolean;
 }) => {
+  const { pathname } = useLocation();
+
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    console.log("ay");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
 
   return (
     <ScrollColumn listPage={listPage}>

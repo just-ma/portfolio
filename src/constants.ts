@@ -29,7 +29,7 @@ export const MEDIA_SIZE = {
   desktop: "screen and (min-width: 601px)",
 };
 
-export const debounce = (func: Function, timeout: number = 400) => {
+export const debounce = (func: Function, timeout: number = 700) => {
   let timeoutId: NodeJS.Timeout;
 
   return () => {
@@ -40,7 +40,7 @@ export const debounce = (func: Function, timeout: number = 400) => {
   };
 };
 
-export const throttle = (func: Function, timeout: number = 400) => {
+export const throttle = (func: Function, timeout: number = 700) => {
   let timeoutId: NodeJS.Timeout | undefined;
 
   return () => {

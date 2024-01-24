@@ -46,7 +46,11 @@ const MenuItem = ({
   }, [pathname]);
 
   const preLabel = useTextTyper("( ", hovering && isHome);
-  const label = useTextTyper(OPTION_TYPE_TO_LABEL[type], isHome);
+  const typedLabel = useTextTyper(
+    OPTION_TYPE_TO_LABEL[type],
+    isHome,
+    isHome ? 300 + OPTION_TYPES.indexOf(type) * 100 : 0
+  );
   const postLabel = useTextTyper(" )", hovering && isHome);
 
   const isMobile = useIsMobile();
@@ -63,7 +67,7 @@ const MenuItem = ({
     }
   };
 
-  if (!preLabel && !label && !postLabel) {
+  if (!preLabel && !typedLabel && !postLabel) {
     return null;
   }
 
@@ -74,7 +78,7 @@ const MenuItem = ({
       onMouseLeave={handleMouseLeave}
     >
       {preLabel}
-      {label}
+      {typedLabel}
       {postLabel}
     </StyledLink>
   );
