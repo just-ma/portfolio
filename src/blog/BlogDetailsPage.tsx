@@ -9,6 +9,10 @@ import { urlFor } from "../sanity";
 import styled from "styled-components";
 import Thumbnail from "../components/Thumbnail";
 
+const StyledThumbnail = styled(Thumbnail)`
+  max-width: 400px;
+`;
+
 const Info = styled(DetailsPageInfo)`
   max-width: 400px;
 `;
@@ -28,7 +32,7 @@ const BlogDetailsPage = () => {
 
   return (
     <ScrollContainer>
-      <Thumbnail src={urlFor(thumbnail).url()} square />
+      <StyledThumbnail src={urlFor(thumbnail).url()} square />
       <Info document={blog} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />

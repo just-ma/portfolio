@@ -69,7 +69,7 @@ export const client = createClient({
 });
 
 const getDocumentsQuery = (type: DocumentType) =>
-  `*[_type == "${type}"]{
+  `*[_type == "${type}" && hidden != true]{
     ...,
     "description": null
   } | order(order asc, timestamp desc)`;
