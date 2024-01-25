@@ -68,16 +68,27 @@ export const client = createClient({
   apiVersion: "2024-01-11",
 });
 
-const getDocumentsQuery = (type: DocumentType, slug?: string) =>
-  `*[_type == "${type}"${
-    slug ? ` && slug.current == "${slug}"` : ""
-  }] | order(order asc, timestamp desc)`;
+const getDocumentsQuery = (type: DocumentType) =>
+  `*[_type == "${type}"]{
+    ...,
+    "description": null
+  } | order(order asc, timestamp desc)`;
+
+const getDocumentQuery = (type: DocumentType, slug: string) =>
+  `*[_type == "${type}"${slug ? ` && slug.current == "${slug}"` : ""}]`;
 
 export const getDocuments = async <T extends DocumentType>(
-  type: T,
-  slug?: string
+  type: T
 ): Promise<readonly DocumentTypeToDefinition[T][]> => {
-  const response = await client.fetch(getDocumentsQuery(type, slug));
+  const response = await client.fetch(getDocumentsQuery(type));
+  return response;
+};
+
+export const getDocument = async <T extends DocumentType>(
+  type: T,
+  slug: string
+): Promise<readonly DocumentTypeToDefinition[T][]> => {
+  const response = await client.fetch(getDocumentQuery(type, slug));
   return response;
 };
 

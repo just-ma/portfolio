@@ -10,6 +10,10 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
+const Title = styled.div`
+  text-decoration: underline;
+`;
+
 const Subtitle = styled.div`
   display: flex;
   text-align: right;
@@ -33,18 +37,20 @@ const Subtitle = styled.div`
 const DetailsPageInfo = ({
   document,
   url,
+  className,
 }: {
   document: DocumentDefinition;
   url?: string;
+  className?: string;
 }) => {
   return (
-    <Container>
+    <Container className={className}>
       {url ? (
         <a href={url} target="_blank" rel="noopener noreferrer">
           {document.title}
         </a>
       ) : (
-        <div>{document.title}</div>
+        <Title>{document.title}</Title>
       )}
       <Subtitle>
         <Description value={document.shortDescription} />

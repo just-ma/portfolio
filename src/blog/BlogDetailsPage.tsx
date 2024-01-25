@@ -5,8 +5,13 @@ import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
 import Description from "../components/Description";
 import useDocument from "../hooks/useDocument";
 import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
-import Thumbnail from "../components/Thumbnail";
 import { urlFor } from "../sanity";
+import styled from "styled-components";
+import Thumbnail from "../components/Thumbnail";
+
+const Info = styled(DetailsPageInfo)`
+  max-width: 400px;
+`;
 
 const BlogDetailsPage = () => {
   const { blogId } = useParams<{
@@ -23,8 +28,8 @@ const BlogDetailsPage = () => {
 
   return (
     <ScrollContainer>
-      <Thumbnail src={urlFor(thumbnail).url()} />
-      <DetailsPageInfo document={blog} />
+      <Thumbnail src={urlFor(thumbnail).url()} square />
+      <Info document={blog} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />
     </ScrollContainer>

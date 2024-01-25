@@ -1,9 +1,5 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import {
-  DocumentType,
-  DocumentTypeToDefinition,
-  getDocuments,
-} from "../sanity";
+import { DocumentType, DocumentTypeToDefinition, getDocument } from "../sanity";
 import { queryClient } from "../App";
 
 const useDocument = <TDocumentType extends DocumentType>(
@@ -17,7 +13,7 @@ const useDocument = <TDocumentType extends DocumentType>(
         return undefined;
       }
 
-      const data = await getDocuments(documentType, documentId);
+      const data = await getDocument(documentType, documentId);
       return data?.[0];
     },
     initialData: () => {
