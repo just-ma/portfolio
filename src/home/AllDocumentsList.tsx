@@ -7,9 +7,14 @@ import { BlogListPageCard } from "../blog/BlogListPage";
 import { DJListPageCard } from "../dj/DJListPage";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
+
+export const DOCUMENTS_LIST_TOP = INITIAL_VIEWPORT_HEIGHT * 1.2;
 
 const StyledScrollContainer = styled(ScrollContainer)`
-  margin-top: 108vh;
+  margin-top: ${DOCUMENTS_LIST_TOP}px;
+  padding-top: 150px;
+  position: relative;
 `;
 
 const BackContainer = styled(Link)`
@@ -21,7 +26,11 @@ const BackContainer = styled(Link)`
 `;
 
 const HeaderBackContainer = styled(BackContainer)`
-  margin: 0 0 15%;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0;
 `;
 
 const Arrow = styled.div`

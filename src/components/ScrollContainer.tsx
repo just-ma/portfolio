@@ -2,6 +2,7 @@ import styled from "styled-components";
 import useIsMobile from "../hooks/useMobile";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
 
 const ScrollColumn = styled.div<{ listPage?: boolean }>`
   width: 100%;
@@ -10,7 +11,9 @@ const ScrollColumn = styled.div<{ listPage?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: ${({ listPage }) => (listPage ? 50 : 15)}vh auto 0;
+  margin: ${({ listPage }) =>
+      (listPage ? 0.5 : 0.15) * INITIAL_VIEWPORT_HEIGHT}px
+    auto 0;
   gap: ${({ listPage }) => (listPage ? 60 : 10)}px;
   padding: 0 10px 0;
   box-sizing: border-box;

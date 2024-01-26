@@ -29,6 +29,8 @@ export const MEDIA_SIZE = {
   desktop: "screen and (min-width: 601px)",
 };
 
+export const INITIAL_VIEWPORT_HEIGHT = window.innerHeight;
+
 export const debounce = (func: Function, timeout: number = 700) => {
   let timeoutId: NodeJS.Timeout;
 

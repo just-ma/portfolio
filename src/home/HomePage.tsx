@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AllDocumentsList from "./AllDocumentsList";
+import AllDocumentsList, { DOCUMENTS_LIST_TOP } from "./AllDocumentsList";
 
 const Footer = styled.div`
   position: absolute;
@@ -42,7 +42,7 @@ const HomePage = () => {
     scrollAnimatingRef.current = true;
 
     window.scrollTo({
-      top: pathname === "/all" ? window.innerHeight : 0,
+      top: pathname === "/all" ? DOCUMENTS_LIST_TOP : 0,
       behavior: "smooth",
     });
 
@@ -61,10 +61,11 @@ const HomePage = () => {
       return;
     }
 
+    const threshold = window.innerHeight / 5;
     const isAll =
       pathnameRef.current === "/"
-        ? window.scrollY > window.innerHeight / 10
-        : window.scrollY > (9 * window.innerHeight) / 10;
+        ? window.scrollY > threshold
+        : window.scrollY > DOCUMENTS_LIST_TOP - threshold;
     const nextPath = isAll ? "/all" : "/";
 
     if (pathnameRef.current !== nextPath) {
@@ -74,7 +75,10 @@ const HomePage = () => {
 
   const handleFooterClick = () => {
     scrollAnimatingRef.current = true;
-    window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    window.scrollTo({
+      top: DOCUMENTS_LIST_TOP,
+      behavior: "smooth",
+    });
     navigate("/all");
   };
 
