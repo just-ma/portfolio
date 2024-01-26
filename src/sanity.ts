@@ -16,6 +16,7 @@ type BaseDocumentDefiniion<T extends DocumentType> = {
   timestamp: string;
   thumbnail: SanityImageSource;
   order: number;
+  hidden: boolean;
 };
 
 export type WebsiteDefinition = BaseDocumentDefiniion<"website"> & {
@@ -39,10 +40,13 @@ export type DJDefinition = BaseDocumentDefiniion<"dj"> & {
   };
 };
 
+export type BlogDefinition = BaseDocumentDefiniion<"blog">;
+
 export type DocumentDefinition =
   | WebsiteDefinition
   | FilmDefinition
-  | DJDefinition;
+  | DJDefinition
+  | BlogDefinition;
 
 export type AboutType = "about";
 export type AboutDefinition = {
@@ -57,6 +61,7 @@ export interface DocumentTypeToDefinition
   website: WebsiteDefinition;
   film: FilmDefinition;
   dj: DJDefinition;
+  blog: BlogDefinition;
 }
 
 const PROJECT_ID = "ullgaoyt";
@@ -68,8 +73,12 @@ export const client = createClient({
   apiVersion: "2024-01-11",
 });
 
-const getDocumentsQuery = (type: DocumentType) =>
-  `*[_type == "${type}" && hidden != true]{
+const getDocumentsQuery = (type?: DocumentType) =>
+  `*[${
+    type
+      ? `_type == "${type}"`
+      : '(_type == "website" || _type == "film" || _type == "dj" || _type == "blog") && slug.current != "__last__"'
+  } && hidden != true]{
     ...,
     "description": null
   } | order(order asc, timestamp desc)`;
@@ -78,7 +87,7 @@ const getDocumentQuery = (type: DocumentType, slug: string) =>
   `*[_type == "${type}"${slug ? ` && slug.current == "${slug}"` : ""}]`;
 
 export const getDocuments = async <T extends DocumentType>(
-  type: T
+  type?: T
 ): Promise<readonly DocumentTypeToDefinition[T][]> => {
   const response = await client.fetch(getDocumentsQuery(type));
   return response;

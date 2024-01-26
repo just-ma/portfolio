@@ -54,7 +54,7 @@ const PlaneObject = ({
 
   const ObjectComponent = OPTION_TYPE_TO_COMPONENT[type];
 
-  const { animating } = useAppContext();
+  const { titleAnimating: animating } = useAppContext();
 
   const getOpacity = () => {
     return isHome || selected ? 1 : 0;

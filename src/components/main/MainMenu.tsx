@@ -1,18 +1,12 @@
-import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
-import { OptionType } from "../../sanity";
-import {
-  OPTION_TYPES,
-  OPTION_TYPE_TO_LABEL,
-  OPTION_TYPE_TO_ROOT_PATH,
-} from "../../constants";
+import styled, { css } from "styled-components";
+import { MEDIA_SIZE, OPTION_TYPES } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { Suspense, useEffect } from "react";
-import useTextTyper from "../../hooks/useTextTyper";
-import useIsMobile from "../../hooks/useMobile";
+import { Suspense, useEffect, useRef, useState } from "react";
+import MainMenuItem from "./MainMenuItem";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Container = styled.div`
-  position: absolute;
+const Container = styled.div<{ small: boolean }>`
+  position: fixed;
   top: calc(3vw + 0.5vh + 35px);
   left: max(calc(30vw - 150px), 25px);
   display: flex;
@@ -20,72 +14,29 @@ const Container = styled.div`
   gap: 10px;
   user-select: none;
   pointer-events: none;
-`;
 
-const StyledLink = styled(Link)`
-  font-size: calc(3vw + 3vh);
-  width: fit-content;
-  pointer-events: all;
-`;
+  @media ${MEDIA_SIZE.desktop} {
+    transition: top 0.4s, left 0.4s;
 
-const MenuItem = ({
-  type,
-  hovering,
-  onHoveredOptionChange,
-}: {
-  type: OptionType;
-  hovering: boolean;
-  onHoveredOptionChange: (value: OptionType | null) => void;
-}) => {
-  const { pathname } = useLocation();
-  const isHome = pathname === "/";
-  const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
-
-  useEffect(() => {
-    onHoveredOptionChange(null);
-  }, [pathname]);
-
-  const preLabel = useTextTyper("( ", hovering && isHome);
-  const typedLabel = useTextTyper(
-    OPTION_TYPE_TO_LABEL[type],
-    isHome,
-    isHome ? 300 + OPTION_TYPES.indexOf(type) * 100 : 0
-  );
-  const postLabel = useTextTyper(" )", hovering && isHome);
-
-  const isMobile = useIsMobile();
-
-  const handleMouseEnter = () => {
-    if (!isMobile) {
-      onHoveredOptionChange(type);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!isMobile) {
-      onHoveredOptionChange(null);
-    }
-  };
-
-  if (!preLabel && !typedLabel && !postLabel) {
-    return null;
+    ${({ small }) =>
+      small &&
+      css`
+        top: 60px;
+        left: 50px;
+      `};
   }
-
-  return (
-    <StyledLink
-      to={rootPath}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {preLabel}
-      {typedLabel}
-      {postLabel}
-    </StyledLink>
-  );
-};
+`;
 
 const MainMenu = () => {
+  const { pathname } = useLocation();
+
   const { hoveredOption, onHoveredOptionChange } = useAppContext();
+
+  const [small, setSmall] = useState(pathname !== "/");
+
+  useEffect(() => {
+    setSmall(pathname !== "/");
+  }, [pathname]);
 
   const handleMouseLeave = () => {
     onHoveredOptionChange(null);
@@ -93,13 +44,14 @@ const MainMenu = () => {
 
   return (
     <Suspense>
-      <Container onMouseLeave={handleMouseLeave}>
+      <Container onMouseLeave={handleMouseLeave} small={small}>
         {OPTION_TYPES.map((type) => (
-          <MenuItem
+          <MainMenuItem
             type={type}
             key={type}
             hovering={hoveredOption === type}
             onHoveredOptionChange={onHoveredOptionChange}
+            small={small}
           />
         ))}
       </Container>

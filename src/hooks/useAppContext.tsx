@@ -12,27 +12,27 @@ const noop = () => {};
 const AppContext = createContext<{
   hoveredOption: OptionType | null;
   onHoveredOptionChange: (value: OptionType | null) => void;
-  animating: boolean;
-  onAnimatingChange: (value: boolean) => void;
+  titleAnimating: boolean;
+  onTitleAnimatingChange: (value: boolean) => void;
 }>({
   hoveredOption: null,
   onHoveredOptionChange: noop,
-  animating: true,
-  onAnimatingChange: noop,
+  titleAnimating: true,
+  onTitleAnimatingChange: noop,
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [hoveredOption, setHoveredOption] = useState<OptionType | null>(null);
-  const [animating, setAnimating] = useState(true);
+  const [titleAnimating, setTitleAnimating] = useState(true);
 
   const value = useMemo(
     () => ({
       hoveredOption,
       onHoveredOptionChange: setHoveredOption,
-      animating,
-      onAnimatingChange: setAnimating,
+      titleAnimating,
+      onTitleAnimatingChange: setTitleAnimating,
     }),
-    [hoveredOption, animating]
+    [hoveredOption, titleAnimating]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

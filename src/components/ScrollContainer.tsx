@@ -32,23 +32,29 @@ const ListPageMobileBorder = styled.div<{
 const ScrollContainer = ({
   children,
   listPage,
+  className,
 }: {
   children: React.ReactNode;
   listPage?: boolean;
+  className?: string;
 }) => {
   const { pathname } = useLocation();
+  const isHome = pathname === "/" || pathname === "/all";
 
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    console.log("ay");
+    if (isHome) {
+      return;
+    }
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
 
   return (
-    <ScrollColumn listPage={listPage}>
+    <ScrollColumn listPage={listPage} className={className}>
       {children}
-      {isMobile && listPage && (
+      {isMobile && listPage && !isHome && (
         <>
           <ListPageMobileBorder position="top" />
           <ListPageMobileBorder position="left" />

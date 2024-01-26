@@ -29,6 +29,7 @@ function App() {
           <Routes>
             {/* home */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/all" element={<HomePage />} />
 
             {/* websites */}
             <Route

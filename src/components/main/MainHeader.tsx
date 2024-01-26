@@ -2,13 +2,8 @@ import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import useTextTyper from "../../hooks/useTextTyper";
-import {
-  OPTION_TYPES,
-  OPTION_TYPE_TO_LABEL,
-  OPTION_TYPE_TO_ROOT_PATH,
-} from "../../constants";
-import { OptionType } from "../../sanity";
+import MainSubtitle from "./MainSubtitle";
+import useIsMobile from "../../hooks/useMobile";
 
 const Title = styled(Link)<{ titleFont: TitleFont }>`
   position: fixed;
@@ -17,31 +12,19 @@ const Title = styled(Link)<{ titleFont: TitleFont }>`
   z-index: 2;
   line-height: 24px;
   font-family: "${({ titleFont }) => titleFont.family}";
-  font-size: ${({ titleFont }) => titleFont.size}px;
+  font-size: ${({ titleFont }) => titleFont.size + 2}px;
   display: flex;
   gap: 10px;
   text-decoration: none;
   text-transform: uppercase;
-  color: black;
   user-select: none;
 `;
 
-const Subtitle = styled.div`
-  position: absolute;
-  top: 35vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 16px;
-  z-index: -1;
-  pointer-events: none;
-  color: blue;
-`;
-
-const TitleBlock = styled.div`
+const TitleBlock = styled.div<{ dark: boolean }>`
   display: inline-block;
-  border: 1px solid black;
-  background-color: white;
+  border: 1px solid blue;
+  background-color: ${({ dark }) => (dark ? "black" : "white")};
+  color: ${({ dark }) => (dark ? "white" : "blue")};
 `;
 
 type TitleFont = {
@@ -73,27 +56,15 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const { animating, onAnimatingChange } = useAppContext();
+  const {
+    titleAnimating: animating,
+    onTitleAnimatingChange: onAnimatingChange,
+  } = useAppContext();
 
-  const [optionType, setOptionType] = useState<OptionType | undefined>();
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
+  const [dark, setDark] = useState(false);
 
-  useEffect(() => {
-    if (pathname === "/") {
-      return;
-    }
-
-    const match = OPTION_TYPES.find((type) =>
-      pathname.startsWith(OPTION_TYPE_TO_ROOT_PATH[type])
-    );
-
-    setOptionType(match);
-  }, [pathname]);
-
-  const subtitle = useTextTyper(
-    optionType ? `( ${OPTION_TYPE_TO_LABEL[optionType]} )` : "",
-    !!optionType && pathname === OPTION_TYPE_TO_ROOT_PATH[optionType]
-  );
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
@@ -117,6 +88,7 @@ const MainHeader = () => {
       randomizeFont();
       intervalId = setInterval(() => {
         randomizeFont();
+        setDark(false);
       }, 67);
     }
 
@@ -125,22 +97,33 @@ const MainHeader = () => {
     };
   }, [animating]);
 
-  useEffect(() => {
+  const startAnimation = () => {
     onAnimatingChange(true);
+  };
+
+  const handleTitleClick = () => {
+    setDark(true);
+    startAnimation();
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    startAnimation();
   }, [pathname]);
 
   return (
     <Suspense>
       <Title
         titleFont={titleFont}
-        onClick={() => onAnimatingChange(true)}
+        onClick={handleTitleClick}
+        onMouseEnter={startAnimation}
         to={"/"}
       >
-        <TitleBlock>NIT</TitleBlock>
-        <TitleBlock>SU</TitleBlock>
-        <TitleBlock>J.</TitleBlock>
+        <TitleBlock dark={dark}>NIT</TitleBlock>
+        <TitleBlock dark={dark}>SU</TitleBlock>
+        <TitleBlock dark={dark}>J.</TitleBlock>
       </Title>
-      <Subtitle>{subtitle}</Subtitle>
+      {isMobile && <MainSubtitle />}
     </Suspense>
   );
 };
