@@ -1,11 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.1960d0b7.css",
-    "main.js": "/static/js/main.43b551e3.js",
+    "main.js": "/static/js/main.324e4398.js",
     "static/js/726.26062047.chunk.js": "/static/js/726.26062047.chunk.js",
     "static/media/Almond2_Normal.jpg": "/static/media/Almond2_Normal.c228436b48688e6350f8.jpg",
     "static/media/Almond2_Diffuse.jpg": "/static/media/Almond2_Diffuse.a14485fb7f5a7816d1dc.jpg",
     "static/media/Credible-Regular.otf": "/static/media/Credible-Regular.6c250d53702dc62f5c18.otf",
+    "static/media/Head.glb": "/static/media/Head.86d5af05dcd1a619d61b.glb",
     "static/media/Camcorder.glb": "/static/media/Camcorder.464b27f6f808a1e4a1cd.glb",
     "static/media/Diary.glb": "/static/media/Diary.8d97be00f77cf899a44b.glb",
     "static/media/Laptop.glb": "/static/media/Laptop.1ead1f4168b77364db65.glb",
@@ -48,11 +49,11 @@
     "index.html": "/index.html",
     "static/media/outline.svg": "/static/media/outline.c2d8f20373b07aa54db0cff509f3faaa.svg",
     "main.1960d0b7.css.map": "/static/css/main.1960d0b7.css.map",
-    "main.43b551e3.js.map": "/static/js/main.43b551e3.js.map",
+    "main.324e4398.js.map": "/static/js/main.324e4398.js.map",
     "726.26062047.chunk.js.map": "/static/js/726.26062047.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1960d0b7.css",
-    "static/js/main.43b551e3.js"
+    "static/js/main.324e4398.js"
   ]
 }
