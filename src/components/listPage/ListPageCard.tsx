@@ -69,7 +69,7 @@ const ListPageCard = (props: {
 
   return (
     <ListPageCardContainer {...props}>
-      <Thumbnail src={urlFor(thumbnail).width(300).url()} square={square} />
+      <Thumbnail src={urlFor(thumbnail).width(600).url()} square={square} />
       <Info square={square}>
         <Title>{title}</Title>
         <Subtitle square={square}>

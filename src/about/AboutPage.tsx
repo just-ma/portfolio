@@ -3,14 +3,34 @@ import { useQuery } from "@tanstack/react-query";
 import { getAbout } from "../sanity";
 import Description from "../components/Description";
 import BackFooter from "../components/BackFooter";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
 import { useMemo, useState } from "react";
 
 const MAX_COUNT = 11;
 
+const BlockContainer = styled.div<{ animate: boolean }>`
+  overflow: hidden;
+  width: 100%;
+
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: expand 1s;
+    `};
+
+  @keyframes expand {
+    from {
+      max-height: 0;
+    }
+    to {
+      max-height: ${INITIAL_VIEWPORT_HEIGHT * 2}px;
+    }
+  }
+`;
+
 const Spacer = styled.div`
-  height: ${INITIAL_VIEWPORT_HEIGHT}px;
+  height: ${INITIAL_VIEWPORT_HEIGHT * 0.5}px;
 `;
 
 const MoreFooter = styled.div`
@@ -43,10 +63,10 @@ const AboutPageBlock = ({ index }: { index: number }) => {
   }
 
   return (
-    <>
+    <BlockContainer animate={index !== 0}>
       <Description value={data.description} />
       <Spacer />
-    </>
+    </BlockContainer>
   );
 };
 
