@@ -51,7 +51,9 @@ export type DocumentDefinition =
 export type AboutType = "about";
 export type AboutDefinition = {
   _type: AboutType;
+  title: string;
   description: PortableTextBlock;
+  order: number;
 };
 
 export type OptionType = DocumentType | AboutType;
@@ -101,8 +103,12 @@ export const getDocument = async <T extends DocumentType>(
   return response;
 };
 
-export const getAbout = async (): Promise<AboutDefinition | undefined> => {
-  const response = await client.fetch('*[_type == "about"]');
+export const getAbout = async (
+  count: number
+): Promise<AboutDefinition | undefined> => {
+  const response = await client.fetch(
+    `*[_type == "about" && order == ${count}]`
+  );
   return response?.[0];
 };
 

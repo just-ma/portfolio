@@ -8,8 +8,11 @@ import {
   urlFor,
 } from "../sanity";
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  INITIAL_VIEWPORT_HEIGHT,
+  OPTION_TYPE_TO_ROOT_PATH,
+} from "../constants";
 import Thumbnail from "../components/Thumbnail";
 import Description from "../components/Description";
 import useAppContext from "../hooks/useAppContext";
@@ -57,6 +60,7 @@ const Card = styled.div<{ hovered: boolean }>`
   max-width: 400px;
   margin-left: ${({ hovered }) => (hovered ? 40 : 0)}px;
   transition: margin-left 0.4s;
+  cursor: pointer;
 `;
 
 const StyledThumbnail = styled(Thumbnail)<{ hovered: boolean }>`
@@ -107,29 +111,35 @@ const DOCUMENT_TYPE_TO_SUBTITLE: Record<DocumentType, string> = {
 };
 
 const AllDocumentsListCard = ({
-  document,
+  document: { _type, title, shortDescription, thumbnail, slug },
   hoveredOption,
 }: {
   document: DocumentDefinition;
   hoveredOption: OptionType | null;
 }) => {
-  const hovered = hoveredOption === document._type;
-  const squareThumbnail = document._type === "dj" || document._type === "blog";
+  const navigate = useNavigate();
+
+  const hovered = hoveredOption === _type;
+  const squareThumbnail = _type === "dj" || _type === "blog";
+
+  const handleClick = () => {
+    navigate(`${OPTION_TYPE_TO_ROOT_PATH[_type]}/${slug.current}`);
+  };
 
   return (
-    <Card hovered={hovered}>
+    <Card hovered={hovered} onClick={handleClick}>
       <StyledThumbnail
-        src={urlFor(document.thumbnail).width(300).url()}
+        src={urlFor(thumbnail).width(300).url()}
         square={squareThumbnail}
         hovered={hovered}
       />
       <Info>
-        <Title>{document.title}</Title>
+        <Title>{title}</Title>
         <Subtitle>
-          {document._type === "dj" || document._type === "blog" ? (
-            <p>{DOCUMENT_TYPE_TO_SUBTITLE[document._type]}</p>
+          {_type === "dj" || _type === "blog" ? (
+            <p>{DOCUMENT_TYPE_TO_SUBTITLE[_type]}</p>
           ) : (
-            <Description value={document.shortDescription} />
+            <Description value={shortDescription} />
           )}
         </Subtitle>
       </Info>
