@@ -1,20 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import ScrollContainer from "../components/ScrollContainer";
-import { DocumentDefinition, getDocuments } from "../sanity";
-import { WebsitesListPageCard } from "../websites/WebsitesListPage";
-import { FilmsListPageCard } from "../films/FilmsListPage";
-import { BlogListPageCard } from "../blog/BlogListPage";
-import { DJListPageCard } from "../dj/DJListPage";
-import styled from "styled-components";
+import {
+  DocumentDefinition,
+  DocumentType,
+  OptionType,
+  getDocuments,
+  urlFor,
+} from "../sanity";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
+import Thumbnail from "../components/Thumbnail";
+import Description from "../components/Description";
+import useAppContext from "../hooks/useAppContext";
 
-export const DOCUMENTS_LIST_TOP = INITIAL_VIEWPORT_HEIGHT * 1.2;
+export const DOCUMENTS_LIST_TOP = INITIAL_VIEWPORT_HEIGHT * 1.3;
 
 const StyledScrollContainer = styled(ScrollContainer)`
   margin-top: ${DOCUMENTS_LIST_TOP}px;
   padding-top: 150px;
   position: relative;
+  gap: 40px;
 `;
 
 const BackContainer = styled(Link)`
@@ -43,30 +49,92 @@ const Message = styled.div`
   text-decoration: underline;
 `;
 
-export const AllListPageCard = ({
-  document,
-  index,
-}: {
-  document: DocumentDefinition;
-  index: number;
-}) => {
-  switch (document._type) {
-    case "website": {
-      return <WebsitesListPageCard document={document} index={index} />;
+const Card = styled.div<{ hovered: boolean }>`
+  position: relative;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-left: ${({ hovered }) => (hovered ? 40 : 0)}px;
+  transition: margin-left 0.4s;
+`;
+
+const StyledThumbnail = styled(Thumbnail)<{ hovered: boolean }>`
+  width: 150px;
+
+  ${({ hovered }) =>
+    hovered &&
+    css`
+      border: 2px solid blue;
+    `}
+`;
+
+const Info = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 4px;
+`;
+
+const Title = styled.div`
+  text-decoration: underline;
+  color: blue;
+`;
+
+const Subtitle = styled.div`
+  p {
+    margin: 0;
+    height: fit-content;
+
+    &::before {
+      content: "(";
+      margin-right: 7px;
     }
-    case "film": {
-      return <FilmsListPageCard document={document} index={index} />;
-    }
-    case "dj": {
-      return <DJListPageCard document={document} index={index} />;
-    }
-    case "blog": {
-      return <BlogListPageCard document={document} index={index} />;
-    }
-    default: {
-      return null;
+
+    &::after {
+      content: ")";
+      margin-left: 7px;
     }
   }
+`;
+
+const DOCUMENT_TYPE_TO_SUBTITLE: Record<DocumentType, string> = {
+  website: "website",
+  film: "film",
+  dj: "dj set",
+  blog: "blog post",
+};
+
+const AllDocumentsListCard = ({
+  document,
+  hoveredOption,
+}: {
+  document: DocumentDefinition;
+  hoveredOption: OptionType | null;
+}) => {
+  const hovered = hoveredOption === document._type;
+  const squareThumbnail = document._type === "dj" || document._type === "blog";
+
+  return (
+    <Card hovered={hovered}>
+      <StyledThumbnail
+        src={urlFor(document.thumbnail).width(300).url()}
+        square={squareThumbnail}
+        hovered={hovered}
+      />
+      <Info>
+        <Title>{document.title}</Title>
+        <Subtitle>
+          {document._type === "dj" || document._type === "blog" ? (
+            <p>{DOCUMENT_TYPE_TO_SUBTITLE[document._type]}</p>
+          ) : (
+            <Description value={document.shortDescription} />
+          )}
+        </Subtitle>
+      </Info>
+    </Card>
+  );
 };
 
 const AllDocumentsList = () => {
@@ -78,17 +146,19 @@ const AllDocumentsList = () => {
     },
   });
 
+  const { hoveredOption } = useAppContext();
+
   return (
     <StyledScrollContainer listPage>
       <HeaderBackContainer to={"/"}>
         <Arrow>V</Arrow>
         <Message>main menu</Message>
       </HeaderBackContainer>
-      {data?.map((website, index) => (
-        <AllListPageCard
-          key={website.slug.current}
-          document={website}
-          index={index}
+      {data?.map((document) => (
+        <AllDocumentsListCard
+          key={document.slug.current}
+          document={document}
+          hoveredOption={hoveredOption}
         />
       ))}
       <BackContainer to={"/"}>

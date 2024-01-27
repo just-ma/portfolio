@@ -40,6 +40,8 @@ const MainMenuItem = ({
   const isHome = pathname === "/";
   const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
   const selected = pathname.startsWith(rootPath);
+  const exactSelected = pathname === rootPath;
+  const path = exactSelected ? "/" : rootPath;
 
   const isMobile = useIsMobile();
 
@@ -74,7 +76,7 @@ const MainMenuItem = ({
 
   return (
     <StyledLink
-      to={rootPath}
+      to={path}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       small={small}
