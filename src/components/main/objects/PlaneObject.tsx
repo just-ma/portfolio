@@ -9,7 +9,7 @@ import { useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
 import LaptopModel from "./LaptopModel";
 import HeadphonesModel from "./HeadphonesModel";
-import PlaceholderModel from "./PlaceholderModel";
+import HeadModel from "./HeadModel";
 import CamcorderModel from "./CamcorderModel";
 import DiaryModel from "./DiaryModel";
 import { OptionType } from "../../../sanity";
@@ -31,7 +31,7 @@ const OPTION_TYPE_TO_COMPONENT: Record<
   blog: DiaryModel,
   film: CamcorderModel,
   dj: HeadphonesModel,
-  about: PlaceholderModel,
+  about: HeadModel,
 };
 
 const PlaneObject = ({
