@@ -54,7 +54,7 @@ const PlaneObject = ({
 
   const ObjectComponent = OPTION_TYPE_TO_COMPONENT[type];
 
-  const { titleAnimating: animating } = useAppContext();
+  const { titleAnimating } = useAppContext();
 
   const getOpacity = () => {
     return isHome || selected ? 1 : 0;
@@ -172,10 +172,16 @@ const PlaneObject = ({
   });
 
   useEffect(() => {
-    if (!init || (isHome && animating)) {
+    if (isHome) {
       jump(true);
     }
-  }, [animating, isHome, init]);
+  }, [isHome]);
+
+  useEffect(() => {
+    if (titleAnimating) {
+      jump(true);
+    }
+  }, [titleAnimating]);
 
   useEffect(() => {
     if (selected) {
@@ -201,17 +207,15 @@ const PlaneObject = ({
   });
 
   return (
-    <Suspense fallback={null}>
-      <animated.group
-        position={springs.position as any}
-        scale={springs.scale}
-        rotation={springs.rotation as any}
-        onClick={handleClick}
-        onPointerEnter={handlePointerEnter}
-      >
-        <ObjectComponent opacity={opacity} selected={selected} />
-      </animated.group>
-    </Suspense>
+    <animated.group
+      position={springs.position as any}
+      scale={springs.scale}
+      rotation={springs.rotation as any}
+      onClick={handleClick}
+      onPointerEnter={handlePointerEnter}
+    >
+      <ObjectComponent opacity={opacity} selected={selected} />
+    </animated.group>
   );
 };
 

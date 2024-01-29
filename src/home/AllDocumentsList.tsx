@@ -19,11 +19,18 @@ import useAppContext from "../hooks/useAppContext";
 
 export const DOCUMENTS_LIST_TOP = INITIAL_VIEWPORT_HEIGHT * 1.3;
 
-const StyledScrollContainer = styled(ScrollContainer)`
+const StyledScrollContainer = styled(ScrollContainer)<{ disabled: boolean }>`
   margin-top: ${DOCUMENTS_LIST_TOP}px;
   padding-top: 150px;
   position: relative;
   gap: 40px;
+  min-height: ${INITIAL_VIEWPORT_HEIGHT}px;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      pointer-events: none;
+    `}
 `;
 
 const BackContainer = styled(Link)`
@@ -147,7 +154,7 @@ const AllDocumentsListCard = ({
   );
 };
 
-const AllDocumentsList = () => {
+const AllDocumentsList = ({ disabled }: { disabled: boolean }) => {
   const { data } = useQuery({
     queryKey: ["all"],
     queryFn: async () => {
@@ -159,7 +166,7 @@ const AllDocumentsList = () => {
   const { hoveredOption } = useAppContext();
 
   return (
-    <StyledScrollContainer listPage>
+    <StyledScrollContainer listPage disabled={disabled}>
       <HeaderBackContainer to={"/"}>
         <Arrow>V</Arrow>
         <Message>main menu</Message>

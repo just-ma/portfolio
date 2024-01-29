@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { useEffect, useRef } from "react";
+import styled, { css } from "styled-components";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AllDocumentsList, { DOCUMENTS_LIST_TOP } from "./AllDocumentsList";
 
-const Footer = styled.div`
+const Footer = styled.div<{ disabled: boolean }>`
   position: absolute;
   bottom: 30px;
   left: 50%;
@@ -11,6 +11,12 @@ const Footer = styled.div`
   user-select: none;
   cursor: pointer;
   color: blue;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      pointer-events: none;
+    `}
 `;
 
 const Message = styled.div`
@@ -28,6 +34,12 @@ const HomePage = () => {
 
   const pathnameRef = useRef(pathname);
   const scrollAnimatingRef = useRef(false);
+  const [scrollAnimating, setScrollAnimating] = useState(false);
+
+  const onScrollAnimatingChange = (value: boolean) => {
+    scrollAnimatingRef.current = value;
+    setScrollAnimating(value);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -39,7 +51,7 @@ const HomePage = () => {
 
   useEffect(() => {
     pathnameRef.current = pathname;
-    scrollAnimatingRef.current = true;
+    onScrollAnimatingChange(true);
 
     window.scrollTo({
       top: pathname === "/all" ? DOCUMENTS_LIST_TOP : 0,
@@ -47,7 +59,7 @@ const HomePage = () => {
     });
 
     const timeoutId = setTimeout(() => {
-      scrollAnimatingRef.current = false;
+      onScrollAnimatingChange(false);
       handleScroll();
     }, 800);
 
@@ -74,7 +86,7 @@ const HomePage = () => {
   };
 
   const handleFooterClick = () => {
-    scrollAnimatingRef.current = true;
+    onScrollAnimatingChange(true);
     window.scrollTo({
       top: DOCUMENTS_LIST_TOP,
       behavior: "smooth",
@@ -84,11 +96,11 @@ const HomePage = () => {
 
   return (
     <>
-      <Footer onClick={handleFooterClick}>
+      <Footer onClick={handleFooterClick} disabled={scrollAnimating}>
         <Message>show me everything</Message>
         <Arrow>V</Arrow>
       </Footer>
-      <AllDocumentsList />
+      <AllDocumentsList disabled={scrollAnimating} />
     </>
   );
 };
