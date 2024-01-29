@@ -203,7 +203,7 @@ const PlaneObject = ({
   }, [selected]);
 
   const handlePointerEnter = throttle(() => {
-    jump();
+    !isMobile && jump();
   });
 
   return (
