@@ -61,6 +61,7 @@ const PlaneObject = ({
   };
 
   const optimisticOpacity = useRef(getOpacity());
+  const jumping = useRef(false);
   const [opacity, setOpacity] = useState(0);
   const [init, setInit] = useState(!isHome);
 
@@ -109,6 +110,11 @@ const PlaneObject = ({
   );
 
   const jump = (withDelay?: boolean) => {
+    if (jumping.current) {
+      return;
+    }
+
+    jumping.current = true;
     const delay = withDelay ? (index + 2) * 100 : 0;
 
     api.start({
@@ -123,7 +129,11 @@ const PlaneObject = ({
             duration: 100,
           },
         });
-
+        new Promise(() =>
+          setTimeout(() => {
+            jumping.current = false;
+          }, 100)
+        );
         await next({
           position: getPosition(),
           config: {
@@ -150,6 +160,7 @@ const PlaneObject = ({
         bounce: selected ? 2 : 0,
         friction: 20,
         tension: 220,
+        precision: 0.0001,
       },
     });
 
@@ -178,7 +189,7 @@ const PlaneObject = ({
   }, [isHome]);
 
   useEffect(() => {
-    if (titleAnimating) {
+    if (isHome && titleAnimating) {
       jump(true);
     }
   }, [titleAnimating]);

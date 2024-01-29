@@ -56,11 +56,9 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const {
-    titleAnimating: animating,
-    onTitleAnimatingChange: onAnimatingChange,
-  } = useAppContext();
+  const { titleAnimating, onTitleAnimatingChange } = useAppContext();
 
+  const [hoverAnimating, setHoverAnimting] = useState(false);
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
   const [dark, setDark] = useState(false);
 
@@ -68,14 +66,25 @@ const MainHeader = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      onAnimatingChange(false);
+      onTitleAnimatingChange(false);
       setTitleFont(DEFAULT_FONT);
     }, 200);
 
     return () => {
       clearInterval(timeoutId);
     };
-  }, [animating]);
+  }, [titleAnimating]);
+
+  useEffect(() => {
+    const timeoutId = setInterval(() => {
+      setHoverAnimting(false);
+      setTitleFont(DEFAULT_FONT);
+    }, 200);
+
+    return () => {
+      clearInterval(timeoutId);
+    };
+  }, [hoverAnimating]);
 
   const randomizeFont = () => {
     setTitleFont(FONTS[Math.floor(Math.random() * (FONTS.length - 1))]);
@@ -84,7 +93,7 @@ const MainHeader = () => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
-    if (animating) {
+    if (titleAnimating || hoverAnimating) {
       randomizeFont();
       intervalId = setInterval(() => {
         randomizeFont();
@@ -95,10 +104,10 @@ const MainHeader = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [animating]);
+  }, [titleAnimating, hoverAnimating]);
 
   const startAnimation = () => {
-    onAnimatingChange(true);
+    onTitleAnimatingChange(true);
   };
 
   const handleTitleClick = () => {
@@ -116,7 +125,7 @@ const MainHeader = () => {
       <Title
         titleFont={titleFont}
         onClick={handleTitleClick}
-        onMouseEnter={startAnimation}
+        onMouseEnter={() => setHoverAnimting(true)}
         to={"/"}
       >
         <TitleBlock dark={dark}>NIT</TitleBlock>
