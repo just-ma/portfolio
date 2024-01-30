@@ -28,11 +28,11 @@ const BlogDetailsPage = () => {
     return null;
   }
 
-  const { description, thumbnail } = blog;
+  const { description, thumbnail, title } = blog;
 
   return (
     <ScrollContainer>
-      <StyledThumbnail src={urlFor(thumbnail).url()} square />
+      <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} $square />
       <Info document={blog} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />

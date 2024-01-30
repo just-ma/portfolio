@@ -5,13 +5,13 @@ import ListPageCardContainer from "./ListPageCardContainer";
 import Description from "../Description";
 import ComingSoonCard from "./ComingSoonCard";
 
-const Info = styled.div<{ square?: boolean }>`
+const Info = styled.div<{ $square?: boolean }>`
   display: flex;
   width: 100%;
   gap: 10px;
 
-  ${({ square }) =>
-    square
+  ${({ $square }) =>
+    $square
       ? css`
           flex-direction: column;
           text-align: left;
@@ -26,11 +26,11 @@ const Title = styled.div`
   color: blue;
 `;
 
-const Subtitle = styled.div<{ square?: boolean }>`
+const Subtitle = styled.div<{ $square?: boolean }>`
   display: flex;
 
-  ${({ square }) =>
-    !square &&
+  ${({ $square }) =>
+    !$square &&
     css`
       text-align: right;
     `}
@@ -69,10 +69,14 @@ const ListPageCard = (props: {
 
   return (
     <ListPageCardContainer {...props}>
-      <Thumbnail src={urlFor(thumbnail).width(600).url()} square={square} />
-      <Info square={square}>
+      <Thumbnail
+        src={urlFor(thumbnail).width(600).url()}
+        alt={title}
+        $square={square}
+      />
+      <Info $square={square}>
         <Title>{title}</Title>
-        <Subtitle square={square}>
+        <Subtitle $square={square}>
           <Description value={shortDescription} />
         </Subtitle>
       </Info>

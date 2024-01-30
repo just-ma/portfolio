@@ -19,11 +19,11 @@ const WebsiteDetailsPage = () => {
     return null;
   }
 
-  const { thumbnail, description, url } = website;
+  const { thumbnail, description, url, title } = website;
 
   return (
     <ScrollContainer>
-      <Thumbnail src={urlFor(thumbnail).url()} />
+      <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
       <DetailsPageInfo document={website} url={url} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["website"]} />

@@ -4,17 +4,17 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
 
-const ScrollColumn = styled.div<{ listPage?: boolean }>`
+const ScrollColumn = styled.div<{ $listPage?: boolean }>`
   width: 100%;
   max-width: 600px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: ${({ listPage }) =>
-      (listPage ? 0.5 : 0.15) * INITIAL_VIEWPORT_HEIGHT}px
+  margin: ${({ $listPage }) =>
+      ($listPage ? 0.5 : 0.15) * INITIAL_VIEWPORT_HEIGHT}px
     auto 0;
-  gap: ${({ listPage }) => (listPage ? 60 : 10)}px;
+  gap: ${({ $listPage }) => ($listPage ? 60 : 10)}px;
   padding: 0 10px 0;
   box-sizing: border-box;
   overflow: hidden;
@@ -55,7 +55,7 @@ const ScrollContainer = ({
   }, [pathname]);
 
   return (
-    <ScrollColumn listPage={listPage} className={className}>
+    <ScrollColumn $listPage={listPage} className={className}>
       {children}
       {isMobile && listPage && !isHome && (
         <>

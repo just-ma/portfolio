@@ -12,7 +12,7 @@ const useIsMobile = () => {
   };
 
   useEffect((): (() => void) => {
-    window.addEventListener("resize", handleWindowResize);
+    window.addEventListener("resize", handleWindowResize, { passive: true });
 
     return (): void => {
       window.removeEventListener("resize", handleWindowResize);

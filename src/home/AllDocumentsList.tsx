@@ -59,22 +59,22 @@ const Message = styled.div`
   text-decoration: underline;
 `;
 
-const Card = styled.div<{ hovered: boolean }>`
+const Card = styled.div<{ $hovered: boolean }>`
   position: relative;
   display: flex;
   gap: 10px;
   width: 100%;
   max-width: 400px;
-  margin-left: ${({ hovered }) => (hovered ? 40 : 0)}px;
+  margin-left: ${({ $hovered }) => ($hovered ? 40 : 0)}px;
   transition: margin-left 0.4s;
   cursor: pointer;
 `;
 
-const StyledThumbnail = styled(Thumbnail)<{ hovered: boolean }>`
+const StyledThumbnail = styled(Thumbnail)<{ $hovered: boolean }>`
   width: 150px;
 
-  ${({ hovered }) =>
-    hovered &&
+  ${({ $hovered }) =>
+    $hovered &&
     css`
       border: 2px solid blue;
     `}
@@ -134,11 +134,12 @@ const AllDocumentsListCard = ({
   };
 
   return (
-    <Card hovered={hovered} onClick={handleClick}>
+    <Card $hovered={hovered} onClick={handleClick}>
       <StyledThumbnail
         src={urlFor(thumbnail).width(300).url()}
-        square={squareThumbnail}
-        hovered={hovered}
+        alt={title}
+        $square={squareThumbnail}
+        $hovered={hovered}
       />
       <Info>
         <Title>{title}</Title>

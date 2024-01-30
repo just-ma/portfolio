@@ -3,17 +3,17 @@ import Description from "../Description";
 import FloatingText from "../FloatingText";
 import styled from "styled-components";
 
-const Container = styled.div<{ square?: boolean }>`
-  width: ${({ square }) => (square ? 180 : 300)}px;
+const Container = styled.div<{ $square?: boolean }>`
+  width: ${({ $square }) => ($square ? 180 : 300)}px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
 
-const Box = styled.div<{ square?: boolean }>`
+const Box = styled.div<{ $square?: boolean }>`
   border: 1px solid black;
   width: 100%;
-  height: ${({ square }) => (square ? 180 : 169)}px;
+  height: ${({ $square }) => ($square ? 180 : 169)}px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,8 +34,8 @@ const ComingSoonCard = ({
   description: PortableTextBlock;
 }) => {
   return (
-    <Container square={square}>
-      <Box square={square}>
+    <Container $square={square}>
+      <Box $square={square}>
         <Text shift={-30}>more</Text>
         <Text>coming</Text>
         <Text shift={30}>soon...</Text>

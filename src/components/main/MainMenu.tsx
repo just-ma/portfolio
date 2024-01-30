@@ -1,11 +1,11 @@
 import styled, { css } from "styled-components";
 import { MEDIA_SIZE, OPTION_TYPES } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import MainMenuItem from "./MainMenuItem";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-const Container = styled.div<{ small: boolean }>`
+const Container = styled.div<{ $small: boolean }>`
   position: fixed;
   top: calc(3vw + 0.5vh + 35px);
   left: max(calc(30vw - 150px), 25px);
@@ -18,8 +18,8 @@ const Container = styled.div<{ small: boolean }>`
   @media ${MEDIA_SIZE.desktop} {
     transition: top 0.4s, left 0.4s;
 
-    ${({ small }) =>
-      small &&
+    ${({ $small }) =>
+      $small &&
       css`
         top: 60px;
         left: 50px;
@@ -44,7 +44,7 @@ const MainMenu = () => {
 
   return (
     <Suspense>
-      <Container onMouseLeave={handleMouseLeave} small={small}>
+      <Container onMouseLeave={handleMouseLeave} $small={small}>
         {OPTION_TYPES.map((type) => (
           <MainMenuItem
             type={type}

@@ -10,13 +10,14 @@ import { useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 import useIsMobile from "../../hooks/useMobile";
 
-const StyledLink = styled(Link)<{ small: boolean; selected: boolean }>`
+const StyledLink = styled(Link)<{ $small: boolean; $selected: boolean }>`
   font-size: calc(
-    ${({ small }) => (small ? 1 : 3)}vw + ${({ small }) => (small ? 1 : 3)}vh
+    ${({ $small }) => ($small ? 1 : 3)}vw +
+      ${({ $small }) => ($small ? 1 : 3)}vh
   );
   width: fit-content;
   pointer-events: all;
-  color: ${({ selected }) => (selected ? "black" : "blue")};
+  color: ${({ $selected }) => ($selected ? "black" : "blue")};
   transition: font-size 0.4s;
   text-decoration: none;
 `;
@@ -79,8 +80,8 @@ const MainMenuItem = ({
       to={path}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      small={small}
-      selected={selected}
+      $small={small}
+      $selected={selected}
     >
       <span>{preLabel}</span>
       <Label>{typedLabel}</Label>

@@ -1,18 +1,16 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import MainSubtitle from "./MainSubtitle";
 import useIsMobile from "../../hooks/useMobile";
 
-const Title = styled(Link)<{ titleFont: TitleFont }>`
+const titleCss = css`
   position: fixed;
   top: 10px;
   left: 10px;
   z-index: 2;
   line-height: 24px;
-  font-family: "${({ titleFont }) => titleFont.family}";
-  font-size: ${({ titleFont }) => titleFont.size + 2}px;
   display: flex;
   gap: 10px;
   text-decoration: none;
@@ -20,11 +18,25 @@ const Title = styled(Link)<{ titleFont: TitleFont }>`
   user-select: none;
 `;
 
-const TitleBlock = styled.div<{ dark: boolean }>`
+const FallbackTitle = styled.div`
+  font-family: Menlo;
+  font-size: 27px;
+
+  ${titleCss}
+`;
+
+const Title = styled(Link)<{ titlefont: TitleFont }>`
+  font-family: "${({ titlefont }) => titlefont.family}";
+  font-size: ${({ titlefont }) => titlefont.size + 2}px;
+
+  ${titleCss}
+`;
+
+const TitleBlock = styled.div<{ $dark: boolean }>`
   display: inline-block;
   border: 1px solid blue;
-  background-color: ${({ dark }) => (dark ? "black" : "white")};
-  color: ${({ dark }) => (dark ? "white" : "blue")};
+  background-color: ${({ $dark }) => ($dark ? "black" : "white")};
+  color: ${({ $dark }) => ($dark ? "white" : "blue")};
 `;
 
 type TitleFont = {
@@ -121,16 +133,24 @@ const MainHeader = () => {
   }, [pathname]);
 
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <FallbackTitle>
+          <TitleBlock $dark={dark}>NIT</TitleBlock>
+          <TitleBlock $dark={dark}>SU</TitleBlock>
+          <TitleBlock $dark={dark}>J.</TitleBlock>
+        </FallbackTitle>
+      }
+    >
       <Title
-        titleFont={titleFont}
+        titlefont={titleFont}
         onClick={handleTitleClick}
         onMouseEnter={() => setHoverAnimting(true)}
         to={"/"}
       >
-        <TitleBlock dark={dark}>NIT</TitleBlock>
-        <TitleBlock dark={dark}>SU</TitleBlock>
-        <TitleBlock dark={dark}>J.</TitleBlock>
+        <TitleBlock $dark={dark}>NIT</TitleBlock>
+        <TitleBlock $dark={dark}>SU</TitleBlock>
+        <TitleBlock $dark={dark}>J.</TitleBlock>
       </Title>
       {isMobile && <MainSubtitle />}
     </Suspense>

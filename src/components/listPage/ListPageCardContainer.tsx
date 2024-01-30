@@ -46,26 +46,26 @@ const getAlign = (documentType: DocumentType, index: number) => {
 const CardPosition = styled.div<{
   align: string;
   shift: number;
-  square?: boolean;
+  $square?: boolean;
 }>`
-  ${({ align, shift, square }) =>
+  ${({ align, shift, $square }) =>
     align === "left"
       ? css`
           margin-left: auto;
-          padding-right: calc(${shift} * calc(100% - ${square ? 180 : 300}px));
+          padding-right: calc(${shift} * calc(100% - ${$square ? 180 : 300}px));
         `
       : css`
           margin-right: auto;
-          padding-left: calc(${shift} * calc(100% - ${square ? 180 : 300}px));
+          padding-left: calc(${shift} * calc(100% - ${$square ? 180 : 300}px));
         `};
 `;
 
-const Card = styled.div<{ square?: boolean }>`
+const Card = styled.div<{ $square?: boolean }>`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 10px;
-  width: ${({ square }) => (square ? 180 : 300)}px;
+  width: ${({ $square }) => ($square ? 180 : 300)}px;
   cursor: pointer;
 `;
 
@@ -92,9 +92,9 @@ const ListPageCardContainer = ({
     <CardPosition
       align={getAlign(_type, index)}
       shift={getShift(_type, index)}
-      square={square}
+      $square={square}
     >
-      <Card onClick={handleClick} className={className} square={square}>
+      <Card onClick={handleClick} className={className} $square={square}>
         {children}
       </Card>
     </CardPosition>
