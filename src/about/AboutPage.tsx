@@ -24,17 +24,17 @@ const BlockContainer = styled.div<{ animate: boolean }>`
       max-height: 0;
     }
     to {
-      max-height: ${INITIAL_VIEWPORT_HEIGHT * 2}px;
+      max-height: ${INITIAL_VIEWPORT_HEIGHT * 2.5}px;
     }
   }
 `;
 
 const Spacer = styled.div`
-  height: ${INITIAL_VIEWPORT_HEIGHT * 0.5}px;
+  height: ${INITIAL_VIEWPORT_HEIGHT * 0.3}px;
 `;
 
 const MoreFooter = styled.div`
-  margin: 40% 0;
+  margin-bottom: 40%;
   user-select: none;
   cursor: pointer;
   color: blue;
@@ -90,7 +90,7 @@ const AboutPage = () => {
         <BackFooter />
       ) : (
         <MoreFooter onClick={handleMoreClick} key={count}>
-          <Message>more</Message>
+          <Message>more?</Message>
           <Arrow>V</Arrow>
         </MoreFooter>
       )}
