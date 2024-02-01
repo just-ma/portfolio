@@ -3,7 +3,7 @@ import HomePage from "./home/HomePage";
 import WebsitesListPage from "./websites/WebsitesListPage";
 import FilmsPage from "./films/FilmsListPage";
 import DJListPage from "./dj/DJListPage";
-import MainCanvas from "./components/main/MainCanvas";
+import MainCanvas from "./components/canvas/MainCanvas";
 import { AppProvider } from "./hooks/useAppContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WebsiteDetailsPage from "./websites/WebsiteDetailsPage";

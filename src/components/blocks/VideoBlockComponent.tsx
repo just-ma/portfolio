@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const Video = styled.iframe<{
-  aspectRatio: number;
+  aspectratio: number;
 }>`
   width: 100%;
   max-height: 600px;
   border: none;
-  aspect-ratio: ${({ aspectRatio }) => aspectRatio};
+  aspect-ratio: ${({ aspectratio }) => aspectratio};
 `;
 
 const VideoBlockComponent = ({
@@ -24,7 +24,7 @@ const VideoBlockComponent = ({
     <Video
       src={src}
       title={url}
-      aspectRatio={width / height}
+      aspectratio={width / height}
       allow="autoplay; fullscreen; picture-in-picture"
     ></Video>
   );

@@ -1,5 +1,5 @@
 import LaptopGLTF from "../../../assets/models/laptop/Laptop.glb";
-import { ModelProps } from "./PlaneObject";
+import { ModelProps } from "../CanvasObject";
 import { useSpring, animated, SpringValue } from "@react-spring/three";
 import useModelLoader from "./useModelLoader";
 

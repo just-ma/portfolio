@@ -1,5 +1,5 @@
 import HeadGLTF from "../../../assets/models/head/Head.glb";
-import { ModelProps } from "./PlaneObject";
+import { ModelProps } from "../CanvasObject";
 import { SpringValue, animated, useSpring } from "@react-spring/three";
 import useModelLoader from "./useModelLoader";
 

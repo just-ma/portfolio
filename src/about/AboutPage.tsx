@@ -9,12 +9,12 @@ import { useMemo, useState } from "react";
 
 const MAX_COUNT = 11;
 
-const BlockContainer = styled.div<{ animate: boolean }>`
+const BlockContainer = styled.div<{ $animate: boolean }>`
   overflow: hidden;
   width: 100%;
 
-  ${({ animate }) =>
-    animate &&
+  ${({ $animate }) =>
+    $animate &&
     css`
       animation: expand 1s;
     `};
@@ -63,7 +63,7 @@ const AboutPageBlock = ({ index }: { index: number }) => {
   }
 
   return (
-    <BlockContainer animate={index !== 0}>
+    <BlockContainer $animate={index !== 0}>
       <Description value={data.description} />
       <Spacer />
     </BlockContainer>
@@ -84,7 +84,7 @@ const AboutPage = () => {
   return (
     <ScrollContainer listPage>
       {arr.map((_, index) => (
-        <AboutPageBlock index={index} />
+        <AboutPageBlock key={index} index={index} />
       ))}
       {count === MAX_COUNT ? (
         <BackFooter />

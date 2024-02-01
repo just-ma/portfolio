@@ -1,9 +1,9 @@
 import { animated, SpringValue } from "@react-spring/three";
-import OutlineTexture from "./outline.svg";
+import OutlineTexture from "../../assets/images/canvasPlaneOutline.svg";
 
 import { useTexture } from "@react-three/drei";
 
-const HomePlaneGeometry = ({
+const CanvasPlane = ({
   springs,
 }: {
   springs: {
@@ -27,4 +27,4 @@ const HomePlaneGeometry = ({
   );
 };
 
-export default HomePlaneGeometry;
+export default CanvasPlane;
