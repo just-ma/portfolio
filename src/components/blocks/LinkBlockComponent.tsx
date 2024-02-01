@@ -14,28 +14,28 @@ type ReferenceDefinition = {
 };
 
 const ReferenceLink = ({
-  ref,
+  reference,
   children,
 }: {
-  ref: string;
+  reference: string;
   children: string;
 }) => {
   const { data } = useQuery({
-    queryKey: ["internalLink", ref],
+    queryKey: ["internalLink", reference],
     queryFn: async (): Promise<ReferenceDefinition | undefined> => {
-      if (!ref) {
+      if (!reference) {
         return undefined;
       }
 
       const response = await client.fetch(
-        `*[_id == "${ref}"]{ _id, _type, slug }`
+        `*[_id == "${reference}"]{ _id, _type, slug }`
       );
       return response?.[0];
     },
     initialData: (): ReferenceDefinition | undefined => {
       return queryClient
         .getQueryData<readonly ReferenceDefinition[]>(["internalLink"])
-        ?.find((l) => l._id === ref);
+        ?.find((l) => l._id === reference);
     },
   });
 
@@ -78,7 +78,7 @@ const LinkBlockComponent = ({
   }
 
   if (reference) {
-    return <ReferenceLink ref={reference._ref}>{text}</ReferenceLink>;
+    return <ReferenceLink reference={reference._ref}>{text}</ReferenceLink>;
   }
 
   if (internal) {
