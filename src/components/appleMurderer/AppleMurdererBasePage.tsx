@@ -86,6 +86,7 @@ const CornerAdornment = styled.img<{ index: number }>`
   transform: scaleY(${({ index }) => (index < 2 ? 1 : -1)})
     scaleX(${({ index }) => (index === 0 || index === 3 ? 1 : -1)});
   width: calc(10% + 40px);
+  pointer-events: none;
 `;
 
 const BodyColumn = styled.div`
