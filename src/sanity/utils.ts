@@ -2,6 +2,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import {
   AboutDefinition,
+  AppleMurdererPageDefinition,
   DocumentType,
   DocumentTypeToDefinition,
 } from "./types";
@@ -40,6 +41,15 @@ export const getAbout = async (
 ): Promise<AboutDefinition | undefined> => {
   const response = await client.fetch(
     `*[_type == "about" && order == ${count}]`
+  );
+  return response?.[0];
+};
+
+export const getAppleMurdererPage = async (
+  pageNum: string
+): Promise<AppleMurdererPageDefinition | undefined> => {
+  const response = await client.fetch(
+    `*[_type == "appleMurdererPage" && pageNum == ${pageNum}]`
   );
   return response?.[0];
 };

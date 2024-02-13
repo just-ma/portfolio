@@ -9,6 +9,7 @@ import {
 import { useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 import useIsMobile from "../../hooks/useMobile";
+import { APPLE_MURDERER_ROOT_PATH } from "../appleMurderer/constants";
 
 const StyledLink = styled(Link)<{ $small: boolean; $selected: boolean }>`
   font-size: calc(
@@ -55,7 +56,7 @@ const MainMenuItem = ({
   const preLabel = useTextTyper("> ", showPreLabel);
   const typedLabel = useTextTyper(
     OPTION_TYPE_TO_LABEL[type],
-    !isMobile || isHome,
+    (!isMobile && !pathname.startsWith(APPLE_MURDERER_ROOT_PATH)) || isHome,
     typedLabelDelay
   );
 

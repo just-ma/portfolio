@@ -12,9 +12,15 @@ const Container = styled.div`
   align-self: stretch;
 `;
 
-const Description = ({ value }: { value: PortableTextBlock }) => {
+const Description = ({
+  value,
+  className,
+}: {
+  value: PortableTextBlock;
+  className?: string;
+}) => {
   return (
-    <Container>
+    <Container className={className}>
       <PortableText
         value={value}
         components={{

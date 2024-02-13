@@ -1,3 +1,8 @@
+html {
+  background-color: white;
+  transition: background-color 1s steps(5);
+}
+
 body {
   margin: 0;
   font-family: "Sligoil-Micro", Menlo, Monaco, "Helvetica Neue", sans-serif;
@@ -14,6 +19,11 @@ code {
 a {
   color: blue;
   text-decoration: underline;
+}
+
+.dark {
+  background-color: black;
+  color: white;
 }
 
 @font-face {

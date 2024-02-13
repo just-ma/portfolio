@@ -1,5 +1,5 @@
 import DiaryGLTF from "../../../assets/models/diary/Diary.glb";
-import { ModelProps } from "../CanvasObject";
+import { ModelProps } from "../CanvasMainObject";
 import { SpringValue, animated, useSpring } from "@react-spring/three";
 import useModelLoader from "./useModelLoader";
 

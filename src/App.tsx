@@ -15,6 +15,9 @@ import DJDetailsPage from "./dj/DJDetailsPage";
 import { OPTION_TYPE_TO_ROOT_PATH } from "./constants";
 import MainMenu from "./components/main/MainMenu";
 import BlogDetailsPage from "./blog/BlogDetailsPage";
+import AppleMurdererPage from "./components/appleMurderer/AppleMurdererPage";
+import { APPLE_MURDERER_ROOT_PATH } from "./components/appleMurderer/constants";
+import AppleMurdererLandingPage from "./components/appleMurderer/AppleMurdererLandingPage";
 
 export const queryClient = new QueryClient();
 
@@ -75,6 +78,16 @@ function App() {
             <Route
               path={OPTION_TYPE_TO_ROOT_PATH["about"]}
               element={<AboutPage />}
+            />
+
+            {/* apple murderer */}
+            <Route
+              path={APPLE_MURDERER_ROOT_PATH}
+              element={<AppleMurdererLandingPage />}
+            />
+            <Route
+              path={`${APPLE_MURDERER_ROOT_PATH}/:pageNum`}
+              element={<AppleMurdererPage />}
             />
           </Routes>
           <MainCanvas />

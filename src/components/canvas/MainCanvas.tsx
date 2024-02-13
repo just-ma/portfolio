@@ -5,10 +5,11 @@ import styled from "styled-components";
 import { OPTION_TYPES } from "../../constants";
 import { useSpring, animated } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
-import CanvasObject from "./CanvasObject";
+import CanvasMainObject from "./CanvasMainObject";
 import CanvasPlane from "./CanvasPlane";
 import useAppContext from "../../hooks/useAppContext";
 import useIsMobile from "../../hooks/useMobile";
+import CanvasAppleObject from "./CanvasAppleObject";
 
 const StyledCanvas = styled(Canvas)`
   position: absolute !important;
@@ -77,13 +78,14 @@ const CanvasContent = () => {
         position={[0, isMobile ? -1 : 0, 0]}
       >
         {OPTION_TYPES.map((type, index) => (
-          <CanvasObject
+          <CanvasMainObject
             key={type}
             index={index}
             type={type}
             hovering={hoveredOption === type}
           />
         ))}
+        <CanvasAppleObject />
         <CanvasPlane springs={springs} />
       </animated.group>
       <ambientLight intensity={3} />

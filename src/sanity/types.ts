@@ -67,13 +67,14 @@ export interface DocumentTypeToDefinition
 /* misc */
 
 export type AppleMurdererPageType = "appleMurdererPage";
+export type AppleMurdererOptionDefinition = {
+  pageNum: number | undefined;
+  description: PortableTextBlock;
+};
 export type AppleMurdererPageDefinition = {
   _type: AppleMurdererPageType;
   title: string;
-  page: number;
-  description: PortableTextBlock;
-  options: readonly {
-    page: number;
-    description: PortableTextBlock;
-  }[];
+  pageNum: number;
+  description?: PortableTextBlock;
+  options?: readonly AppleMurdererOptionDefinition[];
 };

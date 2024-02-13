@@ -25,18 +25,28 @@ const FallbackTitle = styled.div`
   ${titleCss}
 `;
 
-const Title = styled(Link)<{ titlefont: TitleFont }>`
+const TitleBlock = styled.div<{ $tempdark?: boolean }>`
+  display: inline-block;
+  border: 1px solid blue;
+  background-color: ${({ $tempdark }) => ($tempdark ? "black" : "white")};
+  color: ${({ $tempdark }) => ($tempdark ? "white" : "blue")};
+`;
+
+const Title = styled(Link)<{ titlefont: TitleFont; $dark: boolean }>`
   font-family: "${({ titlefont }) => titlefont.family}";
   font-size: ${({ titlefont }) => titlefont.size + 2}px;
 
   ${titleCss}
-`;
 
-const TitleBlock = styled.div<{ $dark: boolean }>`
-  display: inline-block;
-  border: 1px solid blue;
-  background-color: ${({ $dark }) => ($dark ? "black" : "white")};
-  color: ${({ $dark }) => ($dark ? "white" : "blue")};
+  ${({ $dark }) =>
+    $dark &&
+    css`
+      ${TitleBlock} {
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+      }
+    `}
 `;
 
 type TitleFont = {
@@ -68,11 +78,11 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const { titleAnimating, onTitleAnimatingChange } = useAppContext();
+  const { titleAnimating, onTitleAnimatingChange, theme } = useAppContext();
 
   const [hoverAnimating, setHoverAnimting] = useState(false);
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
-  const [dark, setDark] = useState(false);
+  const [tempDark, setTempDark] = useState(false);
 
   const isMobile = useIsMobile();
 
@@ -109,7 +119,7 @@ const MainHeader = () => {
       randomizeFont();
       intervalId = setInterval(() => {
         randomizeFont();
-        setDark(false);
+        setTempDark(false);
       }, 67);
     }
 
@@ -123,7 +133,7 @@ const MainHeader = () => {
   };
 
   const handleTitleClick = () => {
-    setDark(true);
+    setTempDark(true);
     startAnimation();
     window.scroll({ top: 0, behavior: "smooth" });
   };
@@ -136,9 +146,9 @@ const MainHeader = () => {
     <Suspense
       fallback={
         <FallbackTitle>
-          <TitleBlock $dark={dark}>NIT</TitleBlock>
-          <TitleBlock $dark={dark}>SU</TitleBlock>
-          <TitleBlock $dark={dark}>J.</TitleBlock>
+          <TitleBlock>NIT</TitleBlock>
+          <TitleBlock>SU</TitleBlock>
+          <TitleBlock>J.</TitleBlock>
         </FallbackTitle>
       }
     >
@@ -147,10 +157,11 @@ const MainHeader = () => {
         onClick={handleTitleClick}
         onMouseEnter={() => setHoverAnimting(true)}
         to={"/"}
+        $dark={theme === "dark"}
       >
-        <TitleBlock $dark={dark}>NIT</TitleBlock>
-        <TitleBlock $dark={dark}>SU</TitleBlock>
-        <TitleBlock $dark={dark}>J.</TitleBlock>
+        <TitleBlock $tempdark={tempDark}>NIT</TitleBlock>
+        <TitleBlock $tempdark={tempDark}>SU</TitleBlock>
+        <TitleBlock $tempdark={tempDark}>J.</TitleBlock>
       </Title>
       {isMobile && <MainSubtitle />}
     </Suspense>

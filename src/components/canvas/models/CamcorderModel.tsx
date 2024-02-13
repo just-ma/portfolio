@@ -1,6 +1,6 @@
 import { useSpring, animated, SpringValue } from "@react-spring/three";
 import CamcorderGLTF from "../../../assets/models/camcorder/Camcorder.glb";
-import { ModelProps } from "../CanvasObject";
+import { ModelProps } from "../CanvasMainObject";
 import useModelLoader from "./useModelLoader";
 
 const CamcorderModel = ({ selected, opacity }: ModelProps) => {

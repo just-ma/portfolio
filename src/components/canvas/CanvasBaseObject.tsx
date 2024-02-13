@@ -1,58 +1,38 @@
 import { Vector3, useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
-import {
-  OPTION_TYPES,
-  OPTION_TYPE_TO_ROOT_PATH,
-  throttle,
-} from "../../constants";
+import { throttle } from "../../constants";
 import { useSpring, animated, easings } from "@react-spring/three";
 import { useLocation, useNavigate } from "react-router-dom";
-import LaptopModel from "./models/LaptopModel";
-import HeadphonesModel from "./models/HeadphonesModel";
-import HeadModel from "./models/HeadModel";
-import CamcorderModel from "./models/CamcorderModel";
-import DiaryModel from "./models/DiaryModel";
-import { OptionType } from "../../sanity";
 import useAppContext from "../../hooks/useAppContext";
 import useIsMobile from "../../hooks/useMobile";
-
-const HOME_ITEM_ANGLE = (2 * Math.PI) / OPTION_TYPES.length;
 
 export type ModelProps = {
   opacity: number;
   selected?: boolean;
 };
 
-const OPTION_TYPE_TO_COMPONENT: Record<
-  OptionType,
-  (props: ModelProps) => JSX.Element
-> = {
-  website: LaptopModel,
-  blog: DiaryModel,
-  film: CamcorderModel,
-  dj: HeadphonesModel,
-  about: HeadModel,
-};
-
-const CanvasObject = ({
-  index,
-  type,
+const CanvasBaseObject = ({
   hovering,
+  angle,
+  distance,
+  delayIndex,
+  ObjectComponent,
+  rootPath,
 }: {
-  index: number;
-  type: OptionType;
-  hovering: boolean;
+  hovering?: boolean;
+  angle: number;
+  distance: number;
+  delayIndex: number;
+  ObjectComponent: (props: ModelProps) => JSX.Element;
+  rootPath: string;
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const currentPath = location.pathname;
-  const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
   const selected = currentPath.startsWith(rootPath);
   const exactSelected = currentPath === rootPath;
   const isHome = currentPath === "/";
-
-  const ObjectComponent = OPTION_TYPE_TO_COMPONENT[type];
 
   const { titleAnimating } = useAppContext();
 
@@ -67,27 +47,20 @@ const CanvasObject = ({
 
   const isMobile = useIsMobile();
 
-  const handleClick = () => {
-    navigate(exactSelected ? "/" : rootPath);
-  };
-
-  const itemAngle = (index - 1.3) * HOME_ITEM_ANGLE;
-  const baseRotation = itemAngle - 0.8;
+  const baseRotation = angle - 0.8;
 
   const baseYPosition = 0.25;
   const hiddenPosition: Vector3 = [
-    -Math.cos(itemAngle) * 2,
+    -Math.cos(angle) * distance * 2,
     baseYPosition,
-    Math.sin(itemAngle) * 2,
+    Math.sin(angle) * distance * 2,
   ];
   const getPosition = (y?: number): Vector3 => {
     if (isHome) {
-      const multiplier = 1.2;
-
       return [
-        -Math.cos(itemAngle) * multiplier,
-        (y ?? baseYPosition) * multiplier,
-        Math.sin(itemAngle) * multiplier,
+        -Math.cos(angle) * distance,
+        (y ?? baseYPosition) * 1.2,
+        Math.sin(angle) * distance,
       ];
     }
 
@@ -115,7 +88,7 @@ const CanvasObject = ({
     }
 
     jumping.current = true;
-    const delay = withDelay ? (index + 2) * 100 : 0;
+    const delay = withDelay ? (delayIndex + 2) * 100 : 0;
 
     api.start({
       to: async (next) => {
@@ -213,6 +186,10 @@ const CanvasObject = ({
     }
   }, [selected]);
 
+  const handleClick = () => {
+    navigate(exactSelected ? "/" : rootPath);
+  };
+
   const handlePointerEnter = throttle(() => {
     !isMobile && jump();
   });
@@ -230,4 +207,4 @@ const CanvasObject = ({
   );
 };
 
-export default CanvasObject;
+export default CanvasBaseObject;
