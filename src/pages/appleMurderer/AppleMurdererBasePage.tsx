@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { AppleMurdererPageDefinition } from "../../sanity";
-import Description from "../Description";
+import Description from "../../components/Description";
 import styled, { css } from "styled-components";
 import { APPLE_MURDERER_ROOT_PATH } from "./constants";
 import { useEffect, useState } from "react";

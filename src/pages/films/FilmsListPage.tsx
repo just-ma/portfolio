@@ -1,9 +1,9 @@
-import BackFooter from "../components/BackFooter";
-import ScrollContainer from "../components/ScrollContainer";
-import ListPageCard from "../components/listPage/ListPageCard";
+import BackFooter from "../../components/BackFooter";
+import ScrollContainer from "../../components/ScrollContainer";
+import ListPageCard from "../../components/listPage/ListPageCard";
 import Quote from "./Quote";
-import useDocuments from "../hooks/useDocuments";
-import { FilmDefinition } from "../sanity";
+import useDocuments from "../../hooks/useDocuments";
+import { FilmDefinition } from "../../sanity";
 
 export const FilmsListPageCard = ({
   document,

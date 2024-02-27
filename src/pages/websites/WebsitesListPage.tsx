@@ -1,8 +1,8 @@
-import BackFooter from "../components/BackFooter";
-import ScrollContainer from "../components/ScrollContainer";
-import ListPageCard from "../components/listPage/ListPageCard";
-import useDocuments from "../hooks/useDocuments";
-import { WebsiteDefinition } from "../sanity";
+import BackFooter from "../../components/BackFooter";
+import ScrollContainer from "../../components/ScrollContainer";
+import ListPageCard from "../../components/listPage/ListPageCard";
+import useDocuments from "../../hooks/useDocuments";
+import { WebsiteDefinition } from "../../sanity";
 
 export const WebsitesListPageCard = ({
   document,

@@ -1,10 +1,10 @@
-import ScrollContainer from "../components/ScrollContainer";
+import ScrollContainer from "../../components/ScrollContainer";
 import { useQuery } from "@tanstack/react-query";
-import { getAbout } from "../sanity";
-import Description from "../components/Description";
-import BackFooter from "../components/BackFooter";
+import { getAbout } from "../../sanity";
+import Description from "../../components/Description";
+import BackFooter from "../../components/BackFooter";
 import styled, { css } from "styled-components";
-import { INITIAL_VIEWPORT_HEIGHT } from "../constants";
+import { INITIAL_VIEWPORT_HEIGHT } from "../../constants";
 import { useMemo, useState } from "react";
 
 const MAX_COUNT = 11;

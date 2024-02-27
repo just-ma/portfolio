@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AppleMurdererOptionDefinition } from "../../sanity";
-import Description from "../Description";
+import Description from "../../components/Description";
 import styled from "styled-components";
 import { APPLE_MURDERER_ROOT_PATH } from "./constants";
 

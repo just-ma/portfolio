@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { OptionType } from "../sanity";
 import { useLocation } from "react-router-dom";
-import { APPLE_MURDERER_ROOT_PATH } from "../components/appleMurderer/constants";
+import { APPLE_MURDERER_ROOT_PATH } from "../pages/appleMurderer/constants";
 
 export type PageTitle = {
   optionType?: OptionType;

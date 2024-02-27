@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import VideoBlockComponent from "../components/blocks/VideoBlockComponent";
-import BackFooter from "../components/BackFooter";
-import ScrollContainer from "../components/ScrollContainer";
+import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
+import BackFooter from "../../components/BackFooter";
+import ScrollContainer from "../../components/ScrollContainer";
 import Quote from "./Quote";
-import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
-import Description from "../components/Description";
-import useDocument from "../hooks/useDocument";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
+import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
+import Description from "../../components/Description";
+import useDocument from "../../hooks/useDocument";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 
 const StyledQuote = styled(Quote)`
   margin-bottom: 50px;

@@ -9,7 +9,7 @@ import {
 import { useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 import useIsMobile from "../../hooks/useMobile";
-import { APPLE_MURDERER_ROOT_PATH } from "../appleMurderer/constants";
+import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
 
 const StyledLink = styled(Link)<{ $small: boolean; $selected: boolean }>`
   font-size: calc(

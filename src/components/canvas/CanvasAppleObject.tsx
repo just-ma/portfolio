@@ -1,5 +1,5 @@
 import { OPTION_TYPES } from "../../constants";
-import { APPLE_MURDERER_ROOT_PATH } from "../appleMurderer/constants";
+import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
 import AppleModel from "./models/AppleModel";
 import CanvasBaseObject from "./CanvasBaseObject";
 

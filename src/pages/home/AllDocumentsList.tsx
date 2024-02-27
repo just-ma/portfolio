@@ -1,21 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import ScrollContainer from "../components/ScrollContainer";
+import ScrollContainer from "../../components/ScrollContainer";
 import {
   DocumentDefinition,
   DocumentType,
   OptionType,
   getDocuments,
   urlFor,
-} from "../sanity";
+} from "../../sanity";
 import styled, { css } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import {
   INITIAL_VIEWPORT_HEIGHT,
   OPTION_TYPE_TO_ROOT_PATH,
-} from "../constants";
-import Thumbnail from "../components/Thumbnail";
-import Description from "../components/Description";
-import useAppContext from "../hooks/useAppContext";
+} from "../../constants";
+import Thumbnail from "../../components/Thumbnail";
+import Description from "../../components/Description";
+import useAppContext from "../../hooks/useAppContext";
 
 export const DOCUMENTS_LIST_TOP = INITIAL_VIEWPORT_HEIGHT * 1.3;
 

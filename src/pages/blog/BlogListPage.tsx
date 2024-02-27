@@ -1,8 +1,8 @@
-import BackFooter from "../components/BackFooter";
-import ScrollContainer from "../components/ScrollContainer";
-import useDocuments from "../hooks/useDocuments";
-import ListPageCard from "../components/listPage/ListPageCard";
-import { BlogDefinition } from "../sanity";
+import BackFooter from "../../components/BackFooter";
+import ScrollContainer from "../../components/ScrollContainer";
+import useDocuments from "../../hooks/useDocuments";
+import ListPageCard from "../../components/listPage/ListPageCard";
+import { BlogDefinition } from "../../sanity";
 
 export const BlogListPageCard = ({
   document,

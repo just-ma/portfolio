@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import BackFooter from "../components/BackFooter";
-import ScrollContainer from "../components/ScrollContainer";
-import DetailsPageInfo from "../components/detailsPage/DetailsPageInfo";
-import Description from "../components/Description";
-import useDocument from "../hooks/useDocument";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../constants";
-import { urlFor } from "../sanity";
+import BackFooter from "../../components/BackFooter";
+import ScrollContainer from "../../components/ScrollContainer";
+import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
+import Description from "../../components/Description";
+import useDocument from "../../hooks/useDocument";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
+import { urlFor } from "../../sanity";
 import styled from "styled-components";
-import Thumbnail from "../components/Thumbnail";
+import Thumbnail from "../../components/Thumbnail";
 
 const StyledThumbnail = styled(Thumbnail)`
   max-width: 400px;
