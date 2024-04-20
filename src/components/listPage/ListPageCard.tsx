@@ -24,6 +24,7 @@ const Info = styled.div<{ $square?: boolean }>`
 const Title = styled.div`
   text-decoration: underline;
   color: blue;
+  text-align: left;
 `;
 
 const Subtitle = styled.div<{ $square?: boolean }>`
