@@ -12,15 +12,22 @@ export const OPTION_TYPE_TO_ROOT_PATH: Record<OptionType, string> = {
   website: "/websites",
   film: "/films",
   dj: "/dj",
-  blog: "/blog",
+  blog: "/misc",
   about: "/about",
 };
+
+export const ROOT_PATH_TO_OPTION_TYPE: Record<string, OptionType> =
+  Object.fromEntries(
+    Object.entries(OPTION_TYPE_TO_ROOT_PATH).map(
+      ([key, value]) => [value, key] as [string, OptionType]
+    )
+  );
 
 export const OPTION_TYPE_TO_LABEL: Record<OptionType, string> = {
   website: "websites",
   film: "films",
-  dj: "dj",
-  blog: "blog",
+  dj: "dj mixes",
+  blog: "misc",
   about: "about",
 };
 

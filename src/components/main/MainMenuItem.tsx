@@ -1,90 +1,150 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import { OptionType } from "../../sanity";
-import {
-  OPTION_TYPES,
-  OPTION_TYPE_TO_LABEL,
-  OPTION_TYPE_TO_ROOT_PATH,
-} from "../../constants";
 import { useEffect } from "react";
 import useTextTyper from "../../hooks/useTextTyper";
 import useIsMobile from "../../hooks/useMobile";
 import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
-
-const StyledLink = styled(Link)<{ $small: boolean; $selected: boolean }>`
-  font-size: calc(
-    ${({ $small }) => ($small ? 1 : 3)}vw +
-      ${({ $small }) => ($small ? 1 : 3)}vh
-  );
-  width: fit-content;
-  pointer-events: all;
-  color: ${({ $selected }) => ($selected ? "black" : "blue")};
-  transition: font-size 0.4s;
-  text-decoration: none;
-`;
+import useAppContext from "../../hooks/useAppContext";
+import { MEDIA_SIZE } from "../../constants";
+import { OptionType } from "../../sanity";
 
 const Label = styled.span`
-  text-decoration: underline;
+  border: 1px solid blue;
+  padding: 0 5px;
+  transition: margin-left 0.1s ease-in-out, background-color 0.1s, color 0.1s;
+  border-bottom-right-radius: 5px;
+`;
+
+const hoverCss = css<{ $selected: boolean }>`
+  @media ${MEDIA_SIZE.desktop} {
+    ${Label} {
+      background-color: ${({ $selected }) => ($selected ? "#34d08c" : "white")};
+      transition: background-color 0s;
+    }
+  }
+`;
+
+const StyledLink = styled(Link)<{
+  $indent?: boolean;
+  $selected: boolean;
+  $hovering: boolean;
+}>`
+  display: flex;
+  align-items: flex-start;
+  font-size: 16px;
+  width: fit-content;
+  pointer-events: all;
+  transition: font-size 0.4s;
+  text-decoration: none;
+  margin-bottom: 2px;
+  margin-left: ${({ $indent }) => ($indent ? 30 : 0)}px;
+
+  ${Label} {
+    background-color: ${({ $selected }) => ($selected ? "#3eb380" : "#e3e3e3")};
+    color: ${({ $selected }) => ($selected ? "#fbffe1" : "blue")};
+  }
+
+  &:hover {
+    ${hoverCss}
+  }
+
+  ${({ $hovering }) => $hovering && hoverCss}
+
+  &:active {
+    ${Label} {
+      animation: ${({ $selected }) => ($selected ? "blink" : "none")} 0.2s;
+      transition: background-color 0s;
+
+      @keyframes blink {
+        from {
+          background-color: black;
+        }
+      }
+    }
+  }
+`;
+
+const Indent = styled.div`
+  margin: 0 6px;
+  display: inline-block;
+  line-height: 20px;
+  color: blue;
 `;
 
 const MainMenuItem = ({
   type,
+  label,
+  link,
+  indent,
+  index,
   hovering,
-  onHoveredOptionChange,
-  small,
 }: {
-  type: OptionType;
+  type?: OptionType;
+  label: string;
+  link: string;
+  indent?: boolean;
+  index: number;
   hovering: boolean;
-  onHoveredOptionChange: (value: OptionType | null) => void;
-  small: boolean;
 }) => {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  const rootPath = OPTION_TYPE_TO_ROOT_PATH[type];
-  const selected = pathname.startsWith(rootPath);
-  const exactSelected = pathname === rootPath;
-  const path = exactSelected ? "/" : rootPath;
+  const exactSelected = pathname === link;
+  const selected = link === "/" ? exactSelected : pathname.startsWith(link);
 
   const isMobile = useIsMobile();
+  const { onHoveredItemChange } = useAppContext();
 
   useEffect(() => {
-    onHoveredOptionChange(null);
+    onHoveredItemChange(null);
   }, [pathname]);
 
-  const showPreLabel = !isMobile && (hovering || selected);
-  const typedLabelDelay = isHome ? 300 + OPTION_TYPES.indexOf(type) * 100 : 0;
-  const preLabel = useTextTyper("> ", showPreLabel);
+  const typedLabelDelay = isHome ? 300 + index * 100 : 0;
   const typedLabel = useTextTyper(
-    OPTION_TYPE_TO_LABEL[type],
-    (!isMobile && !pathname.startsWith(APPLE_MURDERER_ROOT_PATH)) || isHome,
+    label,
+    !pathname.startsWith(APPLE_MURDERER_ROOT_PATH) || isHome,
     typedLabelDelay
   );
 
   const handleMouseEnter = () => {
     if (!isMobile) {
-      onHoveredOptionChange(type);
+      onHoveredItemChange({ label, link, type });
     }
   };
 
   const handleMouseLeave = () => {
     if (!isMobile) {
-      onHoveredOptionChange(null);
+      onHoveredItemChange(null);
     }
   };
 
-  if (!preLabel && !typedLabel) {
+  const handleClick = () => {
+    if (!selected) {
+      return;
+    }
+
+    if (link === "/" && window.scrollY < window.innerHeight - 280) {
+      window.scrollTo({ top: window.innerHeight - 280, behavior: "smooth" });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  if (!typedLabel) {
     return null;
   }
 
   return (
     <StyledLink
-      to={path}
+      to={link}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      $small={small}
       $selected={selected}
+      $indent={indent}
+      $hovering={hovering}
+      onClick={handleClick}
     >
-      <span>{preLabel}</span>
+      <Indent>{"∟"}</Indent>
       <Label>{typedLabel}</Label>
     </StyledLink>
   );

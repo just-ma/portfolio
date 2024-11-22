@@ -6,10 +6,13 @@ import LinkBlockComponent from "./blocks/LinkBlockComponent";
 import styled from "styled-components";
 import CustomBlockComponent from "./blocks/CustomBlockComponent";
 
-const Container = styled.div`
+export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-self: stretch;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: -0.2px;
 `;
 
 const Description = ({
@@ -20,7 +23,7 @@ const Description = ({
   className?: string;
 }) => {
   return (
-    <Container className={className}>
+    <DescriptionContainer className={className}>
       <PortableText
         value={value}
         components={{
@@ -34,7 +37,7 @@ const Description = ({
           },
         }}
       />
-    </Container>
+    </DescriptionContainer>
   );
 };
 

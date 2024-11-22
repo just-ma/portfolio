@@ -1,25 +1,25 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { OptionType } from "../sanity";
 import { useLocation } from "react-router-dom";
 import { APPLE_MURDERER_ROOT_PATH } from "../pages/appleMurderer/constants";
 
-export type PageTitle = {
-  optionType?: OptionType;
-  title?: string;
-  link?: string;
+export type TableItem = {
+  type?: OptionType;
+  label: string;
+  link: string;
 };
 
 const noop = () => {};
 
 const AppContext = createContext<{
-  hoveredOption: OptionType | null;
-  onHoveredOptionChange: (value: OptionType | null) => void;
+  hoveredItem: TableItem | null;
+  onHoveredItemChange: (value: TableItem | null) => void;
   titleAnimating: boolean;
   onTitleAnimatingChange: (value: boolean) => void;
   theme: string;
 }>({
-  hoveredOption: null,
-  onHoveredOptionChange: noop,
+  hoveredItem: null,
+  onHoveredItemChange: noop,
   titleAnimating: true,
   onTitleAnimatingChange: noop,
   theme: "light",
@@ -28,8 +28,15 @@ const AppContext = createContext<{
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useLocation();
 
-  const [hoveredOption, setHoveredOption] = useState<OptionType | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<TableItem | null>(null);
   const [titleAnimating, setTitleAnimating] = useState(true);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: pathname === "/" ? "smooth" : "instant",
+    });
+  }, [pathname]);
 
   const theme = useMemo(() => {
     const isDark = pathname.startsWith(APPLE_MURDERER_ROOT_PATH);
@@ -45,13 +52,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = useMemo(
     () => ({
-      hoveredOption,
-      onHoveredOptionChange: setHoveredOption,
+      hoveredItem,
+      onHoveredItemChange: setHoveredItem,
       titleAnimating,
       onTitleAnimatingChange: setTitleAnimating,
       theme,
     }),
-    [hoveredOption, titleAnimating, theme]
+    [hoveredItem, titleAnimating, theme]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

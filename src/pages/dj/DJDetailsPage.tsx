@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import BackFooter from "../../components/BackFooter";
-import ScrollContainer from "../../components/ScrollContainer";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
 import SoundCloudEmbed from "./SoundCloudEmbed";
 import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
+import DividedPage from "../../components/DividedPage";
 
 const DJDetailsPage = () => {
   const { djId } = useParams<{
@@ -21,12 +21,12 @@ const DJDetailsPage = () => {
   const { description, soundCloud } = dj;
 
   return (
-    <ScrollContainer>
+    <DividedPage withDot>
       <SoundCloudEmbed soundCloudId={soundCloud.id} />
       <DetailsPageInfo document={dj} url={soundCloud.externalUrl} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["dj"]} />
-    </ScrollContainer>
+    </DividedPage>
   );
 };
 

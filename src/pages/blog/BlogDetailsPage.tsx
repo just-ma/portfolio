@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import BackFooter from "../../components/BackFooter";
-import ScrollContainer from "../../components/ScrollContainer";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
@@ -8,6 +7,7 @@ import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import { urlFor } from "../../sanity";
 import styled from "styled-components";
 import Thumbnail from "../../components/Thumbnail";
+import DividedPage from "../../components/DividedPage";
 
 const StyledThumbnail = styled(Thumbnail)`
   max-width: 400px;
@@ -31,12 +31,12 @@ const BlogDetailsPage = () => {
   const { description, thumbnail, title } = blog;
 
   return (
-    <ScrollContainer>
-      <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} $square />
+    <DividedPage withDot>
+      <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} />
       <Info document={blog} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />
-    </ScrollContainer>
+    </DividedPage>
   );
 };
 

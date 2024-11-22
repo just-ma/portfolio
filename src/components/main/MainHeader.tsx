@@ -2,14 +2,13 @@ import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import MainSubtitle from "./MainSubtitle";
 import useIsMobile from "../../hooks/useMobile";
 
 const titleCss = css`
   position: fixed;
   top: 10px;
-  left: 10px;
-  z-index: 2;
+  left: max(calc(50vw - 400px), 10px);
+  z-index: 20;
   line-height: 24px;
   display: flex;
   gap: 10px;
@@ -35,6 +34,7 @@ const TitleBlock = styled.div<{ $tempdark?: boolean }>`
 const Title = styled(Link)<{ titlefont: TitleFont; $dark: boolean }>`
   font-family: "${({ titlefont }) => titlefont.family}";
   font-size: ${({ titlefont }) => titlefont.size + 2}px;
+  pointer-events: all;
 
   ${titleCss}
 
@@ -77,6 +77,7 @@ const FONTS: readonly TitleFont[] = [
 
 const MainHeader = () => {
   const { pathname } = useLocation();
+  const isHome = pathname === "/" || pathname === "/all";
 
   const { titleAnimating, onTitleAnimatingChange, theme } = useAppContext();
 
@@ -163,7 +164,6 @@ const MainHeader = () => {
         <TitleBlock $tempdark={tempDark}>SU</TitleBlock>
         <TitleBlock $tempdark={tempDark}>J.</TitleBlock>
       </Title>
-      {isMobile && <MainSubtitle />}
     </Suspense>
   );
 };

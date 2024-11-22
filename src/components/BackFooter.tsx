@@ -5,7 +5,7 @@ const Container = styled.div`
   margin: 40% 0;
   cursor: pointer;
   user-select: none;
-  color: blue;
+  color: #008e66;
 `;
 
 const Underline = styled.span`

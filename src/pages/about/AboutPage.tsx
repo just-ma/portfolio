@@ -1,4 +1,3 @@
-import ScrollContainer from "../../components/ScrollContainer";
 import { useQuery } from "@tanstack/react-query";
 import { getAbout } from "../../sanity";
 import Description from "../../components/Description";
@@ -6,8 +5,13 @@ import BackFooter from "../../components/BackFooter";
 import styled, { css } from "styled-components";
 import { INITIAL_VIEWPORT_HEIGHT } from "../../constants";
 import { useMemo, useState } from "react";
+import DividedPage from "../../components/DividedPage";
 
 const MAX_COUNT = 11;
+
+const Container = styled(DividedPage)`
+  margin-top: 100px;
+`;
 
 const BlockContainer = styled.div<{ $animate: boolean }>`
   overflow: hidden;
@@ -37,7 +41,8 @@ const MoreFooter = styled.div`
   margin-bottom: 40%;
   user-select: none;
   cursor: pointer;
-  color: blue;
+  color: #008e66;
+  width: fit-content;
 `;
 
 const Message = styled.div`
@@ -82,7 +87,7 @@ const AboutPage = () => {
   };
 
   return (
-    <ScrollContainer listPage>
+    <Container withDot>
       {arr.map((_, index) => (
         <AboutPageBlock key={index} index={index} />
       ))}
@@ -94,7 +99,7 @@ const AboutPage = () => {
           <Arrow>V</Arrow>
         </MoreFooter>
       )}
-    </ScrollContainer>
+    </Container>
   );
 };
 

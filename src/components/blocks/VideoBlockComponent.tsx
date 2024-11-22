@@ -3,8 +3,9 @@ import styled from "styled-components";
 const Video = styled.iframe<{
   aspectratio: number;
 }>`
-  width: 100%;
-  max-height: 600px;
+  max-width: 100%;
+  height: 100%;
+  max-height: 50vh;
   border: none;
   aspect-ratio: ${({ aspectratio }) => aspectratio};
 `;

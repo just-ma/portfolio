@@ -1,4 +1,4 @@
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { Fisheye, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
@@ -7,31 +7,38 @@ import { useSpring, animated } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import CanvasMainObject from "./CanvasMainObject";
 import CanvasPlane from "./CanvasPlane";
-import useAppContext from "../../hooks/useAppContext";
 import useIsMobile from "../../hooks/useMobile";
 import CanvasAppleObject from "./CanvasAppleObject";
+import {
+  BackSide,
+  PerspectiveCamera as PerspectiveCameraDefinition,
+} from "three";
 
 const StyledCanvas = styled(Canvas)`
-  position: absolute !important;
+  position: fixed !important;
   z-index: -1;
-  top: 0;
+  bottom: 0;
   left: 0;
+  width: calc(100vw + 0px) !important;
+  height: calc(100vh + 100px) !important;
 `;
 
 const CanvasContent = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const { hoveredOption } = useAppContext();
+  const isMobile = useIsMobile();
 
   const rotationY = useRef(0);
+  const cameraRef = useRef<PerspectiveCameraDefinition>(null);
 
   const [springs, api] = useSpring(
     {
       from: {
+        position: [-1, 6, 10],
         rotation: [0, 0, 0] as Euler,
-        scale: 3,
-        opacity: 0,
+        scale: 1,
+        opacity: 1,
       },
     },
     []
@@ -39,11 +46,11 @@ const CanvasContent = () => {
 
   useEffect(() => {
     api.start({
-      scale: isHome ? 1 : 2,
       opacity: isHome ? 1 : 0,
+      position: [0, isHome ? 0 : -1, 0],
       config: {
         bounce: isHome ? 0.5 : 0,
-        friction: 20,
+        friction: 100,
         tension: 220,
       },
     });
@@ -60,11 +67,31 @@ const CanvasContent = () => {
     });
   }, [location.pathname]);
 
-  const isMobile = useIsMobile();
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isHome]);
+
+  const handleScroll = () => {
+    const scrollY = Math.pow(window.scrollY, 2) / 5000;
+    api.start({
+      position: isHome ? undefined : [0, Math.max(-scrollY - 1, -30), 0],
+      scale: Math.min(1 + scrollY, isHome ? 50 : 30),
+      config: {
+        friction: 50,
+        tension: 200,
+        precision: 0.0001,
+      },
+    });
+  };
 
   return (
-    <>
-      <PerspectiveCamera position={[0, 3, 6]} makeDefault />
+    <Fisheye zoom={0}>
       <OrbitControls
         maxPolarAngle={1.1}
         minPolarAngle={1.1}
@@ -73,23 +100,28 @@ const CanvasContent = () => {
         autoRotate
         autoRotateSpeed={-0.5}
       />
+      <PerspectiveCamera
+        ref={cameraRef}
+        position={[0, isMobile ? 2.5 : 3.5, 0]}
+        makeDefault
+      />
       <animated.group
+        scale={springs.scale}
         rotation={springs.rotation as any}
-        position={[0, isMobile ? -1 : 0, 0]}
+        position={springs.position as any}
       >
         {OPTION_TYPES.map((type, index) => (
-          <CanvasMainObject
-            key={type}
-            index={index}
-            type={type}
-            hovering={hoveredOption === type}
-          />
+          <CanvasMainObject key={type} index={index} type={type} />
         ))}
         <CanvasAppleObject />
         <CanvasPlane springs={springs} />
       </animated.group>
       <ambientLight intensity={3} />
-    </>
+      <mesh>
+        <sphereGeometry args={[15]} />
+        <animated.meshPhongMaterial color="white" side={BackSide} />
+      </mesh>
+    </Fisheye>
   );
 };
 

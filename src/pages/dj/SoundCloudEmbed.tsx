@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 const Embed = styled.iframe`
   border: none;
-  width: 100%;
-  height: 300px;
+  max-width: 100%;
+  height: 50vh;
+  aspect-ratio: 1.78;
   background-color: white;
   border: 1px black solid;
 `;

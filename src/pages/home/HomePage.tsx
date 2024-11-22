@@ -1,106 +1,101 @@
-import styled, { css } from "styled-components";
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import AllDocumentsList, { DOCUMENTS_LIST_TOP } from "./AllDocumentsList";
+import { useQuery } from "@tanstack/react-query";
+import { getDocuments } from "../../sanity";
+import styled from "styled-components";
+import { useLocation } from "react-router-dom";
+import { MEDIA_SIZE, ROOT_PATH_TO_OPTION_TYPE } from "../../constants";
 
-const Footer = styled.div<{ disabled: boolean }>`
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  user-select: none;
-  cursor: pointer;
-  color: blue;
+import { useEffect, useMemo, useState } from "react";
+import { ITEMS } from "./constants";
+import {
+  HOME_MENU_TOP_VH,
+  MENU_HEIGHT_PX,
+  MOBILE_HOME_MENU_TOP_VH,
+} from "../../components/main/MainMenu";
+import useIsMobile from "../../hooks/useMobile";
+import HomeRow, { FIRST_ROW_OFFSET_PX } from "./HomeRow";
 
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      pointer-events: none;
-    `}
+const MOBILE_OVERFLOW_MASK_HEIGHT_PX = 170;
+
+const Container = styled.div<{ $fullHeight: boolean }>`
+  width: 100vw;
+  margin-top: ${({ $fullHeight }) =>
+    $fullHeight
+      ? `calc(${100 - HOME_MENU_TOP_VH}vh - ${
+          MENU_HEIGHT_PX + FIRST_ROW_OFFSET_PX
+        }px)`
+      : "60px"};
+  transition: margin-top 0.4s ease;
+  box-sizing: border-box;
+
+  @media ${MEDIA_SIZE.mobile} {
+    margin-top: ${({ $fullHeight }) =>
+      $fullHeight
+        ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}vh - ${MENU_HEIGHT_PX}px)`
+        : "20px"};
+  }
 `;
 
-const Message = styled.div`
-  text-decoration: underline;
+const OverflowMask = styled.div<{ $visible: boolean }>`
+  background: #e1e1e1;
+  width: 100vw;
+  height: ${MOBILE_OVERFLOW_MASK_HEIGHT_PX}px;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.2s;
+  border-bottom-right-radius: 90%;
+  box-shadow: 0 0 30px 60px #e1e1e1;
 `;
 
-const Arrow = styled.div`
-  font-family: "SyneMono-Regular";
-  text-align: center;
-`;
+const MobileOverflowMask = () => {
+  const [visible, setVisible] = useState(false);
 
-const HomePage = () => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-
-  const pathnameRef = useRef(pathname);
-  const scrollAnimatingRef = useRef(false);
-  const [scrollAnimating, setScrollAnimating] = useState(false);
-
-  const onScrollAnimatingChange = (value: boolean) => {
-    scrollAnimatingRef.current = value;
-    setScrollAnimating(value);
+  const handleScroll = () => {
+    setVisible(window.scrollY > window.innerHeight / 2);
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  useEffect(() => {
-    pathnameRef.current = pathname;
-    onScrollAnimatingChange(true);
+  return <OverflowMask $visible={visible} />;
+};
 
-    window.scrollTo({
-      top: pathname === "/all" ? DOCUMENTS_LIST_TOP : 0,
-      behavior: "smooth",
-    });
+const HomePage = () => {
+  const isMobile = useIsMobile();
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
 
-    const timeoutId = setTimeout(() => {
-      onScrollAnimatingChange(false);
-      handleScroll();
-    }, 800);
+  const { data } = useQuery({
+    queryKey: ["all"],
+    queryFn: async () => {
+      const data = await getDocuments();
+      return data;
+    },
+  });
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
+  const filteredItems = useMemo(() => {
+    const pathnameType = ROOT_PATH_TO_OPTION_TYPE[pathname];
+    if (!pathnameType) {
+      return ITEMS;
+    }
+
+    return ITEMS.filter((item) => item._type === pathnameType);
   }, [pathname]);
-
-  const handleScroll = () => {
-    if (scrollAnimatingRef.current) {
-      return;
-    }
-
-    const threshold = window.innerHeight / 5;
-    const isAll =
-      pathnameRef.current === "/"
-        ? window.scrollY > threshold
-        : window.scrollY > DOCUMENTS_LIST_TOP - threshold;
-    const nextPath = isAll ? "/all" : "/";
-
-    if (pathnameRef.current !== nextPath) {
-      navigate(nextPath);
-    }
-  };
-
-  const handleFooterClick = () => {
-    onScrollAnimatingChange(true);
-    window.scrollTo({
-      top: DOCUMENTS_LIST_TOP,
-      behavior: "smooth",
-    });
-    navigate("/all");
-  };
 
   return (
     <>
-      <Footer onClick={handleFooterClick} disabled={scrollAnimating}>
-        <Message>show me everything</Message>
-        <Arrow>V</Arrow>
-      </Footer>
-      <AllDocumentsList disabled={scrollAnimating} />
+      {isMobile && <MobileOverflowMask />}
+      <Container $fullHeight={isHome}>
+        {filteredItems.map((item) => (
+          <HomeRow key={item.slug} item={item} />
+        ))}
+      </Container>
     </>
   );
 };
