@@ -13,6 +13,7 @@ const Label = styled.span`
   padding: 0 5px;
   transition: margin-left 0.1s ease-in-out, background-color 0.1s, color 0.1s;
   border-bottom-right-radius: 5px;
+  height: 24px;
 `;
 
 const hoverCss = css<{ $selected: boolean }>`
@@ -28,6 +29,7 @@ const StyledLink = styled(Link)<{
   $indent?: boolean;
   $selected: boolean;
   $hovering: boolean;
+  $visible: boolean;
 }>`
   display: flex;
   align-items: flex-start;
@@ -38,6 +40,7 @@ const StyledLink = styled(Link)<{
   text-decoration: none;
   margin-bottom: 2px;
   margin-left: ${({ $indent }) => ($indent ? 30 : 0)}px;
+  visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
 
   ${Label} {
     background-color: ${({ $selected }) => ($selected ? "#3eb380" : "#e3e3e3")};
@@ -130,10 +133,6 @@ const MainMenuItem = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (!typedLabel) {
-    return null;
-  }
-
   return (
     <StyledLink
       to={link}
@@ -143,6 +142,7 @@ const MainMenuItem = ({
       $indent={indent}
       $hovering={hovering}
       onClick={handleClick}
+      $visible={!!typedLabel}
     >
       <Indent>{"∟"}</Indent>
       <Label>{typedLabel}</Label>

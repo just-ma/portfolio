@@ -63,7 +63,6 @@ const CanvasMainObject = ({
   return (
     <CanvasBaseObject
       hovering={hoveredItem?.type === type}
-      allHovering={false}
       angle={angle}
       distance={distance}
       delayIndex={index}

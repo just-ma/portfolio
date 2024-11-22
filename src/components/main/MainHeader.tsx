@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import useIsMobile from "../../hooks/useMobile";
 
 const titleCss = css`
   position: fixed;
@@ -77,15 +76,14 @@ const FONTS: readonly TitleFont[] = [
 
 const MainHeader = () => {
   const { pathname } = useLocation();
-  const isHome = pathname === "/" || pathname === "/all";
 
-  const { titleAnimating, onTitleAnimatingChange, theme } = useAppContext();
+  const { appInit, titleAnimating, onTitleAnimatingChange, theme } =
+    useAppContext();
 
-  const [hoverAnimating, setHoverAnimting] = useState(false);
+  const [hoverAnimating, setHoverAnimating] = useState(false);
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
   const [tempDark, setTempDark] = useState(false);
-
-  const isMobile = useIsMobile();
+  const [init, setInit] = useState(appInit || pathname.slice(1).includes("/"));
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
@@ -100,7 +98,7 @@ const MainHeader = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      setHoverAnimting(false);
+      setHoverAnimating(false);
       setTitleFont(DEFAULT_FONT);
     }, 200);
 
@@ -143,6 +141,21 @@ const MainHeader = () => {
     startAnimation();
   }, [pathname]);
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setInit(true);
+      setHoverAnimating(true);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  if (!init) {
+    return null;
+  }
+
   return (
     <Suspense
       fallback={
@@ -156,7 +169,7 @@ const MainHeader = () => {
       <Title
         titlefont={titleFont}
         onClick={handleTitleClick}
-        onMouseEnter={() => setHoverAnimting(true)}
+        onMouseEnter={() => setHoverAnimating(true)}
         to={"/"}
         $dark={theme === "dark"}
       >

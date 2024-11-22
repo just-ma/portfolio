@@ -13,6 +13,7 @@ import {
   BackSide,
   PerspectiveCamera as PerspectiveCameraDefinition,
 } from "three";
+import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
 
 const StyledCanvas = styled(Canvas)`
   position: fixed !important;
@@ -24,8 +25,9 @@ const StyledCanvas = styled(Canvas)`
 `;
 
 const CanvasContent = () => {
-  const location = useLocation();
-  const isHome = location.pathname === "/";
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+  const isDark = pathname.startsWith(APPLE_MURDERER_ROOT_PATH);
 
   const isMobile = useIsMobile();
 
@@ -35,10 +37,10 @@ const CanvasContent = () => {
   const [springs, api] = useSpring(
     {
       from: {
-        position: [-1, 6, 10],
+        position: isHome ? [-1, 6, 10] : [0, -5, 0],
         rotation: [0, 0, 0] as Euler,
         scale: 1,
-        opacity: 1,
+        opacity: isHome ? 1 : 0,
       },
     },
     []
@@ -65,7 +67,7 @@ const CanvasContent = () => {
         friction: 120,
       },
     });
-  }, [location.pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, {
@@ -119,7 +121,11 @@ const CanvasContent = () => {
       <ambientLight intensity={3} />
       <mesh>
         <sphereGeometry args={[15]} />
-        <animated.meshPhongMaterial color="white" side={BackSide} />
+        <animated.meshPhongMaterial
+          color="white"
+          side={BackSide}
+          visible={!isDark}
+        />
       </mesh>
     </Fisheye>
   );

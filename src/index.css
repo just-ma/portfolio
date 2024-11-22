@@ -1,5 +1,5 @@
 html {
-  background-color: white;
+  background-color: rgb(217, 217, 217);
   transition: background-color 1s steps(5);
 }
 
@@ -26,6 +26,52 @@ a {
 .dark {
   background-color: black;
   color: white;
+
+  body {
+    color: white;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  60% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mildFlicker {
+  0% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 0.7;
+  }
+  66% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @font-face {

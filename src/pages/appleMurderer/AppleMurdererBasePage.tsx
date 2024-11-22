@@ -34,6 +34,7 @@ export const Page = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  pointer-events: all;
 `;
 
 const Header = styled.div`

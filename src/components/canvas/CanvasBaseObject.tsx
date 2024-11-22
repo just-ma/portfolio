@@ -13,7 +13,6 @@ export type ModelProps = {
 
 const CanvasBaseObject = ({
   hovering,
-  allHovering,
   angle,
   distance,
   delayIndex,
@@ -24,7 +23,6 @@ const CanvasBaseObject = ({
   onMouseLeave,
 }: {
   hovering?: boolean;
-  allHovering?: boolean;
   angle: number;
   distance: number;
   delayIndex: number;
@@ -45,6 +43,7 @@ const CanvasBaseObject = ({
 
   const optimisticOpacity = useRef(hidden ? 0 : 1);
   const jumping = useRef(false);
+  const transitioning = useRef(false);
   const [opacity, setOpacity] = useState(0);
 
   const isMobile = useIsMobile();
@@ -110,10 +109,11 @@ const CanvasBaseObject = ({
     });
   };
 
-  const delay = (delayIndex + 2) * 20;
+  const hover = () => {
+    if (transitioning.current || jumping.current) {
+      return;
+    }
 
-  const hover = async () => {
-    await new Promise((resolve) => setTimeout(resolve, delay));
     api.start({
       position: getPosition(0.35),
       config: {
@@ -123,8 +123,11 @@ const CanvasBaseObject = ({
     });
   };
 
-  const drop = async () => {
-    await new Promise((resolve) => setTimeout(resolve, delay));
+  const drop = () => {
+    if (transitioning.current || jumping.current) {
+      return;
+    }
+
     api.start({
       position: getPosition(),
       config: {
@@ -137,14 +140,15 @@ const CanvasBaseObject = ({
   };
 
   useEffect(() => {
-    if (hovering || allHovering) {
+    if (hovering) {
       hover();
     } else {
       drop();
     }
-  }, [hovering, allHovering]);
+  }, [hovering]);
 
   useEffect(() => {
+    transitioning.current = true;
     api.start({
       position: getPosition(),
       scale: exactSelected ? 3 : isHome ? 1 : 2,
@@ -155,6 +159,9 @@ const CanvasBaseObject = ({
         precision: 0.0001,
       },
     });
+    setTimeout(() => {
+      transitioning.current = false;
+    }, 1000);
 
     optimisticOpacity.current = hidden ? 0 : 1;
   }, [currentPath, isMobile]);

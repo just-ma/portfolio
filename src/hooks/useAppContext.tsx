@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { OptionType } from "../sanity";
 import { useLocation } from "react-router-dom";
 import { APPLE_MURDERER_ROOT_PATH } from "../pages/appleMurderer/constants";
@@ -17,19 +24,27 @@ const AppContext = createContext<{
   titleAnimating: boolean;
   onTitleAnimatingChange: (value: boolean) => void;
   theme: string;
+  appInit: boolean;
 }>({
   hoveredItem: null,
   onHoveredItemChange: noop,
   titleAnimating: true,
   onTitleAnimatingChange: noop,
   theme: "light",
+  appInit: false,
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useLocation();
 
+  const appInit = useRef(false);
+
   const [hoveredItem, setHoveredItem] = useState<TableItem | null>(null);
   const [titleAnimating, setTitleAnimating] = useState(true);
+
+  useEffect(() => {
+    appInit.current = true;
+  }, []);
 
   useEffect(() => {
     window.scrollTo({
@@ -57,6 +72,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       titleAnimating,
       onTitleAnimatingChange: setTitleAnimating,
       theme,
+      appInit: appInit.current,
     }),
     [hoveredItem, titleAnimating, theme]
   );

@@ -98,7 +98,7 @@ const Title = styled.div`
   font-family: "IBMPlexMono-MediumItalic";
   font-size: 16px;
   max-width: 200px;
-  color: #3000ff;
+  color: #281f4d;
 `;
 
 const Subtitle = styled.div`
@@ -116,7 +116,6 @@ const Subtitle = styled.div`
 `;
 
 const StyledDot = styled(Dot)<{ size: number }>`
-  background-color: #3000ff;
   @media ${MEDIA_SIZE.desktop} {
     right: -20.5px;
   }
