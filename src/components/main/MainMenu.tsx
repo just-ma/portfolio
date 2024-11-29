@@ -7,8 +7,8 @@ import useAppContext from "../../hooks/useAppContext";
 import MainMenuItem from "./MainMenuItem";
 import { useLocation } from "react-router-dom";
 import { OptionType } from "../../sanity";
-import useIsMobile from "../../hooks/useMobile";
 import { useEffect, useMemo, useRef, useState } from "react";
+import useMainMenu from "./useMainMenu";
 
 const MENU_OPTIONS: ({ indent?: boolean } & (
   | { type: OptionType }
@@ -36,11 +36,7 @@ const MENU_OPTIONS: ({ indent?: boolean } & (
   },
 ];
 
-export const MENU_HEIGHT_PX = 150;
-export const HOME_MENU_TOP_VH = 50;
-export const MOBILE_HOME_MENU_TOP_VH = 60;
-export const NESTED_MENU_TOP_VH = 20;
-export const MOBILE_NESTED_MENU_TOP_VH = 40;
+export const MENU_HEIGHT_PX = 170;
 const MENU_TOP_PX = 45;
 
 const StickyContainer = styled.div`
@@ -49,14 +45,15 @@ const StickyContainer = styled.div`
   z-index: 10;
 `;
 
-const Placeholder = styled.div<{ marginTop: number; $animateMargin: boolean }>`
+const Placeholder = styled.div<{ top: number; $animateTop: boolean }>`
   height: ${MENU_TOP_PX}px;
-  margin-top: ${({ marginTop }) => marginTop}vh;
-  transition: margin-top ${({ $animateMargin }) => ($animateMargin ? 0.5 : 0)}s
+  margin-top: ${({ top }) => top}vh;
+  transition: margin-top ${({ $animateTop }) => ($animateTop ? 0.5 : 0)}s
     ease-in-out;
 `;
 
-const MenuContainer = styled.div<{}>`
+const MenuContainer = styled.div`
+  height: ${MENU_HEIGHT_PX}px;
   margin-left: max(calc(50vw - 400px), 20px);
   display: flex;
   flex-direction: column;
@@ -64,9 +61,21 @@ const MenuContainer = styled.div<{}>`
   pointer-events: none;
 `;
 
+const MobileMenuMask = styled.div<{ $visible: boolean }>`
+  background: #e1e1e1;
+  width: 100vw;
+  height: ${MENU_HEIGHT_PX}px;
+  position: fixed;
+  top: ${MENU_HEIGHT_PX * -0.7}px;
+  z-index: -1;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.2s, top 0.2s;
+  border-bottom-right-radius: 90%;
+  box-shadow: 0 0 30px 60px #e1e1e1;
+`;
+
 const MainMenu = () => {
   const { pathname } = useLocation();
-  const isMobile = useIsMobile();
 
   const { appInit, hoveredItem, onHoveredItemChange } = useAppContext();
 
@@ -84,22 +93,9 @@ const MainMenu = () => {
     };
   }, []);
 
-  const marginTop = useMemo(() => {
-    const isHome = pathname === "/";
-    const isChildPage = pathname.slice(1).includes("/");
+  const { showMask, collapse, top } = useMainMenu();
 
-    if (isHome) {
-      return isMobile ? MOBILE_HOME_MENU_TOP_VH : HOME_MENU_TOP_VH;
-    }
-
-    if (!isChildPage) {
-      return isMobile ? MOBILE_NESTED_MENU_TOP_VH : NESTED_MENU_TOP_VH;
-    }
-
-    return 0;
-  }, [pathname, isMobile]);
-
-  const animateMargin = useMemo(() => {
+  const animateTop = useMemo(() => {
     const isChildPage = pathname.slice(1).includes("/");
     const isMenuAtTop =
       menuRef.current?.getBoundingClientRect().top === MENU_TOP_PX;
@@ -117,7 +113,8 @@ const MainMenu = () => {
 
   return (
     <StickyContainer>
-      <Placeholder marginTop={marginTop} $animateMargin={animateMargin} />
+      <MobileMenuMask $visible={showMask} />
+      <Placeholder top={top} $animateTop={animateTop} />
       <MenuContainer ref={menuRef} onMouseLeave={handleMouseLeave}>
         {MENU_OPTIONS.map((option, index) => (
           <MainMenuItem
@@ -136,6 +133,7 @@ const MainMenu = () => {
             indent={option.indent}
             index={index}
             hovering={"type" in option && hoveredItem?.type === option.type}
+            collapse={collapse}
           />
         ))}
       </MenuContainer>

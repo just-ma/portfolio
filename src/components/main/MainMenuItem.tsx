@@ -14,6 +14,12 @@ const Label = styled.span`
   transition: margin-left 0.1s ease-in-out, background-color 0.1s, color 0.1s;
   border-bottom-right-radius: 5px;
   height: 24px;
+  line-height: 24px;
+  display: block;
+
+  @media ${MEDIA_SIZE.mobile} {
+    line-height: 28px;
+  }
 `;
 
 const hoverCss = css<{ $selected: boolean }>`
@@ -81,6 +87,7 @@ const MainMenuItem = ({
   indent,
   index,
   hovering,
+  collapse,
 }: {
   type?: OptionType;
   label: string;
@@ -88,11 +95,11 @@ const MainMenuItem = ({
   indent?: boolean;
   index: number;
   hovering: boolean;
+  collapse: boolean;
 }) => {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  const exactSelected = pathname === link;
-  const selected = link === "/" ? exactSelected : pathname.startsWith(link);
+  const selected = link === "/" ? isHome : pathname.startsWith(link);
 
   const isMobile = useIsMobile();
   const { onHoveredItemChange } = useAppContext();
@@ -101,10 +108,11 @@ const MainMenuItem = ({
     onHoveredItemChange(null);
   }, [pathname]);
 
-  const typedLabelDelay = isHome ? 300 + index * 100 : 0;
+  const typedLabelDelay = isHome && !collapse ? 300 + index * 100 : 0;
   const typedLabel = useTextTyper(
     label,
-    !pathname.startsWith(APPLE_MURDERER_ROOT_PATH) || isHome,
+    (!collapse || selected) &&
+      (!pathname.startsWith(APPLE_MURDERER_ROOT_PATH) || isHome),
     typedLabelDelay
   );
 
@@ -121,17 +129,17 @@ const MainMenuItem = ({
   };
 
   const handleClick = () => {
-    if (!selected) {
+    if (isHome && selected && window.scrollY < window.innerHeight - 280) {
+      window.scroll({ top: window.innerHeight - 280, behavior: "smooth" });
       return;
     }
 
-    if (link === "/" && window.scrollY < window.innerHeight - 280) {
-      window.scrollTo({ top: window.innerHeight - 280, behavior: "smooth" });
-      return;
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scroll({ top: 0, behavior: "smooth" });
   };
+
+  if (!typedLabel) {
+    return null;
+  }
 
   return (
     <StyledLink
@@ -139,7 +147,7 @@ const MainMenuItem = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       $selected={selected}
-      $indent={indent}
+      $indent={indent && !collapse}
       $hovering={hovering}
       onClick={handleClick}
       $visible={!!typedLabel}

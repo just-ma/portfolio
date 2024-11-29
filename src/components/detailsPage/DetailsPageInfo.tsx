@@ -4,35 +4,18 @@ import Description from "../Description";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  gap: 10px;
-  margin-bottom: 50px;
+  gap: 4px;
+  margin-bottom: 30px;
+  margin-top: 20px;
 `;
 
-const Title = styled.div`
-  text-decoration: underline;
+const Title = styled.h1`
+  margin-left: 20px;
 `;
 
-const Subtitle = styled.div`
-  display: flex;
-  text-align: right;
-
-  p {
-    margin: 0;
-    height: fit-content;
-
-    &::before {
-      content: "(";
-      margin-right: 7px;
-    }
-
-    &::after {
-      content: ")";
-      margin-left: 7px;
-    }
-  }
-`;
+const Subtitle = styled.h2``;
 
 const DetailsPageInfo = ({
   document,
@@ -45,13 +28,7 @@ const DetailsPageInfo = ({
 }) => {
   return (
     <Container className={className}>
-      {url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          {document.title}
-        </a>
-      ) : (
-        <Title>{document.title}</Title>
-      )}
+      <Title>{document.title}</Title>
       <Subtitle>
         <Description value={document.shortDescription} />
       </Subtitle>

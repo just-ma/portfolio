@@ -52,15 +52,19 @@ const CanvasBaseObject = ({
   const baseYPosition = 0.25;
 
   const getPosition = (y?: number): Vector3 => {
-    if (selected) {
-      return [0, 2.3 + (isMobile ? -0.1 : 0), 0];
+    if (isHome) {
+      return [
+        -Math.cos(angle) * distance,
+        (y ?? baseYPosition) * 1.2,
+        Math.sin(angle) * distance,
+      ];
     }
 
-    return [
-      -Math.cos(angle) * distance,
-      (y ?? baseYPosition) * 1.2,
-      Math.sin(angle) * distance,
-    ];
+    if (selected) {
+      return [0, 1.3 + (isMobile ? -0.1 : 0), 0];
+    }
+
+    return [0, 0, 0];
   };
 
   const [springs, api] = useSpring(
@@ -151,7 +155,7 @@ const CanvasBaseObject = ({
     transitioning.current = true;
     api.start({
       position: getPosition(),
-      scale: exactSelected ? 3 : isHome ? 1 : 2,
+      scale: exactSelected ? 3 : isHome ? 1 : 0.5,
       config: {
         bounce: 1.5,
         friction: 50,

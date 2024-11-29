@@ -2,7 +2,7 @@ import { Fisheye, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { OPTION_TYPES } from "../../constants";
+import { MEDIA_SIZE, OPTION_TYPES } from "../../constants";
 import { useSpring, animated } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import CanvasMainObject from "./CanvasMainObject";
@@ -15,13 +15,24 @@ import {
 } from "three";
 import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
 
+const DESKTOP_HEIGHT_OFFSET_PX = 100;
+const MOBILE_HEIGHT_OFFSET_PX = 200;
+
 const StyledCanvas = styled(Canvas)`
   position: fixed !important;
   z-index: -1;
-  bottom: 0;
   left: 0;
   width: calc(100vw + 0px) !important;
-  height: calc(100vh + 100px) !important;
+
+  @media ${MEDIA_SIZE.desktop} {
+    top: -${DESKTOP_HEIGHT_OFFSET_PX}px;
+    height: calc(100vh + ${DESKTOP_HEIGHT_OFFSET_PX}px) !important;
+  }
+
+  @media ${MEDIA_SIZE.mobile} {
+    top: -${MOBILE_HEIGHT_OFFSET_PX}px;
+    height: calc(100lvh + ${MOBILE_HEIGHT_OFFSET_PX}px) !important;
+  }
 `;
 
 const CanvasContent = () => {
@@ -40,6 +51,7 @@ const CanvasContent = () => {
         position: isHome ? [-1, 6, 10] : [0, -5, 0],
         rotation: [0, 0, 0] as Euler,
         scale: 1,
+        planeScale: 1,
         opacity: isHome ? 1 : 0,
       },
     },
@@ -49,7 +61,8 @@ const CanvasContent = () => {
   useEffect(() => {
     api.start({
       opacity: isHome ? 1 : 0,
-      position: [0, isHome ? 0 : -1, 0],
+      planeScale: isHome ? 1 : 0.2,
+      position: [0, 0, 0],
       config: {
         bounce: isHome ? 0.5 : 0,
         friction: 100,
@@ -77,13 +90,21 @@ const CanvasContent = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isHome]);
+  }, [isHome, isMobile]);
 
   const handleScroll = () => {
-    const scrollY = Math.pow(window.scrollY, 2) / 5000;
+    const scrollY = Math.pow(window.scrollY, 2) / 10000;
+    const positionY = isMobile
+      ? Math.min(scrollY * 2, 10)
+      : Math.min(scrollY, 4);
+    const desktopScale = Math.min(
+      1 + scrollY * (isHome ? 0.5 : 5),
+      isHome ? 50 : 4
+    );
+
     api.start({
-      position: isHome ? undefined : [0, Math.max(-scrollY - 1, -30), 0],
-      scale: Math.min(1 + scrollY, isHome ? 50 : 30),
+      position: isHome ? undefined : [0, positionY, 0],
+      scale: isMobile && !isHome ? 1 : desktopScale,
       config: {
         friction: 50,
         tension: 200,
@@ -116,7 +137,7 @@ const CanvasContent = () => {
           <CanvasMainObject key={type} index={index} type={type} />
         ))}
         <CanvasAppleObject />
-        <CanvasPlane springs={springs} />
+        <CanvasPlane scale={springs.planeScale} opacity={springs.opacity} />
       </animated.group>
       <ambientLight intensity={3} />
       <mesh>

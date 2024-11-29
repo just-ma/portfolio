@@ -23,6 +23,36 @@ a {
   text-decoration: underline;
 }
 
+h1 {
+  margin: 0;
+  font-family: "IBMPlexMono-MediumItalic";
+  font-size: 15px;
+  word-spacing: 5px;
+  letter-spacing: 2px;
+  color: black;
+  font-weight: normal;
+}
+
+h2 {
+  margin: 0;
+  font-family: "IBMPlexMono-LightItalic";
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-spacing: 10px;
+  font-weight: normal;
+}
+
+h2 p {
+  margin: 0;
+  height: fit-content;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0;
+  word-spacing: 10px;
+}
+
 .dark {
   background-color: black;
   color: white;
@@ -164,4 +194,12 @@ a {
     url(./assets/fonts/IBMPlexMono-MediumItalic.ttf) format("ttf"),
     url(./assets/fonts/IBMPlexMono-MediumItalic.woff) format("woff"),
     url(./assets/fonts/IBMPlexMono-MediumItalic.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "IBMPlexMono-LightItalic";
+  src: url(./assets/fonts/IBMPlexMono-LightItalic.otf) format("otf"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.ttf) format("ttf"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.woff) format("woff"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.woff2) format("woff2");
 }

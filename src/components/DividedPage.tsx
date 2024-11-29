@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MEDIA_SIZE } from "../constants";
 import { DescriptionContainer } from "./Description";
 import { Dot } from "./Dot";
+import { useEffect } from "react";
 
 export const PAGE_LEFT_OFFSET_PX = 230;
 const MOBILE_PAGE_LEFT_OFFSER_PX = 28;
@@ -55,6 +56,10 @@ export default function DividedPage({
   className?: string;
   withDot?: boolean;
 }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   return (
     <Container className={className}>
       <PageLeftContainer>{withDot && <Dot />}</PageLeftContainer>

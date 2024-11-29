@@ -93,26 +93,13 @@ const Info = styled.div<{ $visible: boolean }>`
   }
 `;
 
-const Title = styled.div`
-  margin-bottom: 10px;
-  font-family: "IBMPlexMono-MediumItalic";
-  font-size: 16px;
+const Title = styled.h1`
+  margin-bottom: 6px;
   max-width: 200px;
-  color: #281f4d;
 `;
 
-const Subtitle = styled.div`
-  font-size: 13px;
-  line-height: 18px;
-  white-space: pre-wrap;
+const Subtitle = styled.h2`
   max-width: 200px;
-  letter-spacing: -0.2px;
-  color: #42438e;
-
-  p {
-    margin: 0;
-    height: fit-content;
-  }
 `;
 
 const StyledDot = styled(Dot)<{ size: number }>`

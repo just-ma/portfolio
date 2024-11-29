@@ -6,16 +6,13 @@ import { MEDIA_SIZE, ROOT_PATH_TO_OPTION_TYPE } from "../../constants";
 
 import { useEffect, useMemo, useState } from "react";
 import { ITEMS } from "./constants";
-import {
-  HOME_MENU_TOP_VH,
-  MENU_HEIGHT_PX,
-  MOBILE_HOME_MENU_TOP_VH,
-} from "../../components/main/MainMenu";
-import useIsMobile from "../../hooks/useMobile";
+import { MENU_HEIGHT_PX } from "../../components/main/MainMenu";
 import HomeRow, { FIRST_ROW_OFFSET_PX } from "./HomeRow";
 import useAppContext from "../../hooks/useAppContext";
-
-const MOBILE_OVERFLOW_MASK_HEIGHT_PX = 170;
+import {
+  HOME_MENU_TOP_VH,
+  MOBILE_HOME_MENU_TOP_VH,
+} from "../../components/main/useMainMenu";
 
 const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
   width: 100vw;
@@ -34,44 +31,14 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
   @media ${MEDIA_SIZE.mobile} {
     margin-top: ${({ $fullHeight }) =>
       $fullHeight
-        ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}vh - ${MENU_HEIGHT_PX}px)`
+        ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}lvh - ${
+            MENU_HEIGHT_PX + 180
+          }px)`
         : "20px"};
   }
 `;
 
-const OverflowMask = styled.div<{ $visible: boolean }>`
-  background: #e1e1e1;
-  width: 100vw;
-  height: ${MOBILE_OVERFLOW_MASK_HEIGHT_PX}px;
-  position: fixed;
-  top: 0;
-  z-index: 3;
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transition: opacity 0.2s;
-  border-bottom-right-radius: 90%;
-  box-shadow: 0 0 30px 60px #e1e1e1;
-`;
-
-const MobileOverflowMask = () => {
-  const [visible, setVisible] = useState(false);
-
-  const handleScroll = () => {
-    setVisible(window.scrollY > window.innerHeight / 2);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return <OverflowMask $visible={visible} />;
-};
-
 const HomePage = () => {
-  const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const isHome = pathname === "/";
 
@@ -115,14 +82,11 @@ const HomePage = () => {
   }
 
   return (
-    <>
-      {isMobile && <MobileOverflowMask />}
-      <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
-        {filteredItems.map((item) => (
-          <HomeRow key={item.slug} item={item} />
-        ))}
-      </Container>
-    </>
+    <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
+      {filteredItems.map((item) => (
+        <HomeRow key={item.slug} item={item} />
+      ))}
+    </Container>
   );
 };
 

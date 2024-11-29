@@ -46,13 +46,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     appInit.current = true;
   }, []);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: pathname === "/" ? "smooth" : "instant",
-    });
-  }, [pathname]);
-
   const theme = useMemo(() => {
     const isDark = pathname.startsWith(APPLE_MURDERER_ROOT_PATH);
 
