@@ -34,7 +34,7 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
         ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}lvh - ${
             MENU_HEIGHT_PX + 180
           }px)`
-        : "20px"};
+        : "60px"};
   }
 `;
 

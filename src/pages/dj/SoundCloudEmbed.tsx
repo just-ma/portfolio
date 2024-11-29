@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { CONTENT_MAX_WIDTH_PX } from "../../components/DividedPage";
 
 const Embed = styled.iframe`
   border: none;
-  max-width: 100%;
-  height: 50vh;
+  width: 100%;
+  max-width: ${CONTENT_MAX_WIDTH_PX}px;
   aspect-ratio: 1.78;
   background-color: white;
   border: 1px black solid;

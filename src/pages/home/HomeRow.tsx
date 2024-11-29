@@ -19,12 +19,18 @@ const InfoContainer = styled(PageLeftContainer)`
   box-sizing: border-box;
 
   @media ${MEDIA_SIZE.mobile} {
-    padding: 0;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    width: 50vw;
+    padding: 0 10px 0;
+    display: block;
   }
 `;
 
 const ImageContainer = styled(PageRightContainer)`
   @media ${MEDIA_SIZE.mobile} {
+    flex-basis: 100vw;
     padding-top: 20px;
   }
 `;
@@ -35,12 +41,11 @@ const Row = styled.div<{ $firstRowOffset: boolean }>`
 
   &:last-child {
     ${InfoContainer} {
-      padding: 0 20px 0px;
+      padding-bottom: 0;
       height: calc(100vh - 200px);
 
       @media ${MEDIA_SIZE.mobile} {
-        padding: 0;
-        height: calc(100vh - 400px);
+        height: calc(50vh);
       }
     }
   }
@@ -67,7 +72,6 @@ const StickyContainer = styled.div`
   z-index: 4;
 
   @media ${MEDIA_SIZE.mobile} {
-    align-items: flex-start;
     position: relative;
     top: 0;
   }
@@ -86,16 +90,16 @@ const Info = styled.div<{ $visible: boolean }>`
   transition: opacity 0.2s;
 
   @media ${MEDIA_SIZE.mobile} {
-    align-items: flex-start;
-    text-align: left;
-    position: absolute;
-    left: 60px;
+    background-color: #e3e3e3;
+    border: 1px solid blue;
+    padding: 5px 10px 0;
   }
 `;
 
 const Title = styled.h1`
   margin-bottom: 6px;
   max-width: 200px;
+  width: fit-content;
 `;
 
 const Subtitle = styled.h2`
@@ -103,8 +107,10 @@ const Subtitle = styled.h2`
 `;
 
 const StyledDot = styled(Dot)<{ size: number }>`
-  @media ${MEDIA_SIZE.desktop} {
-    right: -20.5px;
+  right: -20.5px;
+
+  @media ${MEDIA_SIZE.mobile} {
+    right: -10.5px;
   }
 `;
 
@@ -186,7 +192,9 @@ export default function HomeRow({
           <StyledDot size={stickyOpacity} />
           <Info $visible={stickyOpacity > 0.8}>
             <Title onClick={handleClick}>{title}</Title>
-            <Subtitle onClick={handleClick}>{description}</Subtitle>
+            {!isMobile && (
+              <Subtitle onClick={handleClick}>{description}</Subtitle>
+            )}
           </Info>
         </StickyContainer>
       </InfoContainer>

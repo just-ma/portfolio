@@ -96,10 +96,10 @@ const CanvasContent = () => {
     const scrollY = Math.pow(window.scrollY, 2) / 10000;
     const positionY = isMobile
       ? Math.min(scrollY * 2, 10)
-      : Math.min(scrollY, 4);
+      : Math.min(scrollY * 0.1, 4);
     const desktopScale = Math.min(
       1 + scrollY * (isHome ? 0.5 : 5),
-      isHome ? 50 : 4
+      isHome ? 50 : 10
     );
 
     api.start({

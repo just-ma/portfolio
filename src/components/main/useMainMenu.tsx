@@ -11,9 +11,6 @@ export default function useMainMenu() {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
 
-  const [showMask, setShowMask] = useState(false);
-  const [collapse, setCollapse] = useState(false);
-
   const isMobile = useIsMobile();
 
   const top = useMemo(() => {
@@ -31,9 +28,12 @@ export default function useMainMenu() {
     return 0;
   }, [pathname, isMobile]);
 
-  const handleCollapse = () => {
-    setCollapse(window.scrollY >= (window.innerHeight * top) / 100);
+  const getCollapse = () => {
+    return isMobile && window.scrollY >= (window.innerHeight * top) / 100;
   };
+
+  const [showMask, setShowMask] = useState(false);
+  const [collapse, setCollapse] = useState(getCollapse());
 
   const handleScroll = () => {
     const maskThreshold = isHome
@@ -42,11 +42,11 @@ export default function useMainMenu() {
       ? 0
       : 140;
     setShowMask(window.scrollY > maskThreshold);
-    handleCollapse();
+    setCollapse(getCollapse());
   };
 
   useEffect(() => {
-    handleCollapse();
+    setCollapse(getCollapse());
     isMobile && window.addEventListener("scroll", handleScroll);
 
     return () => {

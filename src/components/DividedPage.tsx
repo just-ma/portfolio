@@ -3,9 +3,10 @@ import { MEDIA_SIZE } from "../constants";
 import { DescriptionContainer } from "./Description";
 import { Dot } from "./Dot";
 import { useEffect } from "react";
+import useIsMobile from "../hooks/useMobile";
 
 export const PAGE_LEFT_OFFSET_PX = 230;
-const MOBILE_PAGE_LEFT_OFFSER_PX = 28;
+export const CONTENT_MAX_WIDTH_PX = 700;
 
 export const Container = styled.div`
   width: 100vw;
@@ -20,9 +21,7 @@ export const PageLeftContainer = styled.div`
   pointer-events: all;
 
   @media ${MEDIA_SIZE.mobile} {
-    flex: 0 0 ${MOBILE_PAGE_LEFT_OFFSER_PX}px;
-    padding: 0;
-    min-width: auto;
+    display: none;
   }
 `;
 
@@ -33,16 +32,17 @@ export const PageRightContainer = styled.div`
   pointer-events: all;
 
   @media ${MEDIA_SIZE.mobile} {
-    flex: 1 0 calc(100vw - ${MOBILE_PAGE_LEFT_OFFSER_PX}px);
+    flex: 1 0 100vw;
     padding-bottom: 40px;
   }
 
   ${DescriptionContainer} {
-    margin: 0 50px;
-    max-width: 600px;
+    padding: 0 50px;
+    max-width: ${CONTENT_MAX_WIDTH_PX}px;
+    box-sizing: border-box;
 
     @media ${MEDIA_SIZE.mobile} {
-      margin: 0 20px;
+      padding: 0 20px;
     }
   }
 `;
@@ -56,13 +56,15 @@ export default function DividedPage({
   className?: string;
   withDot?: boolean;
 }) {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
   return (
     <Container className={className}>
-      <PageLeftContainer>{withDot && <Dot />}</PageLeftContainer>
+      <PageLeftContainer>{withDot && !isMobile && <Dot />}</PageLeftContainer>
       <PageRightContainer>{children}</PageRightContainer>
     </Container>
   );

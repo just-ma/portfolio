@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  margin: 40% 0;
+  margin: 20% 0;
   cursor: pointer;
   user-select: none;
   color: #008e66;

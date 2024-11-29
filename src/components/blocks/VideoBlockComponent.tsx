@@ -4,12 +4,8 @@ import { MEDIA_SIZE } from "../../constants";
 const Video = styled.iframe<{
   aspectratio: number;
 }>`
-  /* width: min(100%, 700px);
-  max-height: max(50vh, 400px); */
-  max-width: 100%;
-  height: 100%;
-  /* max-height: 50vh; */
-  max-height: 600px;
+  width: 100%;
+  max-height: max(50vh, 600px);
   border: none;
   aspect-ratio: ${({ aspectratio }) => aspectratio};
 
@@ -20,8 +16,10 @@ const Video = styled.iframe<{
 
 const VideoBlockComponent = ({
   value: { url, width, height, autoplay },
+  className,
 }: {
   value: { url: string; width: number; height: number; autoplay?: boolean };
+  className?: string;
 }) => {
   const src = autoplay
     ? `${url}${
@@ -35,6 +33,7 @@ const VideoBlockComponent = ({
       title={url}
       aspectratio={width / height}
       allow="autoplay; fullscreen; picture-in-picture"
+      className={className}
     ></Video>
   );
 };
