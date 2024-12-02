@@ -11,11 +11,16 @@ import {
   PageRightContainer,
 } from "../../components/DividedPage";
 import { Dot } from "../../components/Dot";
+import { PortableText } from "@portabletext/react";
+import { GalleyThumbnailDefinition, urlFor } from "../../sanity";
 
 export const FIRST_ROW_OFFSET_PX = 150;
+const STICKY_CONTAINER_TOP_PX = 300;
+const INFO_HIDE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX - 50;
+const INFO_BOTTOM_PADDING_PX = 70;
 
 const InfoContainer = styled(PageLeftContainer)`
-  padding: 0 20px 70px;
+  padding: 0 20px ${INFO_BOTTOM_PADDING_PX}px;
   box-sizing: border-box;
 
   @media ${MEDIA_SIZE.mobile} {
@@ -29,6 +34,8 @@ const InfoContainer = styled(PageLeftContainer)`
 `;
 
 const ImageContainer = styled(PageRightContainer)`
+  max-width: 100%;
+
   @media ${MEDIA_SIZE.mobile} {
     flex-basis: 100vw;
     padding-top: 20px;
@@ -68,7 +75,7 @@ const StickyContainer = styled.div`
   gap: 4px;
   position: relative;
   position: sticky;
-  top: 300px;
+  top: ${STICKY_CONTAINER_TOP_PX}px;
   z-index: 4;
 
   @media ${MEDIA_SIZE.mobile} {
@@ -85,6 +92,7 @@ const Info = styled.div<{ $visible: boolean }>`
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
+  gap: 5px;
   margin-top: -10px;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   transition: opacity 0.2s;
@@ -97,13 +105,18 @@ const Info = styled.div<{ $visible: boolean }>`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 6px;
   max-width: 200px;
   width: fit-content;
 `;
 
-const Subtitle = styled.h2`
+const Subtitle = styled.h2<{ $visible: boolean }>`
   max-width: 200px;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.2s;
+`;
+
+const StyledThumbnail = styled(Thumbnail)`
+  cursor: pointer;
 `;
 
 const StyledDot = styled(Dot)<{ size: number }>`
@@ -118,10 +131,10 @@ const RowThumbnail = ({
   image,
   onClick,
 }: {
-  image: ImageDefinition;
+  image: ImageDefinition | GalleyThumbnailDefinition;
   onClick: () => void;
 }) => (
-  <Thumbnail
+  <StyledThumbnail
     style={{
       width: `${image.width}%`,
       height:
@@ -142,13 +155,22 @@ const RowThumbnail = ({
       display: image.block ? "block" : undefined,
       zIndex: image.zIndex,
     }}
-    src={image.src}
+    src={
+      typeof image.image === "string" ? image.image : urlFor(image.image).url()
+    }
     onClick={onClick}
   />
 );
 
 export default function HomeRow({
-  item: { _type, slug, title, description, images },
+  item: {
+    _type,
+    slug,
+    title,
+    subtitle: description,
+    thumbnails2: images,
+    thumbnails,
+  },
 }: {
   item: ItemDefinition;
 }) {
@@ -158,9 +180,14 @@ export default function HomeRow({
   const stickyRef = useRef<HTMLDivElement>(null);
 
   const [stickyOpacity, setStickyOpacity] = useState(1);
+  const [showSubtitle, setShowSubtitle] = useState(false);
 
   const handleClick = () => {
-    navigate(`${OPTION_TYPE_TO_ROOT_PATH[_type]}/${slug}`);
+    navigate(
+      `${OPTION_TYPE_TO_ROOT_PATH[_type]}/${
+        typeof slug === "string" ? slug : slug.current
+      }`
+    );
   };
 
   const handleScroll = () => {
@@ -169,12 +196,14 @@ export default function HomeRow({
     }
 
     const top = stickyRef.current?.getBoundingClientRect().top;
-    if (top > 250) {
+    setShowSubtitle(top <= STICKY_CONTAINER_TOP_PX);
+
+    if (top > INFO_HIDE_THRESHOLD_TOP_PX) {
       setStickyOpacity(1);
       return;
     }
 
-    setStickyOpacity(Math.max(0, top / 250));
+    setStickyOpacity(Math.max(0, top / INFO_HIDE_THRESHOLD_TOP_PX));
   };
 
   useEffect(() => {
@@ -193,14 +222,23 @@ export default function HomeRow({
           <Info $visible={stickyOpacity > 0.8}>
             <Title onClick={handleClick}>{title}</Title>
             {!isMobile && (
-              <Subtitle onClick={handleClick}>{description}</Subtitle>
+              <Subtitle onClick={handleClick} $visible={showSubtitle}>
+                {typeof description === "string" ? (
+                  description
+                ) : (
+                  <PortableText value={description} />
+                )}
+              </Subtitle>
             )}
           </Info>
         </StickyContainer>
       </InfoContainer>
       <ImageContainer>
-        {images.map((image) => (
-          <RowThumbnail key={image.src} image={image} onClick={handleClick} />
+        {images?.map((image) => (
+          <RowThumbnail key={image.image} image={image} onClick={handleClick} />
+        ))}
+        {thumbnails?.map((image, index) => (
+          <RowThumbnail key={index} image={image} onClick={handleClick} />
         ))}
       </ImageContainer>
     </Row>

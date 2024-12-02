@@ -10,8 +10,16 @@ import DividedPage from "../../components/DividedPage";
 import styled from "styled-components";
 
 const StyledThumbnail = styled(Thumbnail)`
-  max-height: 50vh;
+  aspect-ratio: 1.78;
 `;
+
+const getLinkLabel = (url: string) => {
+  if (url.includes("github.com")) {
+    return "view github";
+  }
+
+  return "visit website";
+};
 
 const WebsiteDetailsPage = () => {
   const { websiteId } = useParams<{
@@ -24,12 +32,16 @@ const WebsiteDetailsPage = () => {
     return null;
   }
 
-  const { thumbnail, description, url, title } = website;
+  const { thumbnail, description, title, links } = website;
 
   return (
     <DividedPage withDot>
       <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} />
-      <DetailsPageInfo document={website} url={url} />
+      <DetailsPageInfo
+        document={website}
+        links={links}
+        getLinkLabel={getLinkLabel}
+      />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["website"]} />
     </DividedPage>

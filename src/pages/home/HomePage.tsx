@@ -83,8 +83,13 @@ const HomePage = () => {
 
   return (
     <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
+      {data
+        ?.filter((da) => da.thumbnails)
+        .map((da) => (
+          <HomeRow key={da.slug.current} item={da} />
+        ))}
       {filteredItems.map((item) => (
-        <HomeRow key={item.slug} item={item} />
+        <HomeRow key={item.slug as string} item={item} />
       ))}
     </Container>
   );

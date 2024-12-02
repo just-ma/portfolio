@@ -1,4 +1,4 @@
-import { OptionType } from "../../sanity";
+import { GalleyThumbnailDefinition, OptionType } from "../../sanity";
 import AsiaThumb from "./asia-thumb.gif";
 import AsiaThumb2 from "./sup.png";
 import BabyThumb from "./baby2.gif";
@@ -40,9 +40,10 @@ import Sky from "./eye.png";
 import Bird from "./bird.jpg";
 import Gar from "./gar.png";
 import Clock from "./clock.jpg";
+import type { PortableTextBlock } from "@portabletext/types";
 
 export type ImageDefinition = {
-  src: string;
+  image: string;
   width: number;
   height?: number;
   heightPx?: number;
@@ -57,10 +58,11 @@ export type ImageDefinition = {
 
 export type ItemDefinition = {
   _type: OptionType;
-  slug: string;
+  slug: string | { current: string };
   title: string;
-  description: string;
-  images: ImageDefinition[];
+  subtitle: string | PortableTextBlock;
+  thumbnails2?: ImageDefinition[];
+  thumbnails?: GalleyThumbnailDefinition[];
 };
 
 export const ITEMS: ItemDefinition[] = [
@@ -68,15 +70,15 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "asia-vlog",
     title: "🇹🇭...🇻🇳...🇯🇵...🇹🇼",
-    description:
+    subtitle:
       "4 countries\n4 vlogs\n4 friends (sometimes less, sometimes more)\n4 billion mopeds",
-    images: [
+    thumbnails2: [
       {
-        src: AsiaThumb,
+        image: AsiaThumb,
         width: 90,
       },
       {
-        src: AsiaThumb2,
+        image: AsiaThumb2,
         width: 50,
         left: 30,
         topPx: 5,
@@ -87,17 +89,17 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "live-from-babylon",
     title: "transmission from the ether",
-    description: "a noisy dubby punky mix\ncool music video too!",
-    images: [
+    subtitle: "a noisy dubby punky mix\ncool music video too!",
+    thumbnails2: [
       {
-        src: BabyThumb,
+        image: BabyThumb,
         width: 100,
         heightPx: 150,
         absolute: true,
         zIndex: 1,
       },
       {
-        src: TracksThumb,
+        image: TracksThumb,
         width: 100,
         heightPx: 200,
         left: 0,
@@ -108,17 +110,17 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "housewarming-b2b",
     title: "HOUSEWARMING B2B",
-    description: "if u like daft punk...",
-    images: [
+    subtitle: "if u like daft punk...",
+    thumbnails2: [
       {
-        src: B2BThumb,
+        image: B2BThumb,
         width: 21,
         left: 39,
         absolute: true,
         zIndex: 1,
       },
       {
-        src: GridThumb,
+        image: GridThumb,
         width: 50,
         left: 25,
       },
@@ -128,15 +130,15 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "aquacore",
     title: "aquacore",
-    description: "aquatic jungle mix",
-    images: [
+    subtitle: "aquatic jungle mix",
+    thumbnails2: [
       {
-        src: AThumb2,
+        image: AThumb2,
         width: 20,
         left: 40,
       },
       {
-        src: AThumb,
+        image: AThumb,
         width: 60,
         top: -10,
         left: 5,
@@ -148,15 +150,15 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "beach-thunderstorm",
     title: "beach sunset thunderstorm mix",
-    description: "a bit of trip hop",
-    images: [
+    subtitle: "a bit of trip hop",
+    thumbnails2: [
       {
-        src: LightThumb,
+        image: LightThumb,
         width: 60,
         left: 30,
       },
       {
-        src: LightThumb2,
+        image: LightThumb2,
         width: 50,
         left: 10,
         top: 10,
@@ -169,16 +171,16 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "berlin-birdie",
     title: "berlin birdie",
-    description: "birdie",
-    images: [
+    subtitle: "birdie",
+    thumbnails2: [
       {
-        src: BirdThumb2,
+        image: BirdThumb2,
         width: 40,
         left: 10,
         bottom: 5,
       },
       {
-        src: BirdThumb,
+        image: BirdThumb,
         width: 25,
         left: 5,
         top: 20,
@@ -188,12 +190,12 @@ export const ITEMS: ItemDefinition[] = [
   },
   {
     _type: "website",
-    slug: "moss",
-    title: "moss",
-    description: "moss",
-    images: [
+    slug: "moss-simulator",
+    title: "Don't worry, you're the same old moss you once were",
+    subtitle: "wow that's a long title for a 100 second experience",
+    thumbnails2: [
       {
-        src: MossThumb,
+        image: MossThumb,
         width: 40,
         left: 30,
       },
@@ -203,10 +205,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "night-market",
     title: "hypnagogic night market mix",
-    description: "moss",
-    images: [
+    subtitle: "moss",
+    thumbnails2: [
       {
-        src: TradeThumb,
+        image: TradeThumb,
         width: 30,
         left: 20,
       },
@@ -216,10 +218,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "blog",
     slug: "apple-murderer",
     title: "the apple murderer",
-    description: "imagine an apple\nheck...\nimagine two apples",
-    images: [
+    subtitle: "imagine an apple\nheck...\nimagine two apples",
+    thumbnails2: [
       {
-        src: AppleThumb,
+        image: AppleThumb,
         width: 20,
         left: 80,
         bottom: 5,
@@ -230,10 +232,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "website",
     slug: "portfolio",
     title: "nit-su-j.online",
-    description: "first iteration",
-    images: [
+    subtitle: "first iteration",
+    thumbnails2: [
       {
-        src: Desktop,
+        image: Desktop,
         width: 55,
         left: 35,
         top: 40,
@@ -241,12 +243,12 @@ export const ITEMS: ItemDefinition[] = [
         zIndex: 0,
       },
       {
-        src: MeThumb,
+        image: MeThumb,
         width: 30,
         left: 60,
       },
       {
-        src: ClickThumb,
+        image: ClickThumb,
         width: 27,
         left: 57,
         top: 15,
@@ -259,10 +261,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "nye",
     title: "NYE!!!",
-    description: "almonds",
-    images: [
+    subtitle: "almonds",
+    thumbnails2: [
       {
-        src: NYE,
+        image: NYE,
         width: 15,
         left: 65,
         bottom: -10,
@@ -273,10 +275,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "website",
     slug: "almond-cam",
     title: "almond.cam",
-    description: "almonds",
-    images: [
+    subtitle: "almonds",
+    thumbnails2: [
       {
-        src: AlmondThumb,
+        image: AlmondThumb,
         width: 35,
         left: 15,
       },
@@ -286,17 +288,17 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "golf",
     title: "golf",
-    description: "golf",
-    images: [
+    subtitle: "golf",
+    thumbnails2: [
       {
-        src: GolfThumb,
+        image: GolfThumb,
         width: 30,
         left: 40,
         top: 3,
         bottom: 10,
       },
       {
-        src: GolfThumb2,
+        image: GolfThumb2,
         width: 36,
         left: 37,
         absolute: true,
@@ -308,16 +310,16 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "art-exhibition",
     title: "art exhibition",
-    description: "almonds",
-    images: [
+    subtitle: "almonds",
+    thumbnails2: [
       {
-        src: Bird,
+        image: Bird,
         width: 25,
         height: 75,
         left: 30,
       },
       {
-        src: ArtThumb,
+        image: ArtThumb,
         width: 25,
         left: 30,
         block: true,
@@ -330,10 +332,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "bug-talk",
     title: "bug talk",
-    description: "almonds",
-    images: [
+    subtitle: "almonds",
+    thumbnails2: [
       {
-        src: ForgThumb,
+        image: ForgThumb,
         width: 30,
         left: 52,
         top: -6,
@@ -341,7 +343,7 @@ export const ITEMS: ItemDefinition[] = [
         zIndex: 0,
       },
       {
-        src: BugThumb,
+        image: BugThumb,
         width: 40,
         left: 45,
       },
@@ -351,10 +353,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "rat-detective",
     title: "rat detective",
-    description: "rat",
-    images: [
+    subtitle: "rat",
+    thumbnails2: [
       {
-        src: RatThumb,
+        image: RatThumb,
         width: 40,
         left: 10,
       },
@@ -364,17 +366,17 @@ export const ITEMS: ItemDefinition[] = [
     _type: "website",
     slug: "viz",
     title: "viz",
-    description: "viz",
-    images: [
+    subtitle: "viz",
+    thumbnails2: [
       {
-        src: GarThumb,
+        image: GarThumb,
         width: 40,
         height: 85,
         left: 25,
         bottom: -15,
       },
       {
-        src: Gar,
+        image: Gar,
         width: 15,
         left: 55,
         top: 40,
@@ -386,10 +388,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "blog",
     slug: "inktober",
     title: "wake me up",
-    description: "m",
-    images: [
+    subtitle: "m",
+    thumbnails2: [
       {
-        src: DogThumb,
+        image: DogThumb,
         width: 100,
         bottom: 5,
       },
@@ -399,17 +401,17 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "moonglasses",
     title: "moonglasses",
-    description: "moonglasses",
-    images: [
+    subtitle: "moonglasses",
+    thumbnails2: [
       {
-        src: MoonThumb2,
+        image: MoonThumb2,
         width: 30,
         left: 45,
         absolute: true,
         zIndex: 0,
       },
       {
-        src: MoonThumb,
+        image: MoonThumb,
         width: 50,
         left: 50,
         top: 10,
@@ -420,16 +422,16 @@ export const ITEMS: ItemDefinition[] = [
     _type: "website",
     slug: "plastic-style",
     title: "plastic style",
-    description: "viz",
-    images: [
+    subtitle: "viz",
+    thumbnails2: [
       {
-        src: Sky,
+        image: Sky,
         width: 48,
         left: 26,
         top: 1,
       },
       {
-        src: PlasThumb,
+        image: PlasThumb,
         width: 20,
         left: 40,
         absolute: true,
@@ -441,10 +443,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "bushwick-rooftop",
     title: "rooftop",
-    description: "m",
-    images: [
+    subtitle: "m",
+    thumbnails2: [
       {
-        src: Words,
+        image: Words,
         width: 30,
         height: 200,
         left: 70,
@@ -457,10 +459,10 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "euro-vlogs",
     title: "euro vlogs",
-    description: "viz",
-    images: [
+    subtitle: "viz",
+    thumbnails2: [
       {
-        src: EuroThumb,
+        image: EuroThumb,
         width: 50,
       },
     ],
@@ -469,16 +471,16 @@ export const ITEMS: ItemDefinition[] = [
     _type: "dj",
     slug: "ambient-housewarming",
     title: "ambient house housewarming",
-    description: "m",
-    images: [
+    subtitle: "m",
+    thumbnails2: [
       {
-        src: Clock,
+        image: Clock,
         width: 30,
         left: 40,
         bottom: 10,
       },
       {
-        src: AmbThumb,
+        image: AmbThumb,
         width: 15,
         left: 37,
         absolute: true,
@@ -491,24 +493,24 @@ export const ITEMS: ItemDefinition[] = [
     _type: "film",
     slug: "think-in",
     title: "think in",
-    description: "m",
-    images: [
+    subtitle: "m",
+    thumbnails2: [
       {
-        src: Alien,
+        image: Alien,
         width: 23,
         left: 64,
         absolute: true,
         zIndex: 1,
       },
       {
-        src: Window,
+        image: Window,
         width: 25,
         left: 60,
         absolute: true,
         zIndex: 2,
       },
       {
-        src: WindowBG,
+        image: WindowBG,
         width: 25,
         left: 60,
       },

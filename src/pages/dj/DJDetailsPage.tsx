@@ -23,7 +23,13 @@ const DJDetailsPage = () => {
   return (
     <DividedPage withDot>
       <SoundCloudEmbed soundCloudId={soundCloud.id} />
-      <DetailsPageInfo document={dj} url={soundCloud.externalUrl} />
+      <DetailsPageInfo
+        document={dj}
+        links={[
+          { url: soundCloud.externalUrl, label: "listen on soundcloud" },
+          { url: soundCloud.externalUrl, label: "watch on youtube" },
+        ]}
+      />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["dj"]} />
     </DividedPage>
