@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const PageLeftContainer = styled.div`
-  flex: 1 0 calc(50vw - ${PAGE_LEFT_OFFSET_PX}px);
+  flex: 0 0 calc(50vw - ${PAGE_LEFT_OFFSET_PX}px);
   min-width: 190px;
   border-right: 1px solid blue;
   position: relative;
@@ -26,7 +26,8 @@ export const PageLeftContainer = styled.div`
 `;
 
 export const PageRightContainer = styled.div`
-  flex: 1 1 calc(50vw + ${PAGE_LEFT_OFFSET_PX}px);
+  flex: 0 0 calc(50vw + ${PAGE_LEFT_OFFSET_PX}px);
+  max-width: ${CONTENT_MAX_WIDTH_PX}px;
   padding-bottom: 70px;
   position: relative;
   pointer-events: all;
@@ -38,7 +39,6 @@ export const PageRightContainer = styled.div`
 
   ${DescriptionContainer} {
     padding: 0 50px;
-    max-width: ${CONTENT_MAX_WIDTH_PX}px;
     box-sizing: border-box;
 
     @media ${MEDIA_SIZE.mobile} {

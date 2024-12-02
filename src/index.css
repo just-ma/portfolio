@@ -27,30 +27,29 @@ h1 {
   margin: 0;
   font-family: "IBMPlexMono-MediumItalic";
   font-size: 15px;
-  word-spacing: 5px;
-  letter-spacing: 2px;
+  word-spacing: 8px;
+  letter-spacing: -0.1px;
   color: black;
   font-weight: normal;
+
+  &::before {
+    content: '"';
+  }
+
+  &::after {
+    content: '"';
+  }
 }
 
-h2 {
+h2, h2 p {
   margin: 0;
   font-family: "IBMPlexMono-LightItalic";
   font-size: 13px;
   line-height: 18px;
   letter-spacing: 0;
   white-space: pre-wrap;
-  word-spacing: 10px;
+  word-spacing: 5px;
   font-weight: normal;
-}
-
-h2 p {
-  margin: 0;
-  height: fit-content;
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: 0;
-  word-spacing: 10px;
 }
 
 .dark {

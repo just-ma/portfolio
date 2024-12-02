@@ -41,10 +41,10 @@ export const INITIAL_VIEWPORT_HEIGHT = window.innerHeight;
 export const debounce = (func: Function, timeout: number = 700) => {
   let timeoutId: NodeJS.Timeout;
 
-  return () => {
+  return (...params: any[]) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      func();
+      func(...params);
     }, timeout);
   };
 };
@@ -52,9 +52,9 @@ export const debounce = (func: Function, timeout: number = 700) => {
 export const throttle = (func: Function, timeout: number = 700) => {
   let timeoutId: NodeJS.Timeout | undefined;
 
-  return () => {
+  return (...params: any[]) => {
     if (timeoutId === undefined) {
-      func();
+      func(...params);
 
       timeoutId = setTimeout(() => {
         timeoutId = undefined;
