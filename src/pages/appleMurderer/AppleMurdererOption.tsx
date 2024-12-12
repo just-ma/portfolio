@@ -38,10 +38,12 @@ export const Option = styled(Link)`
   }
 `;
 
-export const OptionBullet = styled.span`
+export const OptionBullet = styled.div`
   color: white;
   flex-shrink: 0;
   width: 45px;
+  font-size: 15px;
+  line-height: 24px;
 `;
 
 const AppleMurdererOption = ({
