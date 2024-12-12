@@ -14,6 +14,7 @@ import {
   PerspectiveCamera as PerspectiveCameraDefinition,
 } from "three";
 import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
+import useMobileCanvasScroll from "./useMobileCanvasScroll";
 
 const DESKTOP_HEIGHT_OFFSET_PX = 100;
 const MOBILE_HEIGHT_OFFSET_PX = 200;
@@ -152,13 +153,31 @@ const CanvasContent = () => {
   );
 };
 
+const T = styled.div`
+  position: fixed;
+  z-index: 99999;
+  top: 50px;
+  left: 50px;
+  font-size: 20px;
+`;
+
 const MainCanvas = () => {
+  const { t, onPointerMove, onPointerDown, onPointerUp } =
+    useMobileCanvasScroll();
+
   return (
-    <StyledCanvas>
-      <Suspense>
-        <CanvasContent />
-      </Suspense>
-    </StyledCanvas>
+    <>
+      <T>{t}</T>
+      <StyledCanvas
+        onPointerDown={onPointerDown as any}
+        onPointerUp={onPointerUp}
+        onPointerMove={onPointerMove as any}
+      >
+        <Suspense>
+          <CanvasContent />
+        </Suspense>
+      </StyledCanvas>
+    </>
   );
 };
 

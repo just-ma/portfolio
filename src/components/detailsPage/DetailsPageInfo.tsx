@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { DocumentDefinition, DocumentLinkDefinition } from "../../sanity";
 import Description from "../Description";
-import {
-  ExternalLinkButton,
-  LinkButtonIndent,
-  LinkButtonLabel,
-} from "../LinkButton";
 import { useMemo } from "react";
+import DetailsPageLink from "./DetailsPageLink";
 
 const Container = styled.div`
   display: flex;
@@ -75,16 +71,6 @@ const DateSegment = styled.span`
   }
 `;
 
-const LinkLabel = styled(LinkButtonLabel)`
-  font-size: 14px;
-  line-height: 22px;
-  height: 22px;
-`;
-
-const Indent = styled(LinkButtonIndent)`
-  transform: scaleX(-1);
-`;
-
 const DetailsPageInfo = ({
   document,
   links,
@@ -122,13 +108,12 @@ const DetailsPageInfo = ({
         </Subtitle>
       </Left>
       <Right>
-        {links?.map(({ url, label }) => (
-          <ExternalLinkButton href={url}>
-            <LinkLabel>
-              {label || getLinkLabel?.(url) || "check it out"}
-            </LinkLabel>
-            <Indent>{"∟"}</Indent>
-          </ExternalLinkButton>
+        {links?.map((link) => (
+          <DetailsPageLink
+            key={`${link.url}-${link.reference}`}
+            link={link}
+            getLinkLabel={getLinkLabel}
+          />
         ))}
       </Right>
     </Container>

@@ -1,19 +1,5 @@
 import { GalleyThumbnailDefinition, OptionType } from "../../sanity";
-import AsiaThumb from "./asia-thumb.gif";
-import AsiaThumb2 from "./sup.png";
-import BabyThumb from "./baby2.gif";
-import B2BThumb from "./hek.gif";
-import AThumb from "./shark.png";
-import AThumb2 from "./shark.gif";
-import GridThumb from "./grid3.png";
 import Alien from "./alien.gif";
-import LightThumb from "./lightning.jpg";
-import LightThumb2 from "./lightning2.gif";
-import BirdThumb from "./bird.png";
-import BirdThumb2 from "./bird2.png";
-import MossThumb from "./moss.gif";
-import TradeThumb from "./trade.png";
-import AppleThumb from "./apple2.jpg";
 import MeThumb from "./me.gif";
 import ClickThumb from "./click.gif";
 import AlmondThumb from "./almond3.png";
@@ -26,7 +12,6 @@ import DogThumb from "./dog.png";
 import EuroThumb from "./euro.png";
 import AmbThumb from "./amb.png";
 import PlasThumb from "./plas.gif";
-import TracksThumb from "./tracks.png";
 import BugThumb from "./hands.png";
 import GarThumb from "./gar.gif";
 import MoonThumb from "./moon.gif";
@@ -67,168 +52,7 @@ export type ItemDefinition = {
 
 export const ITEMS: ItemDefinition[] = [
   {
-    _type: "film",
-    slug: "asia-vlog",
-    title: "🇹🇭...🇻🇳...🇯🇵...🇹🇼",
-    subtitle:
-      "4 countries\n4 vlogs\n4 friends (sometimes less, sometimes more)\n4 billion mopeds",
-    thumbnails2: [
-      {
-        image: AsiaThumb,
-        width: 90,
-      },
-      {
-        image: AsiaThumb2,
-        width: 50,
-        left: 30,
-        topPx: 5,
-      },
-    ],
-  },
-  {
-    _type: "dj",
-    slug: "live-from-babylon",
-    title: "transmission from the ether",
-    subtitle: "a noisy dubby punky mix\ncool music video too!",
-    thumbnails2: [
-      {
-        image: BabyThumb,
-        width: 100,
-        heightPx: 150,
-        absolute: true,
-        zIndex: 1,
-      },
-      {
-        image: TracksThumb,
-        width: 100,
-        heightPx: 200,
-        left: 0,
-      },
-    ],
-  },
-  {
-    _type: "dj",
-    slug: "housewarming-b2b",
-    title: "HOUSEWARMING B2B",
-    subtitle: "if u like daft punk...",
-    thumbnails2: [
-      {
-        image: B2BThumb,
-        width: 21,
-        left: 39,
-        absolute: true,
-        zIndex: 1,
-      },
-      {
-        image: GridThumb,
-        width: 50,
-        left: 25,
-      },
-    ],
-  },
-  {
-    _type: "dj",
-    slug: "aquacore",
-    title: "aquacore",
-    subtitle: "aquatic jungle mix",
-    thumbnails2: [
-      {
-        image: AThumb2,
-        width: 20,
-        left: 40,
-      },
-      {
-        image: AThumb,
-        width: 60,
-        top: -10,
-        left: 5,
-        block: true,
-      },
-    ],
-  },
-  {
-    _type: "dj",
-    slug: "beach-thunderstorm",
-    title: "beach sunset thunderstorm mix",
-    subtitle: "a bit of trip hop",
-    thumbnails2: [
-      {
-        image: LightThumb,
-        width: 60,
-        left: 30,
-      },
-      {
-        image: LightThumb2,
-        width: 50,
-        left: 10,
-        top: 10,
-        absolute: true,
-        zIndex: 1,
-      },
-    ],
-  },
-  {
-    _type: "film",
-    slug: "berlin-birdie",
-    title: "berlin birdie",
-    subtitle: "birdie",
-    thumbnails2: [
-      {
-        image: BirdThumb2,
-        width: 40,
-        left: 10,
-        bottom: 5,
-      },
-      {
-        image: BirdThumb,
-        width: 25,
-        left: 5,
-        top: 20,
-        bottom: 5,
-      },
-    ],
-  },
-  {
-    _type: "website",
-    slug: "moss-simulator",
-    title: "Don't worry, you're the same old moss you once were",
-    subtitle: "wow that's a long title for a 100 second experience",
-    thumbnails2: [
-      {
-        image: MossThumb,
-        width: 40,
-        left: 30,
-      },
-    ],
-  },
-  {
-    _type: "dj",
-    slug: "night-market",
-    title: "hypnagogic night market mix",
-    subtitle: "moss",
-    thumbnails2: [
-      {
-        image: TradeThumb,
-        width: 30,
-        left: 20,
-      },
-    ],
-  },
-  {
-    _type: "blog",
-    slug: "apple-murderer",
-    title: "the apple murderer",
-    subtitle: "imagine an apple\nheck...\nimagine two apples",
-    thumbnails2: [
-      {
-        image: AppleThumb,
-        width: 20,
-        left: 80,
-        bottom: 5,
-      },
-    ],
-  },
-  {
+    // first iteration of my portfolio website
     _type: "website",
     slug: "portfolio",
     title: "nit-su-j.online",
@@ -258,6 +82,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // a gabber mix to welcome the new year
+    // u know i had to include some black-eyed peas
     _type: "dj",
     slug: "nye",
     title: "NYE!!!",
@@ -272,6 +98,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // smile! you're on almond camera
     _type: "website",
     slug: "almond-cam",
     title: "almond.cam",
@@ -285,6 +112,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    //
     _type: "film",
     slug: "golf",
     title: "golf",
@@ -307,6 +135,9 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // 10 artists
+    // 5 DJs
+    // 1 roof
     _type: "dj",
     slug: "art-exhibition",
     title: "art exhibition",
@@ -329,6 +160,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // an experimental short film:
+    // been thinking about friends, portals, and bugs recently...
     _type: "film",
     slug: "bug-talk",
     title: "bug talk",
@@ -350,6 +183,9 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // a detective noir short film:
+    // he takes a bite of the big apple
+    // but at what cost?
     _type: "film",
     slug: "rat-detective",
     title: "rat detective",
@@ -363,6 +199,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // a webcam 3D visualizer
     _type: "website",
     slug: "viz",
     title: "viz",
@@ -385,6 +222,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // 31 ink drawings for 31 days of inktober
     _type: "blog",
     slug: "inktober",
     title: "wake me up",
@@ -398,6 +236,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // an experimental animated short film:
+    // on a night when the moon is particularly bright...
     _type: "film",
     slug: "moonglasses",
     title: "moonglasses",
@@ -419,6 +259,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // a music blog run by my friend Parker
+    // weirdly food focused
     _type: "website",
     slug: "plastic-style",
     title: "plastic style",
@@ -440,6 +282,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // an electronic mix
     _type: "dj",
     slug: "bushwick-rooftop",
     title: "rooftop",
@@ -456,6 +299,7 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // i took a walk in prague and did a spin in berlin
     _type: "film",
     slug: "euro-vlogs",
     title: "euro vlogs",
@@ -468,6 +312,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // ambient mix
+    // for my housewarming, i hung up a giant balloon
     _type: "dj",
     slug: "ambient-housewarming",
     title: "ambient house housewarming",
@@ -490,6 +336,8 @@ export const ITEMS: ItemDefinition[] = [
     ],
   },
   {
+    // animated music video:
+    // a lil green alien wanders SF from dusk to dawn
     _type: "film",
     slug: "think-in",
     title: "think in",

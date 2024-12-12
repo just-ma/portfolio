@@ -1,17 +1,6 @@
 import { PortableTextMarkComponentProps } from "@portabletext/react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { client, DocumentType } from "../../sanity";
-import { queryClient } from "../../App";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
-
-type ReferenceDefinition = {
-  _id: string;
-  _type: DocumentType;
-  slug: {
-    current: string;
-  };
-};
+import useReferenceLink from "../../hooks/useReferenceLink";
 
 const ReferenceLink = ({
   reference,
@@ -20,34 +9,13 @@ const ReferenceLink = ({
   reference: string;
   children: string;
 }) => {
-  const { data } = useQuery({
-    queryKey: ["internalLink", reference],
-    queryFn: async (): Promise<ReferenceDefinition | undefined> => {
-      if (!reference) {
-        return undefined;
-      }
+  const referenceLink = useReferenceLink(reference);
 
-      const response = await client.fetch(
-        `*[_id == "${reference}"]{ _id, _type, slug }`
-      );
-      return response?.[0];
-    },
-    initialData: (): ReferenceDefinition | undefined => {
-      return queryClient
-        .getQueryData<readonly ReferenceDefinition[]>(["internalLink"])
-        ?.find((l) => l._id === reference);
-    },
-  });
-
-  if (!data) {
+  if (!referenceLink) {
     return null;
   }
 
-  return (
-    <Link to={`${OPTION_TYPE_TO_ROOT_PATH[data._type]}/${data.slug.current}`}>
-      {children}
-    </Link>
-  );
+  return <Link to={referenceLink}>{children}</Link>;
 };
 
 const LinkBlockComponent = ({

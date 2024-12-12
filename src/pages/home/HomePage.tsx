@@ -85,6 +85,11 @@ const HomePage = () => {
     <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
       {data
         ?.filter((da) => da.thumbnails)
+        .filter(
+          (item) =>
+            pathname === "/" ||
+            item._type === ROOT_PATH_TO_OPTION_TYPE[pathname]
+        )
         .map((da) => (
           <HomeRow key={da.slug.current} item={da} />
         ))}

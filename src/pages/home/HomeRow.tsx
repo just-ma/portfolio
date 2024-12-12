@@ -17,10 +17,10 @@ import { GalleyThumbnailDefinition, urlFor } from "../../sanity";
 export const FIRST_ROW_OFFSET_PX = 150;
 const STICKY_CONTAINER_TOP_PX = 300;
 const INFO_HIDE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX - 50;
-const INFO_BOTTOM_PADDING_PX = 70;
+const SHOW_SUBTITLE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX + 40;
 
 const InfoContainer = styled(PageLeftContainer)`
-  padding: 0 20px ${INFO_BOTTOM_PADDING_PX}px;
+  padding: 0 20px 70px;
   box-sizing: border-box;
 
   @media ${MEDIA_SIZE.mobile} {
@@ -92,7 +92,7 @@ const Info = styled.div<{ $visible: boolean }>`
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
-  gap: 5px;
+  gap: 15px;
   margin-top: -10px;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   transition: opacity 0.2s;
@@ -110,7 +110,7 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.h2<{ $visible: boolean }>`
-  max-width: 200px;
+  max-width: 260px;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   transition: opacity 0.2s;
 `;
@@ -195,8 +195,8 @@ export default function HomeRow({
       return;
     }
 
-    const top = stickyRef.current?.getBoundingClientRect().top;
-    setShowSubtitle(top <= STICKY_CONTAINER_TOP_PX);
+    const top = stickyRef.current.getBoundingClientRect().top;
+    setShowSubtitle(top <= SHOW_SUBTITLE_THRESHOLD_TOP_PX);
 
     if (top > INFO_HIDE_THRESHOLD_TOP_PX) {
       setStickyOpacity(1);
@@ -207,7 +207,14 @@ export default function HomeRow({
   };
 
   useEffect(() => {
-    !isMobile && window.addEventListener("scroll", handleScroll);
+    if (!isMobile) {
+      stickyRef.current &&
+        setShowSubtitle(
+          stickyRef.current.getBoundingClientRect().top <=
+            SHOW_SUBTITLE_THRESHOLD_TOP_PX
+        );
+      window.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);

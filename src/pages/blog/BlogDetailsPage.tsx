@@ -19,12 +19,12 @@ const BlogDetailsPage = () => {
     return null;
   }
 
-  const { description, thumbnail, title } = blog;
+  const { description, thumbnail, title, links } = blog;
 
   return (
     <DividedPage withDot>
       <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
-      <DetailsPageInfo document={blog} />
+      <DetailsPageInfo document={blog} links={links} />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />
     </DividedPage>

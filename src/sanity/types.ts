@@ -18,7 +18,8 @@ export type GalleyThumbnailDefinition = {
 };
 
 export type DocumentLinkDefinition = {
-  url: string;
+  url?: string;
+  reference?: string;
   label?: string;
 };
 

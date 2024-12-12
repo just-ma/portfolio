@@ -34,7 +34,7 @@ const VideoBlockComponent = ({
       aspectratio={width / height}
       allow="autoplay; fullscreen; picture-in-picture"
       className={className}
-    ></Video>
+    />
   );
 };
 

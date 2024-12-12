@@ -61,7 +61,7 @@ const CanvasBaseObject = ({
     }
 
     if (selected) {
-      return [0, 1.3 + (isMobile ? -0.1 : 0), 0];
+      return [0, 1 + (isMobile ? -0.1 : 0), 0];
     }
 
     return [0, 0, 0];

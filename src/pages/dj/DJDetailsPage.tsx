@@ -7,6 +7,14 @@ import SoundCloudEmbed from "./SoundCloudEmbed";
 import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import DividedPage from "../../components/DividedPage";
 
+const getLinkLabel = (url: string) => {
+  if (url.includes("soundcloud.com")) {
+    return "listen on soundcloud";
+  }
+
+  return "watch on youtube";
+};
+
 const DJDetailsPage = () => {
   const { djId } = useParams<{
     djId: string;
@@ -18,17 +26,15 @@ const DJDetailsPage = () => {
     return null;
   }
 
-  const { description, soundCloud } = dj;
+  const { description, soundCloud, links } = dj;
 
   return (
     <DividedPage withDot>
       <SoundCloudEmbed soundCloudId={soundCloud.id} />
       <DetailsPageInfo
         document={dj}
-        links={[
-          { url: soundCloud.externalUrl, label: "listen on soundcloud" },
-          { url: soundCloud.externalUrl, label: "watch on youtube" },
-        ]}
+        links={links}
+        getLinkLabel={getLinkLabel}
       />
       <Description value={description} />
       <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["dj"]} />
