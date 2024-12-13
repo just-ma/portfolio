@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
-import BackFooter from "../../components/BackFooter";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import DividedPage from "../../components/DividedPage";
 
 const getLinkLabel = () => "watch on youtube";
@@ -16,7 +15,7 @@ const FilmDetailsPage = () => {
 
   const { data: film } = useDocument("film", filmId);
 
-  if (!filmId || !film) {
+  if (!filmId || !film?.description) {
     return null;
   }
 
@@ -33,7 +32,7 @@ const FilmDetailsPage = () => {
         getLinkLabel={getLinkLabel}
       />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["film"]} />
+      <DetailsPageFooter id={filmId} type="film" />
     </DividedPage>
   );
 };

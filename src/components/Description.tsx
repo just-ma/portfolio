@@ -13,6 +13,10 @@ export const DescriptionContainer = styled.div`
   font-size: 15px;
   line-height: 24px;
   letter-spacing: -0.2px;
+
+  p {
+    white-space: pre-wrap;
+  }
 `;
 
 const Description = ({

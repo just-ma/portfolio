@@ -4,6 +4,7 @@ import { DescriptionContainer } from "./Description";
 import { Dot } from "./Dot";
 import { useEffect } from "react";
 import useIsMobile from "../hooks/useMobile";
+import { useLocation } from "react-router-dom";
 
 export const PAGE_LEFT_OFFSET_PX = 230;
 export const CONTENT_MAX_WIDTH_PX = 700;
@@ -56,11 +57,12 @@ export default function DividedPage({
   className?: string;
   withDot?: boolean;
 }) {
+  const { pathname } = useLocation();
   const isMobile = useIsMobile();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
+  }, [pathname]);
 
   return (
     <Container className={className}>

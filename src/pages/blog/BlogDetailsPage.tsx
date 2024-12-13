@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom";
-import BackFooter from "../../components/BackFooter";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import { urlFor } from "../../sanity";
 import Thumbnail from "../../components/Thumbnail";
 import DividedPage from "../../components/DividedPage";
@@ -15,7 +14,7 @@ const BlogDetailsPage = () => {
 
   const { data: blog } = useDocument("blog", blogId);
 
-  if (!blogId || !blog) {
+  if (!blogId || !blog?.description) {
     return null;
   }
 
@@ -26,7 +25,7 @@ const BlogDetailsPage = () => {
       <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
       <DetailsPageInfo document={blog} links={links} />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["blog"]} />
+      <DetailsPageFooter id={blogId} type="blog" />
     </DividedPage>
   );
 };

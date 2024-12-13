@@ -1,11 +1,10 @@
 import { urlFor } from "../../sanity";
 import { useParams } from "react-router-dom";
-import BackFooter from "../../components/BackFooter";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import Description from "../../components/Description";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import useDocument from "../../hooks/useDocument";
 import Thumbnail from "../../components/Thumbnail";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import DividedPage from "../../components/DividedPage";
 import styled from "styled-components";
 import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
@@ -29,7 +28,7 @@ const WebsiteDetailsPage = () => {
 
   const { data: website } = useDocument("website", websiteId);
 
-  if (!websiteId || !website) {
+  if (!websiteId || !website?.description) {
     return null;
   }
 
@@ -50,7 +49,7 @@ const WebsiteDetailsPage = () => {
         getLinkLabel={getLinkLabel}
       />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["website"]} />
+      <DetailsPageFooter id={websiteId} type="website" />
     </DividedPage>
   );
 };

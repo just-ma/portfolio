@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
-import BackFooter from "../../components/BackFooter";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
 import SoundCloudEmbed from "./SoundCloudEmbed";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import DividedPage from "../../components/DividedPage";
 
 const getLinkLabel = (url: string) => {
@@ -22,7 +21,7 @@ const DJDetailsPage = () => {
 
   const { data: dj } = useDocument("dj", djId);
 
-  if (!djId || !dj) {
+  if (!djId || !dj?.description) {
     return null;
   }
 
@@ -30,14 +29,14 @@ const DJDetailsPage = () => {
 
   return (
     <DividedPage withDot>
-      <SoundCloudEmbed soundCloudId={soundCloud.id} />
+      <SoundCloudEmbed soundCloudId={soundCloud?.id} />
       <DetailsPageInfo
         document={dj}
         links={links}
         getLinkLabel={getLinkLabel}
       />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["dj"]} />
+      <DetailsPageFooter id={djId} type="dj" />
     </DividedPage>
   );
 };
