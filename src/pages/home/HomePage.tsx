@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import { MEDIA_SIZE, ROOT_PATH_TO_OPTION_TYPE } from "../../constants";
 
 import { useEffect, useMemo, useState } from "react";
-import { ITEMS } from "./constants";
 import { MENU_HEIGHT_PX } from "../../components/main/MainMenu";
 import HomeRow, { FIRST_ROW_OFFSET_PX } from "./HomeRow";
 import useAppContext from "../../hooks/useAppContext";
@@ -69,13 +68,17 @@ const HomePage = () => {
   }, []);
 
   const filteredItems = useMemo(() => {
-    const pathnameType = ROOT_PATH_TO_OPTION_TYPE[pathname];
-    if (!pathnameType) {
-      return ITEMS;
+    if (!data) {
+      return [];
     }
 
-    return ITEMS.filter((item) => item._type === pathnameType);
-  }, [pathname]);
+    const pathnameType = ROOT_PATH_TO_OPTION_TYPE[pathname];
+    if (!pathnameType) {
+      return data;
+    }
+
+    return data.filter((item) => item._type === pathnameType);
+  }, [pathname, data]);
 
   if (animation === "hidden") {
     return null;
@@ -83,18 +86,8 @@ const HomePage = () => {
 
   return (
     <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
-      {data
-        ?.filter((da) => da.thumbnails)
-        .filter(
-          (item) =>
-            pathname === "/" ||
-            item._type === ROOT_PATH_TO_OPTION_TYPE[pathname]
-        )
-        .map((da) => (
-          <HomeRow key={da.slug.current} item={da} />
-        ))}
-      {filteredItems.map((item) => (
-        <HomeRow key={item.slug as string} item={item} />
+      {filteredItems.map((da) => (
+        <HomeRow key={da.slug.current} item={da} />
       ))}
     </Container>
   );

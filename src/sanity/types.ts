@@ -42,6 +42,7 @@ type BaseDocumentDefiniion<T extends DocumentType> = {
 
 export type WebsiteDefinition = BaseDocumentDefiniion<"website"> & {
   url: string;
+  videoThumbnail: string;
 };
 
 export type FilmDefinition = BaseDocumentDefiniion<"film"> & {

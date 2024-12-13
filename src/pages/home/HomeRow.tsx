@@ -4,7 +4,6 @@ import { MEDIA_SIZE, OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 import Thumbnail from "../../components/Thumbnail";
 
 import { useEffect, useRef, useState } from "react";
-import { ImageDefinition, ItemDefinition } from "./constants";
 import useIsMobile from "../../hooks/useMobile";
 import {
   PageLeftContainer,
@@ -12,7 +11,11 @@ import {
 } from "../../components/DividedPage";
 import { Dot } from "../../components/Dot";
 import { PortableText } from "@portabletext/react";
-import { GalleyThumbnailDefinition, urlFor } from "../../sanity";
+import {
+  DocumentDefinition,
+  GalleyThumbnailDefinition,
+  urlFor,
+} from "../../sanity";
 
 export const FIRST_ROW_OFFSET_PX = 150;
 const STICKY_CONTAINER_TOP_PX = 300;
@@ -131,7 +134,7 @@ const RowThumbnail = ({
   image,
   onClick,
 }: {
-  image: ImageDefinition | GalleyThumbnailDefinition;
+  image: GalleyThumbnailDefinition;
   onClick: () => void;
 }) => (
   <StyledThumbnail
@@ -163,16 +166,9 @@ const RowThumbnail = ({
 );
 
 export default function HomeRow({
-  item: {
-    _type,
-    slug,
-    title,
-    subtitle: description,
-    thumbnails2: images,
-    thumbnails,
-  },
+  item: { _type, slug, title, subtitle, thumbnails },
 }: {
-  item: ItemDefinition;
+  item: DocumentDefinition;
 }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -230,20 +226,13 @@ export default function HomeRow({
             <Title onClick={handleClick}>{title}</Title>
             {!isMobile && (
               <Subtitle onClick={handleClick} $visible={showSubtitle}>
-                {typeof description === "string" ? (
-                  description
-                ) : (
-                  <PortableText value={description} />
-                )}
+                <PortableText value={subtitle} />
               </Subtitle>
             )}
           </Info>
         </StickyContainer>
       </InfoContainer>
       <ImageContainer>
-        {images?.map((image) => (
-          <RowThumbnail key={image.image} image={image} onClick={handleClick} />
-        ))}
         {thumbnails?.map((image, index) => (
           <RowThumbnail key={index} image={image} onClick={handleClick} />
         ))}
