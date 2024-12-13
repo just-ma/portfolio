@@ -20,6 +20,7 @@ export const PageLeftContainer = styled.div`
   border-right: 1px solid blue;
   position: relative;
   pointer-events: all;
+  box-sizing: border-box;
 
   @media ${MEDIA_SIZE.mobile} {
     display: none;

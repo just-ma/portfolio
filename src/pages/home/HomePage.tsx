@@ -12,6 +12,15 @@ import {
   HOME_MENU_TOP_VH,
   MOBILE_HOME_MENU_TOP_VH,
 } from "../../components/main/useMainMenu";
+import Garfield from "../../components/garfield/Garfield";
+import {
+  PageLeftContainer,
+  PageRightContainer,
+} from "../../components/DividedPage";
+import {
+  GARFIELD_HOME_MESSAGES,
+  OPTION_TYPE_TO_GARFIELD_MESSAGES,
+} from "./constants";
 
 const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
   width: 100vw;
@@ -34,6 +43,16 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
             MENU_HEIGHT_PX + 180
           }px)`
         : "60px"};
+  }
+`;
+
+const BottomRow = styled.div`
+  display: flex;
+  width: 100%;
+  height: calc(100lvh - 200px);
+
+  @media ${MEDIA_SIZE.mobile} {
+    height: calc(50lvh);
   }
 `;
 
@@ -67,17 +86,20 @@ const HomePage = () => {
     };
   }, []);
 
-  const filteredItems = useMemo(() => {
+  const [filteredItems, garfieldMessages] = useMemo(() => {
     if (!data) {
-      return [];
+      return [[], []];
     }
 
     const pathnameType = ROOT_PATH_TO_OPTION_TYPE[pathname];
     if (!pathnameType) {
-      return data;
+      return [data, GARFIELD_HOME_MESSAGES];
     }
 
-    return data.filter((item) => item._type === pathnameType);
+    return [
+      data.filter((item) => item._type === pathnameType),
+      OPTION_TYPE_TO_GARFIELD_MESSAGES[pathnameType],
+    ];
   }, [pathname, data]);
 
   if (animation === "hidden") {
@@ -89,8 +111,16 @@ const HomePage = () => {
       {filteredItems.map((da) => (
         <HomeRow key={da.slug.current} item={da} />
       ))}
+      <BottomRow>
+        <PageLeftContainer />
+        <PageRightContainer>
+          <Garfield messages={garfieldMessages} />
+        </PageRightContainer>
+      </BottomRow>
     </Container>
   );
 };
+
+const GARFIELD_MESSAGES = ["I KNOW WHERE HE LIVES", ""];
 
 export default HomePage;

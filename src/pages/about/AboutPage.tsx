@@ -9,6 +9,18 @@ import Garfield from "../../components/garfield/Garfield";
 
 const MAX_COUNT = 9;
 
+const GARFIELD_MESSAGES = [
+  "DON'T TRUST HIS LIES",
+  "I KNOW THINGS I SHOULDN'T",
+  "I KNOW WHERE HE LIVES",
+  "HE'S A GEMINI",
+  "HE'S INFJ",
+  "HE'S 5 FOOT 7",
+  "HIS SHOE SIZE IS 9.5",
+  "HE IS NOT A VETERAN",
+  "EMAIL HIM, HE'll LOVE IT",
+];
+
 const Container = styled(DividedPage)`
   margin-top: 100px;
 `;
@@ -16,7 +28,7 @@ const Container = styled(DividedPage)`
 const BlockContainer = styled.div<{ $animate: boolean }>`
   overflow: hidden;
   width: 100%;
-  margin-bottom: 20lvh;
+  margin-bottom: 10lvh;
 
   ${({ $animate }) =>
     $animate &&
@@ -36,6 +48,11 @@ const BlockContainer = styled.div<{ $animate: boolean }>`
 
 const Spacer = styled.div`
   height: ${INITIAL_VIEWPORT_HEIGHT * 0.3}px;
+`;
+
+const GarfieldContainer = styled.div`
+  width: 100%;
+  height: 200px;
 `;
 
 const AboutPageBlock = ({ index }: { index: number }) => {
@@ -69,6 +86,10 @@ const AboutPage = () => {
   }, [count]);
 
   const handlePointerEnter = () => {
+    if (count === MAX_COUNT) {
+      return;
+    }
+
     if (timeoutId.current === null) {
       console.log({ count });
       setCount((prev) => Math.min(prev + 1, MAX_COUNT));
@@ -84,10 +105,13 @@ const AboutPage = () => {
       {arr.map((_, index) => (
         <AboutPageBlock key={index} index={index} />
       ))}
-      <Garfield
-        onPointerEnter={handlePointerEnter}
-        hide={count !== MAX_COUNT}
-      />
+      <GarfieldContainer>
+        <Garfield
+          onPointerEnter={handlePointerEnter}
+          stayHidden={count !== MAX_COUNT}
+          messages={GARFIELD_MESSAGES}
+        />
+      </GarfieldContainer>
     </Container>
   );
 };

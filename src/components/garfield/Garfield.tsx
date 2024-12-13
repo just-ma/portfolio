@@ -1,17 +1,15 @@
 import styled, { css } from "styled-components";
 import GarfieldSrc from "./garfield.png";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useIsMobile from "../../hooks/useMobile";
+import FloatingText from "../FloatingText";
+import { useLocation } from "react-router-dom";
 
 const OverflowContainer = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   position: relative;
-
-  > map area:hover {
-    background: blue;
-  }
 `;
 
 const Cat = styled.img`
@@ -42,6 +40,7 @@ const Cat = styled.img`
 const CatContainer = styled.div<{ $show: boolean }>`
   position: absolute;
   left: -140px;
+  bottom: 0;
   border-radius: 50%;
   cursor: pointer;
   transition: left ${({ $show }) => ($show ? 0.2 : 3)}s ease-in-out;
@@ -57,13 +56,23 @@ const CatContainer = styled.div<{ $show: boolean }>`
     `}
 `;
 
+const Message = styled.div`
+  position: absolute;
+  left: 220px;
+  top: 70px;
+`;
+
 export default function Garfield({
   onPointerEnter,
-  hide,
+  stayHidden,
+  messages,
 }: {
   onPointerEnter?: () => void;
-  hide?: boolean;
+  stayHidden?: boolean;
+  messages: string[];
 }) {
+  const { pathname } = useLocation();
+
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [show, setShow] = useState(false);
 
@@ -72,7 +81,7 @@ export default function Garfield({
   const handlePointerEnter = () => {
     onPointerEnter?.();
     timeoutId.current && clearTimeout(timeoutId.current);
-    setShow(!hide);
+    setShow(!stayHidden);
   };
 
   const handlePointerLeave = () => {
@@ -88,6 +97,14 @@ export default function Garfield({
     }
   }, [isMobile, show]);
 
+  useEffect(() => {
+    setShow(false);
+  }, [pathname]);
+
+  const message = useMemo(() => {
+    return messages[Math.round((messages.length - 1) * Math.random())];
+  }, [messages, show]);
+
   return (
     <OverflowContainer>
       <CatContainer $show={show}>
@@ -97,6 +114,11 @@ export default function Garfield({
           onPointerLeave={handlePointerLeave}
           draggable={false}
         />
+        {show && (
+          <Message>
+            <FloatingText animate>{message}</FloatingText>
+          </Message>
+        )}
       </CatContainer>
     </OverflowContainer>
   );

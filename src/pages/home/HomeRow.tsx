@@ -24,7 +24,6 @@ const SHOW_SUBTITLE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX + 40;
 
 const InfoContainer = styled(PageLeftContainer)`
   padding: 0 20px 70px;
-  box-sizing: border-box;
 
   @media ${MEDIA_SIZE.mobile} {
     position: absolute;
@@ -48,17 +47,6 @@ const ImageContainer = styled(PageRightContainer)`
 const Row = styled.div<{ $firstRowOffset: boolean }>`
   display: flex;
   width: 100%;
-
-  &:last-child {
-    ${InfoContainer} {
-      padding-bottom: 0;
-      height: calc(100vh - 200px);
-
-      @media ${MEDIA_SIZE.mobile} {
-        height: calc(50vh);
-      }
-    }
-  }
 
   ${({ $firstRowOffset }) =>
     $firstRowOffset &&
