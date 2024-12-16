@@ -5,7 +5,6 @@ const OverflowContainer = styled.div<{ $hidden: boolean }>`
   width: ${({ $hidden }) => ($hidden ? 0 : 10)}px;
   overflow: hidden;
   position: relative;
-  /* transition: width 0.3s ease-in-out; */
   transition: width 1s steps(5);
 `;
 
@@ -17,7 +16,6 @@ const ScrollContainer = styled.div<{ bottom: number }>`
   flex-direction: column-reverse;
   overflow-x: hidden;
   overflow-y: auto;
-  /* transition: bottom 0.3s ease-in-out; */
   transition: bottom 1s steps(5);
 `;
 

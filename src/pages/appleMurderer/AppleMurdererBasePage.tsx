@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import AppleMurdererOption from "./AppleMurdererOption";
 import AppleMurdererPageNum from "./AppleMurdererPageNum";
 import CornerAdornmentPng from "./cornerAdornment.png";
+import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
 
 const fadeInCss = css<{ $animate: boolean }>`
   animation: ${({ $animate }) =>
@@ -34,6 +35,7 @@ export const Page = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  pointer-events: all;
 `;
 
 const Header = styled.div`
@@ -144,10 +146,10 @@ const AppleMurdererBasePage = ({
   pageNum,
   description,
   options,
-  additionalOptions,
-}: Pick<AppleMurdererPageDefinition, "description" | "pageNum" | "options"> & {
-  additionalOptions?: React.ReactNode;
-}) => {
+}: Pick<
+  AppleMurdererPageDefinition,
+  "description" | "pageNum" | "options"
+>) => {
   const { pathname } = useLocation();
 
   const [animate, setAnimate] = useState(true);
@@ -185,7 +187,11 @@ const AppleMurdererBasePage = ({
   return (
     <Page>
       <Header>
-        <Title to={APPLE_MURDERER_ROOT_PATH}>The Apple Murderer</Title>
+        <Title
+          to={`${OPTION_TYPE_TO_ROOT_PATH["blog"]}${APPLE_MURDERER_ROOT_PATH}`}
+        >
+          The Apple Murderer
+        </Title>
         <AppleMurdererPageNum pageNum={pageNum} />
       </Header>
       <Body $animate={animate}>
@@ -207,7 +213,6 @@ const AppleMurdererBasePage = ({
             onClick={(event) => handleOptionClick(event, option.pageNum)}
           />
         ))}
-        {additionalOptions}
       </OptionsList>
     </Page>
   );

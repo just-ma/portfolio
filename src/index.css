@@ -1,5 +1,5 @@
 html {
-  background-color: white;
+  background-color: rgb(217, 217, 217);
   transition: background-color 1s steps(5);
 }
 
@@ -9,6 +9,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
+  pointer-events: none;
+  color: #170c34;
 }
 
 code {
@@ -17,13 +19,88 @@ code {
 }
 
 a {
-  color: blue;
+  color: rgb(0, 106, 112);
   text-decoration: underline;
+}
+
+h1 {
+  margin: 0;
+  font-family: "IBMPlexMono-MediumItalic";
+  font-size: 15px;
+  word-spacing: 8px;
+  letter-spacing: -0.1px;
+  color: black;
+  font-weight: normal;
+
+  &::before {
+    content: '"';
+  }
+
+  &::after {
+    content: '"';
+  }
+}
+
+h2, h2 p {
+  margin: 0;
+  font-family: "IBMPlexMono-LightItalic";
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-spacing: 5px;
+  font-weight: normal;
 }
 
 .dark {
   background-color: black;
   color: white;
+
+  body {
+    color: white;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  60% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mildFlicker {
+  0% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 0.7;
+  }
+  66% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @font-face {
@@ -58,8 +135,17 @@ a {
 @font-face {
   font-family: "Garamondt-Regular";
   src: url(./assets/fonts/Garamondt-Regular.otf) format("otf"),
+    url(./assets/fonts/Garamondt-Regular.ttf) format("ttf"),
     url(./assets/fonts/Garamondt-Regular.woff) format("woff"),
     url(./assets/fonts/Garamondt-Regular.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Garamondt-Italic";
+  src: url(./assets/fonts/Garamondt-Italic.otf) format("otf"),
+    url(./assets/fonts/Garamondt-Italic.ttf) format("ttf"),
+    url(./assets/fonts/Garamondt-Italic.woff) format("woff"),
+    url(./assets/fonts/Garamondt-Italic.woff2) format("woff2");
 }
 
 @font-face {
@@ -99,4 +185,20 @@ a {
   src: url(./assets/fonts/terminal-grotesque_open.otf) format("otf"),
     url(./assets/fonts/terminal-grotesque_open.woff) format("woff"),
     url(./assets/fonts/terminal-grotesque_open.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "IBMPlexMono-MediumItalic";
+  src: url(./assets/fonts/IBMPlexMono-MediumItalic.otf) format("otf"),
+    url(./assets/fonts/IBMPlexMono-MediumItalic.ttf) format("ttf"),
+    url(./assets/fonts/IBMPlexMono-MediumItalic.woff) format("woff"),
+    url(./assets/fonts/IBMPlexMono-MediumItalic.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "IBMPlexMono-LightItalic";
+  src: url(./assets/fonts/IBMPlexMono-LightItalic.otf) format("otf"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.ttf) format("ttf"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.woff) format("woff"),
+    url(./assets/fonts/IBMPlexMono-LightItalic.woff2) format("woff2");
 }

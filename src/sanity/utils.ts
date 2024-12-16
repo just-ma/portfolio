@@ -18,6 +18,14 @@ const getDocumentsQuery = (type?: DocumentType) =>
     "description": null
   } | order(order asc, timestamp desc)`;
 
+const getDocumentTitlesQuery = (type: DocumentType) =>
+  `*[_type == "${type}" && slug.current != "__last__" && hidden != true]{
+    slug,
+    timestamp,
+    order,
+    title
+  } | order(order asc, timestamp desc)`;
+
 const getDocumentQuery = (type: DocumentType, slug: string) =>
   `*[_type == "${type}"${slug ? ` && slug.current == "${slug}"` : ""}]`;
 
@@ -25,6 +33,13 @@ export const getDocuments = async <TDocumentType extends DocumentType>(
   type?: TDocumentType
 ): Promise<readonly DocumentTypeToDefinition[TDocumentType][]> => {
   const response = await client.fetch(getDocumentsQuery(type));
+  return response;
+};
+
+export const getDocumentTitles = async <TDocumentType extends DocumentType>(
+  type: TDocumentType
+): Promise<readonly DocumentTypeToDefinition[TDocumentType][]> => {
+  const response = await client.fetch(getDocumentTitlesQuery(type));
   return response;
 };
 

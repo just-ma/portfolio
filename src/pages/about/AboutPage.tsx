@@ -1,17 +1,34 @@
-import ScrollContainer from "../../components/ScrollContainer";
 import { useQuery } from "@tanstack/react-query";
 import { getAbout } from "../../sanity";
 import Description from "../../components/Description";
-import BackFooter from "../../components/BackFooter";
 import styled, { css } from "styled-components";
 import { INITIAL_VIEWPORT_HEIGHT } from "../../constants";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import DividedPage from "../../components/DividedPage";
+import Garfield from "../../components/garfield/Garfield";
 
-const MAX_COUNT = 11;
+const MAX_COUNT = 9;
+
+const GARFIELD_MESSAGES = [
+  "DON'T TRUST HIS LIES",
+  "I KNOW THINGS I SHOULDN'T",
+  "I KNOW WHERE HE LIVES",
+  "HE'S A GEMINI",
+  "HE'S INFJ",
+  "HE'S 5 FOOT 7",
+  "HIS SHOE SIZE IS 9.5",
+  "HE IS NOT A VETERAN",
+  "EMAIL HIM, HE'll LOVE IT",
+];
+
+const Container = styled(DividedPage)`
+  margin-top: 100px;
+`;
 
 const BlockContainer = styled.div<{ $animate: boolean }>`
   overflow: hidden;
   width: 100%;
+  margin-bottom: 10lvh;
 
   ${({ $animate }) =>
     $animate &&
@@ -33,20 +50,9 @@ const Spacer = styled.div`
   height: ${INITIAL_VIEWPORT_HEIGHT * 0.3}px;
 `;
 
-const MoreFooter = styled.div`
-  margin-bottom: 40%;
-  user-select: none;
-  cursor: pointer;
-  color: blue;
-`;
-
-const Message = styled.div`
-  text-decoration: underline;
-`;
-
-const Arrow = styled.div`
-  font-family: "SyneMono-Regular";
-  text-align: center;
+const GarfieldContainer = styled.div`
+  width: 100%;
+  height: 200px;
 `;
 
 const AboutPageBlock = ({ index }: { index: number }) => {
@@ -59,7 +65,7 @@ const AboutPageBlock = ({ index }: { index: number }) => {
   });
 
   if (!data) {
-    return <Spacer />;
+    return null;
   }
 
   return (
@@ -71,30 +77,42 @@ const AboutPageBlock = ({ index }: { index: number }) => {
 };
 
 const AboutPage = () => {
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
+
   const [count, setCount] = useState(1);
 
   const arr = useMemo(() => {
     return new Array(count).fill(0);
   }, [count]);
 
-  const handleMoreClick = () => {
-    setCount((prev) => Math.min(prev + 1, MAX_COUNT));
+  const handlePointerEnter = () => {
+    if (count === MAX_COUNT) {
+      return;
+    }
+
+    if (timeoutId.current === null) {
+      console.log({ count });
+      setCount((prev) => Math.min(prev + 1, MAX_COUNT));
+
+      timeoutId.current = setTimeout(() => {
+        timeoutId.current = null;
+      }, 500);
+    }
   };
 
   return (
-    <ScrollContainer listPage>
+    <Container withDot>
       {arr.map((_, index) => (
         <AboutPageBlock key={index} index={index} />
       ))}
-      {count === MAX_COUNT ? (
-        <BackFooter />
-      ) : (
-        <MoreFooter onClick={handleMoreClick} key={count}>
-          <Message>more?</Message>
-          <Arrow>V</Arrow>
-        </MoreFooter>
-      )}
-    </ScrollContainer>
+      <GarfieldContainer>
+        <Garfield
+          onPointerEnter={handlePointerEnter}
+          stayHidden={count !== MAX_COUNT}
+          messages={GARFIELD_MESSAGES}
+        />
+      </GarfieldContainer>
+    </Container>
   );
 };
 

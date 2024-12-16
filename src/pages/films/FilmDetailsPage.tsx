@@ -1,17 +1,12 @@
-import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
-import BackFooter from "../../components/BackFooter";
-import ScrollContainer from "../../components/ScrollContainer";
-import Quote from "./Quote";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
+import DividedPage from "../../components/DividedPage";
 
-const StyledQuote = styled(Quote)`
-  margin-bottom: 50px;
-`;
+const getLinkLabel = () => "watch on youtube";
 
 const FilmDetailsPage = () => {
   const { filmId } = useParams<{
@@ -20,20 +15,25 @@ const FilmDetailsPage = () => {
 
   const { data: film } = useDocument("film", filmId);
 
-  if (!filmId || !film) {
+  if (!filmId || !film?.description) {
     return null;
   }
 
-  const { description, video, quote } = film;
+  const { description, video, links } = film;
 
   return (
-    <ScrollContainer>
-      <VideoBlockComponent value={video} />
-      <DetailsPageInfo document={film} url={video.externalUrl} />
-      <StyledQuote>{quote}</StyledQuote>
+    <DividedPage withDot>
+      <VideoBlockComponent
+        value={{ url: video.url, width: 1920, height: 1080 }}
+      />
+      <DetailsPageInfo
+        document={film}
+        links={links}
+        getLinkLabel={getLinkLabel}
+      />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["film"]} />
-    </ScrollContainer>
+      <DetailsPageFooter id={filmId} type="film" />
+    </DividedPage>
   );
 };
 

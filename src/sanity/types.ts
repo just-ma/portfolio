@@ -3,12 +3,35 @@ import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 export type DocumentType = "website" | "film" | "dj" | "blog";
 
+export type GalleyThumbnailDefinition = {
+  image: SanityImageSource;
+  width: number;
+  height?: number;
+  heightPx?: number;
+  left?: number;
+  top?: number;
+  topPx?: number;
+  bottom?: number;
+  absolute?: boolean;
+  block?: boolean;
+  zIndex?: number;
+};
+
+export type DocumentLinkDefinition = {
+  url?: string;
+  reference?: string;
+  label?: string;
+};
+
 type BaseDocumentDefiniion<T extends DocumentType> = {
   _type: T;
   title: string;
   slug: {
     current: string;
   };
+  subtitle: PortableTextBlock;
+  links?: DocumentLinkDefinition[];
+  thumbnails: GalleyThumbnailDefinition[];
   shortDescription: PortableTextBlock;
   description: PortableTextBlock;
   timestamp: string;
@@ -19,6 +42,7 @@ type BaseDocumentDefiniion<T extends DocumentType> = {
 
 export type WebsiteDefinition = BaseDocumentDefiniion<"website"> & {
   url: string;
+  videoThumbnail: string;
 };
 
 export type FilmDefinition = BaseDocumentDefiniion<"film"> & {

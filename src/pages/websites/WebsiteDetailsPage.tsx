@@ -1,12 +1,25 @@
 import { urlFor } from "../../sanity";
 import { useParams } from "react-router-dom";
-import BackFooter from "../../components/BackFooter";
-import ScrollContainer from "../../components/ScrollContainer";
+import DetailsPageFooter from "../../components/detailsPage/DetailsPageFooter";
 import Description from "../../components/Description";
 import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import useDocument from "../../hooks/useDocument";
 import Thumbnail from "../../components/Thumbnail";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
+import DividedPage from "../../components/DividedPage";
+import styled from "styled-components";
+import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
+
+const StyledThumbnail = styled(Thumbnail)`
+  aspect-ratio: 1.78;
+`;
+
+const getLinkLabel = (url: string) => {
+  if (url.includes("github.com")) {
+    return "view github";
+  }
+
+  return "visit website";
+};
 
 const WebsiteDetailsPage = () => {
   const { websiteId } = useParams<{
@@ -15,19 +28,29 @@ const WebsiteDetailsPage = () => {
 
   const { data: website } = useDocument("website", websiteId);
 
-  if (!websiteId || !website) {
+  if (!websiteId || !website?.description) {
     return null;
   }
 
-  const { thumbnail, description, url, title } = website;
+  const { thumbnail, videoThumbnail, description, title, links } = website;
 
   return (
-    <ScrollContainer>
-      <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
-      <DetailsPageInfo document={website} url={url} />
+    <DividedPage withDot>
+      {videoThumbnail ? (
+        <VideoBlockComponent
+          value={{ url: videoThumbnail, width: 1920, height: 1080 }}
+        />
+      ) : (
+        <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} />
+      )}
+      <DetailsPageInfo
+        document={website}
+        links={links}
+        getLinkLabel={getLinkLabel}
+      />
       <Description value={description} />
-      <BackFooter defaultPath={OPTION_TYPE_TO_ROOT_PATH["website"]} />
-    </ScrollContainer>
+      <DetailsPageFooter id={websiteId} type="website" />
+    </DividedPage>
   );
 };
 
