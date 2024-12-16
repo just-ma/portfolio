@@ -3,13 +3,20 @@ import { DocumentDefinition, DocumentLinkDefinition } from "../../sanity";
 import Description from "../Description";
 import { useMemo } from "react";
 import DetailsPageLink from "./DetailsPageLink";
+import { MEDIA_SIZE } from "../../constants";
 
 const Container = styled.div`
   display: flex;
   width: 100%;
+  overflow: hidden;
   gap: 50px;
   margin-bottom: 40px;
   margin-top: 5px;
+
+  @media ${MEDIA_SIZE.mobile} {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const Left = styled.div`
@@ -26,6 +33,10 @@ const Right = styled.div`
 const TitleContainer = styled.div`
   margin-top: 10px;
   margin-left: 20px;
+
+  @media ${MEDIA_SIZE.mobile} {
+    margin-left: 15px;
+  }
 `;
 
 const Title = styled.h1`
@@ -42,6 +53,13 @@ const Subtitle = styled.h2`
 
   ${SubtitleDescription} {
     padding-right: 0;
+  }
+
+  @media ${MEDIA_SIZE.mobile} {
+    margin-right: 25px;
+    /* ${SubtitleDescription} {
+      padding: 0;
+    } */
   }
 `;
 

@@ -10,13 +10,11 @@ export const MOBILE_NESTED_MENU_TOP_VH = 20;
 export default function useMainMenu() {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
+  const isChildPage = pathname.slice(1).includes("/");
 
   const isMobile = useIsMobile();
 
   const top = useMemo(() => {
-    const isHome = pathname === "/";
-    const isChildPage = pathname.slice(1).includes("/");
-
     if (isHome) {
       return isMobile ? MOBILE_HOME_MENU_TOP_VH : HOME_MENU_TOP_VH;
     }
@@ -29,7 +27,15 @@ export default function useMainMenu() {
   }, [pathname, isMobile]);
 
   const getCollapse = () => {
-    return isMobile && window.scrollY >= (window.innerHeight * top) / 100;
+    if (!isMobile) {
+      return false;
+    }
+
+    if (isChildPage) {
+      return true;
+    }
+
+    return window.scrollY >= (window.innerHeight * top) / 100;
   };
 
   const [showMask, setShowMask] = useState(false);
@@ -52,7 +58,7 @@ export default function useMainMenu() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [pathname, isMobile]);
+  }, [pathname, isMobile, top]);
 
   return {
     showMask,

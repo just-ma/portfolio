@@ -12,6 +12,7 @@ const LinkLabel = styled(LinkButtonLabel)`
   font-size: 14px;
   line-height: 22px;
   height: 22px;
+  border-bottom-left-radius: 5px;
 `;
 
 const Indent = styled(LinkButtonIndent)`

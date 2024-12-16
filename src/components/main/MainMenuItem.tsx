@@ -10,6 +10,11 @@ import {
   LinkButtonIndent,
   LinkButtonLabel,
 } from "../LinkButton";
+import styled from "styled-components";
+
+const Label = styled(LinkButtonLabel)`
+  border-bottom-right-radius: 5px;
+`;
 
 const MainMenuItem = ({
   type,
@@ -84,7 +89,7 @@ const MainMenuItem = ({
       $visible={!!typedLabel}
     >
       <LinkButtonIndent>{"∟"}</LinkButtonIndent>
-      <LinkButtonLabel>{typedLabel}</LinkButtonLabel>
+      <Label>{typedLabel}</Label>
     </InternalLinkButton>
   );
 };

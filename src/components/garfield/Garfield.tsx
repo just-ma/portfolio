@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useIsMobile from "../../hooks/useMobile";
 import FloatingText from "../FloatingText";
 import { useLocation } from "react-router-dom";
+import { MEDIA_SIZE } from "../../constants";
 
 const OverflowContainer = styled.div`
   width: 100%;
@@ -15,8 +16,15 @@ const OverflowContainer = styled.div`
 const Cat = styled.img`
   width: 200px;
   transform: rotate(80deg);
+  -moz-user-select: none;
+  -webkit-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
   animation: shake 0.1s infinite;
+
+  @media ${MEDIA_SIZE.mobile} {
+    width: 150px;
+  }
 
   @keyframes shake {
     0% {
@@ -39,27 +47,36 @@ const Cat = styled.img`
 
 const CatContainer = styled.div<{ $show: boolean }>`
   position: absolute;
-  left: -140px;
+  left: ${({ $show }) => ($show ? -80 : -140)}px;
   bottom: 0;
   border-radius: 50%;
   cursor: pointer;
   transition: left ${({ $show }) => ($show ? 0.2 : 3)}s ease-in-out;
 
-  ${({ $show }) =>
-    $show &&
-    css`
-      left: -80px;
-
-      ${Cat} {
+  ${Cat} {
+    ${({ $show }) =>
+      $show &&
+      css`
         animation: none;
-      }
-    `}
+      `}
+  }
+
+  @media ${MEDIA_SIZE.mobile} {
+    left: ${({ $show }) => ($show ? -60 : -100)}px;
+  }
 `;
 
 const Message = styled.div`
   position: absolute;
   left: 220px;
   top: 70px;
+
+  @media ${MEDIA_SIZE.mobile} {
+    left: 170px;
+    top: 55px;
+    transform: scale(0.8);
+    transform-origin: left;
+  }
 `;
 
 export default function Garfield({
@@ -84,7 +101,20 @@ export default function Garfield({
     setShow(!stayHidden);
   };
 
+  const handlePointerDown = () => {
+    if (show) {
+      timeoutId.current && clearTimeout(timeoutId.current);
+      setShow(false);
+    } else {
+      handlePointerEnter();
+    }
+  };
+
   const handlePointerLeave = () => {
+    if (!show) {
+      return;
+    }
+
     timeoutId.current && clearTimeout(timeoutId.current);
     timeoutId.current = setTimeout(() => {
       setShow(false);
@@ -110,9 +140,11 @@ export default function Garfield({
       <CatContainer $show={show}>
         <Cat
           src={GarfieldSrc}
-          onMouseEnter={handlePointerEnter}
+          onPointerEnter={isMobile ? undefined : handlePointerEnter}
+          onPointerDown={handlePointerDown}
           onPointerLeave={handlePointerLeave}
           draggable={false}
+          onContextMenu={() => false}
         />
         {show && (
           <Message>
