@@ -18,6 +18,7 @@ import {
 } from "../../sanity";
 
 export const FIRST_ROW_OFFSET_PX = 150;
+export const MOBILE_FIRST_ROW_OFFSET_PX = 300;
 const STICKY_CONTAINER_TOP_PX = 300;
 const INFO_HIDE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX - 50;
 const SHOW_SUBTITLE_THRESHOLD_TOP_PX = STICKY_CONTAINER_TOP_PX + 40;
@@ -54,6 +55,10 @@ const Row = styled.div<{ $firstRowOffset: boolean }>`
       &:first-child {
         ${InfoContainer}, ${ImageContainer} {
           padding-top: ${FIRST_ROW_OFFSET_PX}px;
+
+          @media ${MEDIA_SIZE.mobile} {
+            padding-top: ${MOBILE_FIRST_ROW_OFFSET_PX}px;
+          }
         }
       }
     `}

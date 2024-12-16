@@ -6,7 +6,10 @@ import { MEDIA_SIZE, ROOT_PATH_TO_OPTION_TYPE } from "../../constants";
 
 import { useEffect, useMemo, useState } from "react";
 import { MENU_HEIGHT_PX } from "../../components/main/MainMenu";
-import HomeRow, { FIRST_ROW_OFFSET_PX } from "./HomeRow";
+import HomeRow, {
+  FIRST_ROW_OFFSET_PX,
+  MOBILE_FIRST_ROW_OFFSET_PX,
+} from "./HomeRow";
 import useAppContext from "../../hooks/useAppContext";
 import {
   HOME_MENU_TOP_VH,
@@ -40,7 +43,7 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
     margin-top: ${({ $fullHeight }) =>
       $fullHeight
         ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}lvh - ${
-            MENU_HEIGHT_PX + 180
+            MENU_HEIGHT_PX + MOBILE_FIRST_ROW_OFFSET_PX
           }px)`
         : "60px"};
   }
@@ -120,7 +123,5 @@ const HomePage = () => {
     </Container>
   );
 };
-
-const GARFIELD_MESSAGES = ["I KNOW WHERE HE LIVES", ""];
 
 export default HomePage;

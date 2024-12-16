@@ -6,6 +6,7 @@ const Embed = styled.iframe`
   aspect-ratio: 1.78;
   background-color: white;
   border: 1px black solid;
+  box-sizing: border-box;
 `;
 
 const SoundCloudEmbed = ({ soundCloudId }: { soundCloudId: string }) => {
