@@ -214,9 +214,9 @@ const CanvasBaseObject = ({
     }
   }, [selected]);
 
-  const unClickable = hidden || window.scrollY > 200;
+  const getIsUnclickable = () => hidden || window.scrollY > 200;
   const handleClick = () => {
-    if (unClickable) {
+    if (getIsUnclickable()) {
       return;
     }
 
@@ -224,7 +224,7 @@ const CanvasBaseObject = ({
   };
 
   const handlePointerEnter = () => {
-    if (isMobile || unClickable) {
+    if (isMobile || getIsUnclickable()) {
       return;
     }
 
@@ -237,7 +237,7 @@ const CanvasBaseObject = ({
   };
 
   const handlePointerLeave = () => {
-    if (isMobile || unClickable) {
+    if (isMobile || getIsUnclickable()) {
       return;
     }
 

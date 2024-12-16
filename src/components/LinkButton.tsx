@@ -13,7 +13,6 @@ export const LinkButtonLabel = styled.span`
   border: 1px solid blue;
   padding: 0 5px;
   transition: margin-left 0.1s ease-in-out, background-color 0.1s, color 0.1s;
-  border-bottom-right-radius: 5px;
   height: 24px;
   line-height: 24px;
   display: block;
