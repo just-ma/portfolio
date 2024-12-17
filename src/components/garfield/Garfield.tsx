@@ -116,9 +116,12 @@ export default function Garfield({
     }
 
     timeoutId.current && clearTimeout(timeoutId.current);
-    timeoutId.current = setTimeout(() => {
-      setShow(false);
-    }, 3000);
+    timeoutId.current = setTimeout(
+      () => {
+        setShow(false);
+      },
+      isMobile ? 5000 : 3000
+    );
   };
 
   useEffect(() => {

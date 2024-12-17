@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import styled from "styled-components";
+import useIsMobile from "../hooks/useMobile";
 
-const CHAR_GAP = 12;
+const CHAR_GAP = 14;
+const MOBILE_CHAR_GAP = 10;
 
 const Container = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
@@ -57,16 +59,19 @@ const FloatingText = ({
   className?: string;
   animate?: boolean;
 }) => {
+  const isMobile = useIsMobile();
+  const charGap = isMobile ? MOBILE_CHAR_GAP : CHAR_GAP;
+
   const [arr, offset] = useMemo(() => {
     return [children.split(""), Math.random()];
   }, [children]);
 
   return (
-    <Container className={className} width={(children.length - 1) * CHAR_GAP}>
+    <Container className={className} width={(children.length - 1) * charGap}>
       {arr.map((char, index) => (
         <CharContainer
           key={index}
-          left={index * CHAR_GAP}
+          left={index * charGap}
           delay={animate ? index * 0.05 : 0}
         >
           <Char delay={index * 0.2 - 200 + offset}>{char}</Char>
