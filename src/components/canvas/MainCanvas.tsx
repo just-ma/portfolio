@@ -21,7 +21,7 @@ import { APPLE_MURDERER_ROOT_PATH } from "../../pages/appleMurderer/constants";
 import useCanvasPointerScroll from "./useCanvasPointerScroll";
 
 const DESKTOP_HEIGHT_OFFSET_PX = 100;
-const MOBILE_HEIGHT_OFFSET_PX = 200;
+const MOBILE_HEIGHT_OFFSET_PX = 220;
 
 const StyledCanvas = styled(Canvas)`
   position: fixed !important;
@@ -37,7 +37,7 @@ const StyledCanvas = styled(Canvas)`
   @media ${MEDIA_SIZE.mobile} {
     top: -${MOBILE_HEIGHT_OFFSET_PX}px;
     height: ${
-      INITIAL_VIEWPORT_HEIGHT + MOBILE_HEIGHT_OFFSET_PX + 100 // mobile viewport difference
+      INITIAL_VIEWPORT_HEIGHT + MOBILE_HEIGHT_OFFSET_PX + 110 // mobile viewport difference
     }px !important;
   }
 `;

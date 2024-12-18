@@ -65,9 +65,12 @@ const MainMenuItem = ({
   };
 
   const handleClick = () => {
-    if (isHome && selected && window.scrollY < window.innerHeight - 280) {
-      window.scroll({ top: window.innerHeight - 280, behavior: "smooth" });
-      return;
+    if (isHome && selected) {
+      const offset = isMobile ? 60 : 280;
+      if (window.scrollY < window.innerHeight - offset) {
+        window.scroll({ top: window.innerHeight - offset, behavior: "smooth" });
+        return;
+      }
     }
 
     window.scroll({ top: 0, behavior: "smooth" });
