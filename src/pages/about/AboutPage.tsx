@@ -28,7 +28,7 @@ const Container = styled(DividedPage)`
 const BlockContainer = styled.div<{ $animate: boolean }>`
   overflow: hidden;
   width: 100%;
-  margin-bottom: 10lvh;
+  margin-bottom: ${INITIAL_VIEWPORT_HEIGHT * 0.1}px;
 
   ${({ $animate }) =>
     $animate &&

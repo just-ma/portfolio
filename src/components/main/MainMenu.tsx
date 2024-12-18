@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  INITIAL_VIEWPORT_HEIGHT,
   OPTION_TYPE_TO_LABEL,
   OPTION_TYPE_TO_ROOT_PATH,
 } from "../../constants";
@@ -47,7 +48,7 @@ const StickyContainer = styled.div`
 
 const Placeholder = styled.div<{ top: number; $animateTop: boolean }>`
   height: ${MENU_TOP_PX}px;
-  margin-top: ${({ top }) => top}vh;
+  margin-top: ${({ top }) => INITIAL_VIEWPORT_HEIGHT * top * 0.01}px;
   transition: margin-top ${({ $animateTop }) => ($animateTop ? 0.5 : 0)}s
     ease-in-out;
 `;

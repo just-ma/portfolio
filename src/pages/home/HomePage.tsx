@@ -2,7 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getDocuments } from "../../sanity";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import { MEDIA_SIZE, ROOT_PATH_TO_OPTION_TYPE } from "../../constants";
+import {
+  INITIAL_VIEWPORT_HEIGHT,
+  MEDIA_SIZE,
+  ROOT_PATH_TO_OPTION_TYPE,
+} from "../../constants";
 
 import { useEffect, useMemo, useState } from "react";
 import { MENU_HEIGHT_PX } from "../../components/main/MainMenu";
@@ -42,9 +46,12 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
   @media ${MEDIA_SIZE.mobile} {
     margin-top: ${({ $fullHeight }) =>
       $fullHeight
-        ? `calc(${100 - MOBILE_HOME_MENU_TOP_VH}lvh - ${
-            MENU_HEIGHT_PX + MOBILE_FIRST_ROW_OFFSET_PX
-          }px)`
+        ? `${
+            INITIAL_VIEWPORT_HEIGHT * (1 - 0.01 * MOBILE_HOME_MENU_TOP_VH) -
+            MENU_HEIGHT_PX -
+            MOBILE_FIRST_ROW_OFFSET_PX +
+            50 // mobile viewport difference
+          }px`
         : "60px"};
   }
 `;
@@ -52,10 +59,10 @@ const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
 const BottomRow = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100lvh - 200px);
+  height: calc(100vh - 200px);
 
   @media ${MEDIA_SIZE.mobile} {
-    height: calc(50lvh);
+    height: ${INITIAL_VIEWPORT_HEIGHT * 0.5}px;
   }
 `;
 

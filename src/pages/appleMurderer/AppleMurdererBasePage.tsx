@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 import AppleMurdererOption from "./AppleMurdererOption";
 import AppleMurdererPageNum from "./AppleMurdererPageNum";
 import CornerAdornmentPng from "./cornerAdornment.png";
-import { OPTION_TYPE_TO_ROOT_PATH } from "../../constants";
+import {
+  INITIAL_VIEWPORT_HEIGHT,
+  OPTION_TYPE_TO_ROOT_PATH,
+} from "../../constants";
 
 const fadeInCss = css<{ $animate: boolean }>`
   animation: ${({ $animate }) =>
@@ -31,7 +34,7 @@ export const Page = styled.div`
   border: 1px solid white;
   width: calc(100% - 20px);
   max-width: 800px;
-  height: 80vh;
+  height: ${INITIAL_VIEWPORT_HEIGHT * 0.8}px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

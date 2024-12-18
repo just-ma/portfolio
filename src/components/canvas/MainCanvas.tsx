@@ -2,7 +2,11 @@ import { Fisheye, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, Euler } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { MEDIA_SIZE, OPTION_TYPES } from "../../constants";
+import {
+  INITIAL_VIEWPORT_HEIGHT,
+  MEDIA_SIZE,
+  OPTION_TYPES,
+} from "../../constants";
 import { useSpring, animated } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 import CanvasMainObject from "./CanvasMainObject";
@@ -32,7 +36,9 @@ const StyledCanvas = styled(Canvas)`
 
   @media ${MEDIA_SIZE.mobile} {
     top: -${MOBILE_HEIGHT_OFFSET_PX}px;
-    height: calc(100lvh + ${MOBILE_HEIGHT_OFFSET_PX}px) !important;
+    height: ${
+      INITIAL_VIEWPORT_HEIGHT + MOBILE_HEIGHT_OFFSET_PX + 100 // mobile viewport difference
+    }px !important;
   }
 `;
 
