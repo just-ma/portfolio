@@ -12,7 +12,7 @@ const ReferenceLink = ({
   const referenceLink = useReferenceLink(reference);
 
   if (!referenceLink) {
-    return null;
+    return children;
   }
 
   return <Link to={referenceLink}>{children}</Link>;

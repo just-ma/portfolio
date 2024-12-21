@@ -78,9 +78,9 @@ export default function DetailsPageLink({
     );
   }
 
-  if (reference) {
+  if (reference?._ref) {
     return (
-      <ReferenceLink reference={reference} getLinkLabel={getLinkLabel}>
+      <ReferenceLink reference={reference._ref} getLinkLabel={getLinkLabel}>
         {label}
       </ReferenceLink>
     );
