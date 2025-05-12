@@ -2,10 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { getAbout } from "../../sanity";
 import Description from "../../components/Description";
 import styled, { css } from "styled-components";
-import { INITIAL_VIEWPORT_HEIGHT } from "../../constants";
+import {
+  INITIAL_VIEWPORT_HEIGHT,
+  OPTION_TYPE_TO_LABEL,
+  OPTION_TYPE_TO_META_DESCRIPTION,
+} from "../../constants";
 import { useMemo, useRef, useState } from "react";
 import DividedPage from "../../components/DividedPage";
 import Garfield from "../../components/garfield/Garfield";
+import { Helmet } from "react-helmet";
 
 const MAX_COUNT = 9;
 
@@ -101,18 +106,27 @@ const AboutPage = () => {
   };
 
   return (
-    <Container withDot>
-      {arr.map((_, index) => (
-        <AboutPageBlock key={index} index={index} />
-      ))}
-      <GarfieldContainer>
-        <Garfield
-          onPointerEnter={handlePointerEnter}
-          stayHidden={count !== MAX_COUNT}
-          messages={GARFIELD_MESSAGES}
+    <>
+      <Helmet>
+        <title>{OPTION_TYPE_TO_LABEL["about"]}</title>
+        <meta
+          name="description"
+          content={OPTION_TYPE_TO_META_DESCRIPTION["about"]}
         />
-      </GarfieldContainer>
-    </Container>
+      </Helmet>
+      <Container withDot>
+        {arr.map((_, index) => (
+          <AboutPageBlock key={index} index={index} />
+        ))}
+        <GarfieldContainer>
+          <Garfield
+            onPointerEnter={handlePointerEnter}
+            stayHidden={count !== MAX_COUNT}
+            messages={GARFIELD_MESSAGES}
+          />
+        </GarfieldContainer>
+      </Container>
+    </>
   );
 };
 

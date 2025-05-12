@@ -6,6 +6,8 @@ import useDocument from "../../hooks/useDocument";
 import { urlFor } from "../../sanity";
 import Thumbnail from "../../components/Thumbnail";
 import DividedPage from "../../components/DividedPage";
+import { Helmet } from "react-helmet";
+import { OPTION_TYPE_TO_LABEL } from "../../constants";
 
 const BlogDetailsPage = () => {
   const { blogId } = useParams<{
@@ -21,12 +23,17 @@ const BlogDetailsPage = () => {
   const { description, thumbnail, title, links } = blog;
 
   return (
-    <DividedPage withDot>
-      <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
-      <DetailsPageInfo document={blog} links={links} />
-      <Description value={description} />
-      <DetailsPageFooter id={blogId} type="blog" />
-    </DividedPage>
+    <>
+      <Helmet>
+        <title>{`${OPTION_TYPE_TO_LABEL["blog"]} — "${title}"`}</title>
+      </Helmet>
+      <DividedPage withDot>
+        <Thumbnail src={urlFor(thumbnail).url()} alt={title} />
+        <DetailsPageInfo document={blog} links={links} />
+        <Description value={description} />
+        <DetailsPageFooter id={blogId} type="blog" />
+      </DividedPage>
+    </>
   );
 };
 

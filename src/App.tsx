@@ -14,14 +14,21 @@ import AppleMurdererPage from "./pages/appleMurderer/AppleMurdererPage";
 import { APPLE_MURDERER_ROOT_PATH } from "./pages/appleMurderer/constants";
 import AppleMurdererLandingPage from "./pages/appleMurderer/AppleMurdererLandingPage";
 import HomePage from "./pages/home/HomePage";
+import { Helmet } from "react-helmet";
 
 export const queryClient = new QueryClient();
+export const APP_META_DESCRIPTION =
+  "Come in and make yourself at home. Whatever you do just don't click the apple.";
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AppProvider>
+          <Helmet>
+            <title>NIT SU J.</title>
+            <meta name="description" content={APP_META_DESCRIPTION} />
+          </Helmet>
           <MainHeader />
           <MainMenu />
 

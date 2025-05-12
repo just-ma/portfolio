@@ -11,6 +11,7 @@ import {
   INITIAL_VIEWPORT_HEIGHT,
   OPTION_TYPE_TO_ROOT_PATH,
 } from "../../constants";
+import { Helmet } from "react-helmet";
 
 const fadeInCss = css<{ $animate: boolean }>`
   animation: ${({ $animate }) =>
@@ -188,36 +189,43 @@ const AppleMurdererBasePage = ({
   };
 
   return (
-    <Page>
-      <Header>
-        <Title
-          to={`${OPTION_TYPE_TO_ROOT_PATH["blog"]}${APPLE_MURDERER_ROOT_PATH}`}
-        >
-          The Apple Murderer
-        </Title>
-        <AppleMurdererPageNum pageNum={pageNum} />
-      </Header>
-      <Body $animate={animate}>
-        <ScrollContainer>
-          <BodyColumn>
-            {description && <StyledDescription value={description} />}
-          </BodyColumn>
-        </ScrollContainer>
-        <CornerAdornment index={0} src={CornerAdornmentPng} />
-        <CornerAdornment index={1} src={CornerAdornmentPng} />
-        <CornerAdornment index={2} src={CornerAdornmentPng} />
-        <CornerAdornment index={3} src={CornerAdornmentPng} />
-      </Body>
-      <OptionsList $animate={animate}>
-        {options?.map((option) => (
-          <AppleMurdererOption
-            {...option}
-            key={option.pageNum}
-            onClick={(event) => handleOptionClick(event, option.pageNum)}
-          />
-        ))}
-      </OptionsList>
-    </Page>
+    <>
+      <Helmet>
+        <title>{`The Apple Murderer${
+          pageNum > 0 ? ` — page ${pageNum}` : ""
+        }`}</title>
+      </Helmet>
+      <Page>
+        <Header>
+          <Title
+            to={`${OPTION_TYPE_TO_ROOT_PATH["blog"]}${APPLE_MURDERER_ROOT_PATH}`}
+          >
+            The Apple Murderer
+          </Title>
+          <AppleMurdererPageNum pageNum={pageNum} />
+        </Header>
+        <Body $animate={animate}>
+          <ScrollContainer>
+            <BodyColumn>
+              {description && <StyledDescription value={description} />}
+            </BodyColumn>
+          </ScrollContainer>
+          <CornerAdornment index={0} src={CornerAdornmentPng} />
+          <CornerAdornment index={1} src={CornerAdornmentPng} />
+          <CornerAdornment index={2} src={CornerAdornmentPng} />
+          <CornerAdornment index={3} src={CornerAdornmentPng} />
+        </Body>
+        <OptionsList $animate={animate}>
+          {options?.map((option) => (
+            <AppleMurdererOption
+              {...option}
+              key={option.pageNum}
+              onClick={(event) => handleOptionClick(event, option.pageNum)}
+            />
+          ))}
+        </OptionsList>
+      </Page>
+    </>
   );
 };
 

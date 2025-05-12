@@ -5,6 +5,8 @@ import DetailsPageInfo from "../../components/detailsPage/DetailsPageInfo";
 import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
 import DividedPage from "../../components/DividedPage";
+import { Helmet } from "react-helmet";
+import { OPTION_TYPE_TO_LABEL } from "../../constants";
 
 const getLinkLabel = () => "watch on youtube";
 
@@ -19,21 +21,26 @@ const FilmDetailsPage = () => {
     return null;
   }
 
-  const { description, video, links } = film;
+  const { description, video, links, title } = film;
 
   return (
-    <DividedPage withDot>
-      <VideoBlockComponent
-        value={{ url: video.url, width: 1920, height: 1080 }}
-      />
-      <DetailsPageInfo
-        document={film}
-        links={links}
-        getLinkLabel={getLinkLabel}
-      />
-      <Description value={description} />
-      <DetailsPageFooter id={filmId} type="film" />
-    </DividedPage>
+    <>
+      <Helmet>
+        <title>{`${OPTION_TYPE_TO_LABEL["film"]} — "${title}"`}</title>
+      </Helmet>
+      <DividedPage withDot>
+        <VideoBlockComponent
+          value={{ url: video.url, width: 1920, height: 1080 }}
+        />
+        <DetailsPageInfo
+          document={film}
+          links={links}
+          getLinkLabel={getLinkLabel}
+        />
+        <Description value={description} />
+        <DetailsPageFooter id={filmId} type="film" />
+      </DividedPage>
+    </>
   );
 };
 

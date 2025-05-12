@@ -8,6 +8,8 @@ import Thumbnail from "../../components/Thumbnail";
 import DividedPage from "../../components/DividedPage";
 import styled from "styled-components";
 import VideoBlockComponent from "../../components/blocks/VideoBlockComponent";
+import { Helmet } from "react-helmet";
+import { OPTION_TYPE_TO_LABEL } from "../../constants";
 
 const StyledThumbnail = styled(Thumbnail)`
   aspect-ratio: 1.78;
@@ -35,22 +37,27 @@ const WebsiteDetailsPage = () => {
   const { thumbnail, videoThumbnail, description, title, links } = website;
 
   return (
-    <DividedPage withDot>
-      {videoThumbnail ? (
-        <VideoBlockComponent
-          value={{ url: videoThumbnail, width: 1920, height: 1080 }}
+    <>
+      <Helmet>
+        <title>{`${OPTION_TYPE_TO_LABEL["website"]} — "${title}"`}</title>
+      </Helmet>
+      <DividedPage withDot>
+        {videoThumbnail ? (
+          <VideoBlockComponent
+            value={{ url: videoThumbnail, width: 1920, height: 1080 }}
+          />
+        ) : (
+          <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} />
+        )}
+        <DetailsPageInfo
+          document={website}
+          links={links}
+          getLinkLabel={getLinkLabel}
         />
-      ) : (
-        <StyledThumbnail src={urlFor(thumbnail).url()} alt={title} />
-      )}
-      <DetailsPageInfo
-        document={website}
-        links={links}
-        getLinkLabel={getLinkLabel}
-      />
-      <Description value={description} />
-      <DetailsPageFooter id={websiteId} type="website" />
-    </DividedPage>
+        <Description value={description} />
+        <DetailsPageFooter id={websiteId} type="website" />
+      </DividedPage>
+    </>
   );
 };
 

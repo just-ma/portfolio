@@ -51,7 +51,7 @@ const CanvasMainObject = ({
   const handleMouseEnter = () => {
     onHoveredItemChange({
       type,
-      label: OPTION_TYPE_TO_LABEL[type],
+      label: OPTION_TYPE_TO_LABEL[type].toLowerCase(),
       link: rootPath,
     });
   };

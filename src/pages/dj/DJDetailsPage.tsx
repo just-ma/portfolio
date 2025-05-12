@@ -5,6 +5,8 @@ import Description from "../../components/Description";
 import useDocument from "../../hooks/useDocument";
 import SoundCloudEmbed from "./SoundCloudEmbed";
 import DividedPage from "../../components/DividedPage";
+import { Helmet } from "react-helmet";
+import { OPTION_TYPE_TO_LABEL } from "../../constants";
 
 const getLinkLabel = (url: string) => {
   if (url.includes("soundcloud.com")) {
@@ -25,19 +27,24 @@ const DJDetailsPage = () => {
     return null;
   }
 
-  const { description, soundCloud, links } = dj;
+  const { description, soundCloud, links, title } = dj;
 
   return (
-    <DividedPage withDot>
-      <SoundCloudEmbed soundCloudId={soundCloud?.id} />
-      <DetailsPageInfo
-        document={dj}
-        links={links}
-        getLinkLabel={getLinkLabel}
-      />
-      <Description value={description} />
-      <DetailsPageFooter id={djId} type="dj" />
-    </DividedPage>
+    <>
+      <Helmet>
+        <title>{`${OPTION_TYPE_TO_LABEL["dj"]} — "${title}"`}</title>
+      </Helmet>
+      <DividedPage withDot>
+        <SoundCloudEmbed soundCloudId={soundCloud?.id} />
+        <DetailsPageInfo
+          document={dj}
+          links={links}
+          getLinkLabel={getLinkLabel}
+        />
+        <Description value={description} />
+        <DetailsPageFooter id={djId} type="dj" />
+      </DividedPage>
+    </>
   );
 };
 

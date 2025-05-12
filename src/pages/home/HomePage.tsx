@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import {
   INITIAL_VIEWPORT_HEIGHT,
   MEDIA_SIZE,
+  OPTION_TYPE_TO_LABEL,
+  OPTION_TYPE_TO_META_DESCRIPTION,
   ROOT_PATH_TO_OPTION_TYPE,
 } from "../../constants";
 
@@ -28,6 +30,8 @@ import {
   GARFIELD_HOME_MESSAGES,
   OPTION_TYPE_TO_GARFIELD_MESSAGES,
 } from "./constants";
+import { Helmet } from "react-helmet";
+import { APP_META_DESCRIPTION } from "../../App";
 
 const Container = styled.div<{ $fullHeight: boolean; $mildFlicker: boolean }>`
   width: 100vw;
@@ -69,6 +73,7 @@ const BottomRow = styled.div`
 const HomePage = () => {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
+  const optionType = ROOT_PATH_TO_OPTION_TYPE[pathname];
 
   const { appInit } = useAppContext();
 
@@ -101,33 +106,45 @@ const HomePage = () => {
       return [[], []];
     }
 
-    const pathnameType = ROOT_PATH_TO_OPTION_TYPE[pathname];
-    if (!pathnameType) {
+    if (!optionType) {
       return [data, GARFIELD_HOME_MESSAGES];
     }
 
     return [
-      data.filter((item) => item._type === pathnameType),
-      OPTION_TYPE_TO_GARFIELD_MESSAGES[pathnameType],
+      data.filter((item) => item._type === optionType),
+      OPTION_TYPE_TO_GARFIELD_MESSAGES[optionType],
     ];
-  }, [pathname, data]);
+  }, [optionType, data]);
 
   if (animation === "hidden") {
     return null;
   }
 
   return (
-    <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
-      {filteredItems.map((da) => (
-        <HomeRow key={da.slug.current} item={da} />
-      ))}
-      <BottomRow>
-        <PageLeftContainer />
-        <PageRightContainer>
-          <Garfield messages={garfieldMessages} />
-        </PageRightContainer>
-      </BottomRow>
-    </Container>
+    <>
+      <Helmet>
+        <title>{isHome ? "NIT SU J." : OPTION_TYPE_TO_LABEL[optionType]}</title>
+        <meta
+          name="description"
+          content={
+            isHome
+              ? APP_META_DESCRIPTION
+              : OPTION_TYPE_TO_META_DESCRIPTION[optionType]
+          }
+        />
+      </Helmet>
+      <Container $fullHeight={isHome} $mildFlicker={animation === "secondary"}>
+        {filteredItems.map((da) => (
+          <HomeRow key={da.slug.current} item={da} />
+        ))}
+        <BottomRow>
+          <PageLeftContainer />
+          <PageRightContainer>
+            <Garfield messages={garfieldMessages} />
+          </PageRightContainer>
+        </BottomRow>
+      </Container>
+    </>
   );
 };
 

@@ -124,7 +124,7 @@ const MainMenu = () => {
             label={
               "label" in option
                 ? option.label
-                : OPTION_TYPE_TO_LABEL[option.type]
+                : OPTION_TYPE_TO_LABEL[option.type].toLowerCase()
             }
             link={
               "link" in option
