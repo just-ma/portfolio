@@ -21,6 +21,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
+    "sitemap": "^8.0.0",
     "styled-components": "^6.1.6",
     "three": "^0.160.0",
     "typescript": "^5.3.3",
@@ -31,7 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && echo 'nit-su-j.online' > ./build/CNAME && gh-pages -d build"
+    "generate-sitemap": "node generate-sitemap.js",
+    "deploy": "npm run generate-sitemap && npm run build && echo 'nit-su-j.online' > ./build/CNAME && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
