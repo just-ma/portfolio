@@ -24,26 +24,26 @@ const AppContext = createContext<{
   titleAnimating: boolean;
   onTitleAnimatingChange: (value: boolean) => void;
   theme: string;
-  appInit: boolean;
+  isInitialLoad: boolean;
 }>({
   hoveredItem: null,
   onHoveredItemChange: noop,
   titleAnimating: true,
   onTitleAnimatingChange: noop,
   theme: "light",
-  appInit: false,
+  isInitialLoad: true,
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useLocation();
 
-  const appInit = useRef(false);
+  const isInitialLoad = useRef(true);
 
   const [hoveredItem, setHoveredItem] = useState<TableItem | null>(null);
   const [titleAnimating, setTitleAnimating] = useState(true);
 
   useEffect(() => {
-    appInit.current = true;
+    isInitialLoad.current = false;
   }, []);
 
   const theme = useMemo(() => {
@@ -65,7 +65,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       titleAnimating,
       onTitleAnimatingChange: setTitleAnimating,
       theme,
-      appInit: appInit.current,
+      isInitialLoad: isInitialLoad.current,
     }),
     [hoveredItem, titleAnimating, theme]
   );

@@ -77,13 +77,15 @@ const FONTS: readonly TitleFont[] = [
 const MainHeader = () => {
   const { pathname } = useLocation();
 
-  const { appInit, titleAnimating, onTitleAnimatingChange, theme } =
+  const { isInitialLoad, titleAnimating, onTitleAnimatingChange, theme } =
     useAppContext();
 
   const [hoverAnimating, setHoverAnimating] = useState(false);
   const [titleFont, setTitleFont] = useState<TitleFont>(DEFAULT_FONT);
   const [tempDark, setTempDark] = useState(false);
-  const [init, setInit] = useState(appInit || pathname.slice(1).includes("/"));
+  const [init, setInit] = useState(
+    !isInitialLoad || pathname.slice(1).includes("/")
+  );
 
   useEffect(() => {
     const timeoutId = setInterval(() => {

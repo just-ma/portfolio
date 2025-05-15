@@ -75,7 +75,7 @@ const HomePage = () => {
   const isHome = pathname === "/";
   const optionType = ROOT_PATH_TO_OPTION_TYPE[pathname];
 
-  const { appInit } = useAppContext();
+  const { isInitialLoad } = useAppContext();
 
   const { data } = useQuery({
     queryKey: ["all"],
@@ -87,14 +87,14 @@ const HomePage = () => {
 
   const [animation, setAnimation] = useState<
     "hidden" | "primary" | "secondary"
-  >(appInit ? "secondary" : "hidden");
+  >(isInitialLoad ? "hidden" : "secondary");
 
   useEffect(() => {
-    const timeoutId = appInit
-      ? undefined
-      : setTimeout(() => {
+    const timeoutId = isInitialLoad
+      ? setTimeout(() => {
           setAnimation("primary");
-        }, 1000);
+        }, 1000)
+      : undefined;
 
     return () => {
       clearTimeout(timeoutId);

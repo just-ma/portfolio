@@ -78,11 +78,13 @@ const MobileMenuMask = styled.div<{ $visible: boolean }>`
 const MainMenu = () => {
   const { pathname } = useLocation();
 
-  const { appInit, hoveredItem, onHoveredItemChange } = useAppContext();
+  const { isInitialLoad, hoveredItem, onHoveredItemChange } = useAppContext();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const [init, setInit] = useState(appInit || pathname.slice(1).includes("/"));
+  const [init, setInit] = useState(
+    !isInitialLoad || pathname.slice(1).includes("/")
+  );
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {

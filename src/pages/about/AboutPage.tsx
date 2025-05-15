@@ -96,7 +96,6 @@ const AboutPage = () => {
     }
 
     if (timeoutId.current === null) {
-      console.log({ count });
       setCount((prev) => Math.min(prev + 1, MAX_COUNT));
 
       timeoutId.current = setTimeout(() => {

@@ -33,12 +33,11 @@ const CanvasBaseObject = ({
   onMouseLeave: () => void;
 }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const currentPath = location.pathname;
-  const selected = currentPath.startsWith(rootPath);
-  const exactSelected = currentPath === rootPath;
-  const isHome = currentPath === "/";
+  const selected = pathname.startsWith(rootPath);
+  const exactSelected = pathname === rootPath;
+  const isHome = pathname === "/";
   const hidden = !isHome && !exactSelected;
 
   const optimisticOpacity = useRef(hidden ? 0 : 1);
@@ -168,7 +167,7 @@ const CanvasBaseObject = ({
     }, 1000);
 
     optimisticOpacity.current = hidden ? 0 : 1;
-  }, [currentPath, isMobile]);
+  }, [pathname, isMobile]);
 
   useFrame(() => {
     if (optimisticOpacity.current === opacity) {
