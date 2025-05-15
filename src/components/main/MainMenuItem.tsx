@@ -90,6 +90,7 @@ const MainMenuItem = ({
       $hovering={hovering}
       onClick={handleClick}
       $visible={!!typedLabel}
+      title={label}
     >
       <LinkButtonIndent>{"∟"}</LinkButtonIndent>
       <Label>{typedLabel}</Label>
