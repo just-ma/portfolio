@@ -37,6 +37,12 @@ const links = [
     priority: 0.3,
     lastmod: new Date().toISOString(),
   },
+  {
+    url: "/the-apple-murderer",
+    changefreq: "yearly",
+    priority: 0.1,
+    lastmod: new Date().toISOString(),
+  },
 ];
 
 const sitemap = new SitemapStream({ hostname: "https://nit-su-j.online" });
